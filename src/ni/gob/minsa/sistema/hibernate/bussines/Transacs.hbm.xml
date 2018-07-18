@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 08-07-2012 11:27:23 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+	<class name="ni.gob.minsa.sistema.hibernate.bussines.Transacs"
+		table="transacs" catalog="SIMLAB">
+		<id name="codTrans" type="string">
+			<column name="COD_TRANS" length="20" />
+			<generator class="assigned" />
+		</id>
+		<property name="descTrans" type="string">
+			<column name="DESC_TRANS" length="50" not-null="true">
+				<comment>DESCRIPCION DE LA TRANSACCION</comment>
+			</column>
+		</property>
+		<property name="indpeTrans" type="string">
+			<column name="INDPE_TRANS" length="1" not-null="true">
+				<comment>INDICADOR DE PUNTO DE ENTRADA DE TRANSACCION(SI_NO)</comment>
+			</column>
+		</property>
+		<property name="modpTrans" type="string">
+			<column name="MODP_TRANS" length="50" not-null="true">
+				<comment>MODULO DE PERTENENCIAS(DET_CAT)</comment>
+			</column>
+		</property>
+		<property name="indDevelop" type="string">
+			<column name="IND_DEVELOP" length="1" not-null="true">
+				<comment>INDICADOR DE TRANSACCION DESARROLLADOS</comment>
+			</column>
+		</property>
+		<property name="indHab" type="string">
+			<column name="IND_HAB" length="1" not-null="true">
+				<comment>INDICADOR DE TRANSACCION HABILITADA</comment>
+			</column>
+		</property>
+
+	</class>
+</hibernate-mapping>

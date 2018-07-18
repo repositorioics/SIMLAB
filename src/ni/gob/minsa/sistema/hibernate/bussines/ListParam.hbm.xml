@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 08-07-2012 11:27:23 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+	<class name="ni.gob.minsa.sistema.hibernate.bussines.ListParam"
+		table="list_param" catalog="SIMLAB">
+		<id name="codCat" type="string">
+			<column name="COD_CAT" length="10" />
+			<generator class="assigned" />
+		</id>
+		<property name="descList" type="string">
+			<column name="DESC_LIST" length="50" not-null="true">
+				<comment>DESCRIPCION DE LA LISTA PRINCIPAL</comment>
+			</column>
+		</property>
+		<property name="ordeList" type="int">
+			<column name="ORDE_LIST" not-null="true">
+				<comment>NUMERO DE ORDEN DE LA LISTA</comment>
+			</column>
+		</property>
+	</class>
+</hibernate-mapping>

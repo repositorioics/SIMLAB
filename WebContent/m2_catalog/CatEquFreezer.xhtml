@@ -1,0 +1,214 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="./../template.xhtml" xmlns="http://www.w3.org/1999/xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="#{catEquFreezerMbean.transactionTitle}" />
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form id="formGesFreezer" rendered="#{catEquFreezerMbean.mode==0}">
+			<p:panel id="gestFreezer"
+				header="#{catEquFreezerMbean.transactionTitle}">
+				<script language="javascript">
+    	   		window.onload = aplyStyleToPanel('formGesFreezer:gestFreezer');
+    	   	</script>
+				<p:commandButton style="width:140px;" icon="ui-icon-newwin"
+					value="#{msg.new_freezer}" title="#{msg.register_new_freezer}"
+					ajax="false"
+					actionListener="#{catEquFreezerMbean.actionChangeViewToRegisterNewFreezer}" />
+				<p:separator />
+				<h:outputText value="#{msg.catalog_freezer_ava}" />
+				<p:separator />
+				<p:dataTable id="tableFreezer"
+					value="#{catEquFreezerMbean.listFreezer}" var="freezerList"
+					emptyMessage="#{msg.empty_message_datatable}">
+					<p:column headerText="#{msg.freezer_code}">
+						<h:outputText value="#{freezerList.codFreezer}" />
+					</p:column>
+					<p:column headerText="#{msg.use}">
+						<h:outputText value="#{freezerList.usoAlm}" />
+					</p:column>
+					<p:column headerText="#{msg.cap_almac}">
+						<h:outputText value="#{freezerList.capAlm}" />
+					</p:column>
+					<p:column headerText="#{msg.temp_max}">
+						<h:outputText value="#{freezerList.tempMax}" />
+					</p:column>
+					<p:column headerText="#{msg.temp_min}">
+						<h:outputText value="#{freezerList.tempMin}" />
+					</p:column>
+					<p:column headerText="#{msg.admin_user_action}">
+						<p:commandButton icon="ui-icon-pencil" id="edit" ajax="false"
+							title="#{msg.edit_equip}"
+							actionListener="#{catEquFreezerMbean.actionEditEquipo(e, freezerList)}" />
+						<p:commandButton icon="ui-icon-circle-close" id="closeVigency"
+							ajax="false" title="#{msg.close_vigency_apparatus}"
+							actionListener="#{catEquFreezerMbean.actionCloseVigencyApparatus(e, freezerList)}" />
+					</p:column>
+				</p:dataTable>
+				<p:spacer height="25" />
+				<p:accordionPanel>
+					<p:tab title="Freezer Inactivos">
+						<p:dataTable id="tableFreezer2"
+							value="#{catEquFreezerMbean.listFreezerInactive}"
+							var="freezerList" emptyMessage="#{msg.empty_message_datatable}">
+							<p:column headerText="#{msg.freezer_code}">
+								<h:outputText value="#{freezerList.codFreezer}" />
+							</p:column>
+							<p:column headerText="#{msg.use}">
+								<h:outputText value="#{freezerList.usoAlm}" />
+							</p:column>
+							<p:column headerText="#{msg.cap_almac}">
+								<h:outputText value="#{freezerList.capAlm}" />
+							</p:column>
+							<p:column headerText="#{msg.temp_max}">
+								<h:outputText value="#{freezerList.tempMax}" />
+							</p:column>
+							<p:column headerText="#{msg.temp_min}">
+								<h:outputText value="#{freezerList.tempMin}" />
+							</p:column>
+						</p:dataTable>
+					</p:tab>
+				</p:accordionPanel>
+			</p:panel>
+		</h:form>
+		<h:form id="formRegisterFreezer"
+			rendered="#{catEquFreezerMbean.mode==1||catEquFreezerMbean.mode==2}">
+			<p:panel id="panelRegisterFreezer"
+				header="#{catEquFreezerMbean.titlePanel}">
+				<script language="javascript">
+    	   		window.onload = aplyStyleToPanel('formRegisterFreezer:panelRegisterFreezer');
+    	   	</script>
+				<table>
+					<tbody>
+						<tr>
+							<td align="center" style="width: 150px;"><label><h:outputText
+										value="#{msg.freezer_code}#{msg.required_character}" /></label></td>
+							<td align="center" style="width: 150px;"><label><h:outputText
+										value="#{msg.type_freezer}#{msg.required_character}" /> </label></td>
+						</tr>
+						<tr>
+							<td align="center"><p:inputText
+									readonly="#{catEquFreezerMbean.mode==2}" style="width:90px;"
+									value="#{catEquFreezerMbean.codeFreezer}" /></td>
+							<td align="center"><p:selectOneMenu
+									value="#{catEquFreezerMbean.tipEquipo}">
+									<f:selectItems value="#{catEquFreezerMbean.listTypeFreezer}" />
+									<p:ajax update="nroRow,nroCol"
+										listener="#{catEquFreezerMbean.eventRenderedNroRowAndCol}" />
+								</p:selectOneMenu></td>
+						</tr>
+					</tbody>
+				</table>
+				<p:separator />
+				<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+					<h:outputText value="#{msg.use}#{msg.required_character}" />
+					<p:selectManyCheckbox value="#{catEquFreezerMbean.typeAlicToStore}"
+						layout="pageDirection">
+						<f:selectItems value="#{catEquFreezerMbean.listUse}" />
+					</p:selectManyCheckbox>
+				</h:panelGrid>
+
+				<label><h:outputText value="#{msg.freezer_detail}" /> </label>
+				<p:separator />
+				<table>
+					<tbody>
+						<tr>
+							<td align="center"><label><h:outputText
+										value="#{msg.freezer_serie}" /> </label></td>
+							<td align="center"><label><h:outputText
+										value="#{msg.freezer_mod}" /> </label></td>
+						</tr>
+						<tr>
+							<td style="width: 110px;"><p:inputText style="width:90px;"
+									value="#{catEquFreezerMbean.serieEquip}" /></td>
+							<td><p:inputText style="width:90px;"
+									value="#{catEquFreezerMbean.modeloEquipo}" /></td>
+							<td align="center"></td>
+
+						</tr>
+					</tbody>
+				</table>
+
+				<label><h:outputText
+						value="#{msg.temp_min}#{msg.required_character}" /></label>
+				<p:inputText style="width:40px"
+					value="#{catEquFreezerMbean.tempMin}" />
+				<label><h:outputText
+						value="#{msg.temp_max}#{msg.required_character} " /></label>
+				<p:inputText style="width:40px"
+					value="#{catEquFreezerMbean.tempMax}" />
+				<br />
+				<label><h:outputText value="#{msg.name_resp}" /></label>
+				<br />
+				<p:inputText value="#{catEquFreezerMbean.nameResp}" />
+				<br />
+				<br />
+				<label><h:outputText
+						value="#{msg.cant_rack}#{msg.required_character}" /></label>
+				<p:inputText style="width:40px"
+					value="#{catEquFreezerMbean.cantRackToStore}" />
+				<label><h:outputText value="#{msg.nro_row}" /></label>
+				<p:inputText readonly="#{catEquFreezerMbean.fieldNroRowAndCol==0}"
+					id="nroRow" style="width:40px" value="#{catEquFreezerMbean.nroRow}" />
+				<label><h:outputText value="#{msg.nro_col}" /></label>
+				<p:inputText id="nroCol"
+					readonly="#{catEquFreezerMbean.fieldNroRowAndCol==0}"
+					style="width:40px" value="#{catEquFreezerMbean.nroCol}" />
+				<p:separator />
+				<p:commandButton ajax="false" style="width:100px; margin-left:25%;"
+					value="#{msg.button_accept}" title="#{msg.button_accept}"
+					icon="ui-icon-check"
+					actionListener="#{catEquFreezerMbean.actionRegisterEquip}" />
+				<p:commandButton ajax="false" style="width:100px;margin-left: 1%;"
+					value="#{msg.button_cancel}" title="#{msg.button_cancel}"
+					icon="ui-icon-close"
+					actionListener="#{catEquFreezerMbean.actionCancel}" />
+			</p:panel>
+		</h:form>
+
+		<h:form id="formCloseVigency" rendered="#{catEquFreezerMbean.mode==3}">
+			<p:panel id="panelCloseVigency"
+				header="#{catEquFreezerMbean.titlePanel}">
+				<script language="javascript">
+    	   		window.onload = aplyStyleToPanel('formCloseVigency:panelCloseVigency');
+    	   	</script>
+				<label> <h:outputText value="#{msg.freezer_code}" /></label>
+				<p:inputText readonly="true" style="width: 100px;"
+					value="#{catEquFreezerMbean.codeFreezer}" />
+				<label> <h:outputText value="#{msg.alic}" /></label>
+				<p:selectManyCheckbox disabled="true"
+					value="#{catEquFreezerMbean.typeAlicToStore}"
+					layout="pageDirection">
+					<f:selectItems value="#{catEquFreezerMbean.listUse}" />
+				</p:selectManyCheckbox>
+				<label> <h:outputText value="#{msg.type_freezer}" /></label>
+				<p:inputText readonly="true" style="width: 150px;"
+					value="#{catEquFreezerMbean.tipEquipo}" />
+				<p:separator />
+				<label> <h:outputText value="#{msg.mot_close_vigency}" />
+				</label>
+				<br />
+				<h:inputTextarea rows="2"
+					style="margin-top: 10px;margin-left: 30px;" cols="50"
+					value="#{catEquFreezerMbean.motCloseVigency}" />
+				<p:separator />
+				<p:commandButton style="width:90px;margin-left: 26%;" ajax="false"
+					value="#{msg.button_accept}" icon="ui-icon-check"
+					actionListener="#{catEquFreezerMbean.actionRegisterEquip}" />
+				<p:commandButton style="width:100px; " ajax="false"
+					actionListener="#{catEquFreezerMbean.actionCancel}"
+					value="#{msg.button_cancel}" icon="ui-icon-close" />
+			</p:panel>
+
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>

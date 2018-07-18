@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+<f:loadBundle
+	basename="ni.gob.minsa.simlab.sistema.recursos.simlab_label" var="msg"></f:loadBundle>
+<f:event type="preRenderView"
+	listener="#{loginMbean.redirigirALogInSiNoAutenticadoOAutorizado(pCse)}" />
+<!-- Cabecera -->
+<h:head>
+	<link href="/#{msg.short_system_name}/resources/css/default.css"
+		rel="stylesheet" type="text/css" />
+	<link href="/#{msg.short_system_name}/resources/css/menu.css"
+		rel="stylesheet" type="text/css" />
+	<link href="/#{msg.short_system_name}/resources/css/footer.css"
+		rel="stylesheet" type="text/css" />
+	<link href="/#{msg.short_system_name}/resources/css/header.css"
+		rel="stylesheet" type="text/css" />
+	<script src="/#{msg.short_system_name}/resources/js/aplyStyle.js"
+		language="javascript"></script>
+
+	<title>#{msg.short_system_name} - <ui:insert name="title"></ui:insert>
+	</title>
+</h:head>
+
+<!-- Cuerpo -->
+<h:body styleClass="cuerpoTemplate">
+	<p:layout fullPage="true">
+
+		<p:layoutUnit position="north" size="80">
+			<div id="top" class="top">
+				<ui:insert name="top">
+					<ui:include src="header.xhtml"></ui:include>
+				</ui:insert>
+			</div>
+		</p:layoutUnit>
+
+		<p:layoutUnit position="south" size="90">
+			<!-- Footer -->
+			<div id="footer">
+				<ui:insert name="footer">
+					<ui:include src="footer.xhtml"></ui:include>
+				</ui:insert>
+			</div>
+		</p:layoutUnit>
+
+		<p:layoutUnit position="west" size="300" header="Left"
+			resizable="true" closable="true" collapsible="true">
+			<ui:include src="menu.xhtml" />
+		</p:layoutUnit>
+
+		<p:layoutUnit position="center">
+			<p:growl showDetail="true" sticky="false" life="3000" />
+			<ui:insert name="content">
+				<p:growl id="msgError" />
+			</ui:insert>
+		</p:layoutUnit>
+
+	</p:layout>
+</h:body>
+</html>

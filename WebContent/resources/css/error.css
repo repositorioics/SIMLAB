@@ -1,0 +1,34 @@
+h3 {
+	color: red;
+}
+
+h5 {
+	margin-top: -11px;
+	color: black;
+	margin-left: 20px;
+	margin-right: 40%;
+}
+
+h4 {
+	color: blue;
+}
+
+#line {
+	float: left;
+	height: 70%;
+	padding-top: 9px;
+}
+
+#image {
+	float: left;
+	width: 244px;
+	margin-left: 65px;
+	opacity: 0.5;
+}
+
+#bloqueDescripcion {
+	float: left;
+	width: 50%;
+	margin-right: -185px;
+	margin-left: 16%;
+}

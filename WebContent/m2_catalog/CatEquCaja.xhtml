@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="./../template.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="#{catEquCajaMbean.transactionTitle}"></h:outputText>
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form id="formGesCaja" rendered="#{catEquCajaMbean.mode == 0}">
+			<p:panel id="gesCaja" header="#{catEquCajaMbean.transactionTitle}">
+				<script language="javascript">
+	    	   		window.onload = aplyStyleToPanel('formGesCaja:gesCaja');
+	    	   	</script>
+				<p:separator />
+				<label><h:outputText value="#{msg.code_caja}" /> </label>
+				<p:inputText style="width:90px;"
+					value="#{catEquCajaMbean.codeCajaToFind}">
+					<p:ajax event="keyup" update="tableCaja,panelCaja"></p:ajax>
+				</p:inputText>
+				<p:commandButton style="width:115px;" icon="ui-icon-newwin"
+					value="#{msg.new_caja}" title="#{msg.register_new_caja}"
+					ajax="false"
+					actionListener="#{catEquCajaMbean.actionChangeViewToRegisterNewCaja}" />
+				<p:separator />
+				<h:outputText value="#{msg.catalog_caja_ava}" />
+				<p:separator />
+				<p:dataTable id="tableCaja" value="#{catEquCajaMbean.listCaja}"
+					var="box" rowStyleClass="rowOrange"
+					emptyMessage="#{msg.empty_message_datatable}">
+					<p:column 
+						headerText="#{msg.code_caja}">
+						<h:outputText value="#{box.id.codCaja}" />
+					</p:column>
+					<p:column
+						headerText="#{msg.rack_code}">
+						<h:outputText value="#{box.id.ccodRack}" />
+					</p:column>
+					<p:column
+						headerText="#{msg.type_alic}">
+						<h:outputText value="#{box.usoAlic}" />
+					</p:column>
+					<p:column
+						headerText="#{msg.position_caja_rack}">
+						<h:outputText value="#{box.posRack}" />
+					</p:column>
+					<p:column
+						headerText="#{msg.type_sample}">
+						<h:outputText value="#{box.tipMues}" />
+					</p:column>
+					<p:column
+						headerText="#{msg.pos_neg}">
+						<h:outputText value="#{msg.label_pos}"
+							rendered="#{box.posNeg==catEquCajaMbean.posView}" />
+						<h:outputText value="#{msg.label_notPos}"
+							rendered="#{box.posNeg==catEquCajaMbean.negView}" />
+						<h:outputText value="#{msg.label_notRes}"
+							rendered="#{box.posNeg==catEquCajaMbean.NRView}" />
+					</p:column>
+					<p:column
+						filterMatchMode="contains" headerText="#{msg.box_ofic_temp}">
+						<h:outputText
+							value="#{box.uso==msg.validation_ofic?msg.label_oficial:msg.label_temporal}" />
+					</p:column>
+					<p:column
+						headerText="#{msg.temp}">
+						<h:outputText value="#{box.tempAlm}" />
+					</p:column>
+					<p:column headerText="#{msg.admin_user_action}">
+						<p:commandButton icon="ui-icon-pencil" id="edit" ajax="false"
+							title="#{msg.edit_equip}"
+							actionListener="#{catEquCajaMbean.actionEditInfoCaja(e,box)}" />
+						<p:commandButton icon="ui-icon-circle-close" id="closeVigency"
+							ajax="false" title="#{msg.close_vigency_apparatus}"
+							actionListener="#{catEquCajaMbean.actionCloseVigencyCaja(e, box)}" />
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+			<p:panel id="panelCaja" style="width:99%;float:left;"
+				header="#{msg.box_code} = #{catEquCajaMbean.codeCajaToFind}">
+				<p:dataGrid var="alic"
+					value="#{catEquCajaMbean.listAlicByCode2}" columns="9"
+					rows="81" layout="tabular" paginator="false" id="alics">
+					<p:panel style="text-align:center; width:100%">
+						<label><h:outputText value="#{alic.id.codAlic}" /></label>
+					</p:panel>
+				</p:dataGrid>
+			</p:panel>
+		</h:form>
+
+		<h:form id="formRegisterCaja"
+			rendered="#{catEquCajaMbean.mode == 1 || catEquCajaMbean.mode == 2}">
+			<p:panel id="panelRegisterCaja"
+				header="#{catEquCajaMbean.titlePanel}">
+				<script language="javascript">
+	    	   		window.onload = aplyStyleToPanel('formRegisterCaja:panelRegisterCaja');
+	    	   	</script>
+				<!-- PROBANDO EL FORM QUE SE ENCUENTRA EN INGALIC -->
+				<table cellspacing="5">
+					<tr>
+						<td><label><h:outputText
+									value="#{msg.code_freezer_rack}#{msg.required_character}"></h:outputText></label></td>
+						<td><p:inputText readonly="true" id="TxtCodFreezer"
+								rendered="#{catEquCajaMbean.mode == 1}" style="width:90px;"
+								value="#{catEquCajaMbean.codigoFreezer}">
+
+							</p:inputText></td>
+						<td><label><h:outputText
+									value="#{msg.rack_code}#{msg.required_character}"></h:outputText></label></td>
+						<td><p:inputText disabled="#{catEquCajaMbean.mode == 2}"
+								style="width:90px;" value="#{catEquCajaMbean.codeRack}">
+								<p:ajax event="blur"
+									update="TxtCodCaja,TxtPosRack,TxtCodFreezer"
+									listener="#{catEquCajaMbean.setNextCodeCaja}" />
+							</p:inputText></td>
+					</tr>
+					<tr>
+						<td><label><h:outputText
+									value="#{msg.code_caja}#{msg.required_character}"></h:outputText></label></td>
+						<td><p:inputText disabled="#{catEquCajaMbean.mode == 2}"
+								id="TxtCodCaja" style="width:90px;"
+								value="#{catEquCajaMbean.codeCaja}" /></td>
+						<td><label><h:outputText
+									value="#{msg.position_caja_rack}#{msg.required_character}"></h:outputText></label></td>
+						<td><p:inputText disabled="#{catEquCajaMbean.mode == 2}"
+								id="TxtPosRack" style="width:90px;"
+								value="#{catEquCajaMbean.posRack}" /></td>
+					</tr>
+					<tr>
+						<td><label><h:outputText
+									value="#{msg.purpose_use}#{msg.required_character}"></h:outputText></label></td>
+						<td><p:selectOneMenu value="#{catEquCajaMbean.uso}">
+								<f:selectItems value="#{catEquCajaMbean.listUsoAlic}" />
+							</p:selectOneMenu></td>
+						<td><label><h:outputText
+									value="#{msg.use}#{msg.required_character}"></h:outputText></label></td>
+						<td><p:selectOneMenu id="TxtUseAlic" style="width:90px;"
+								value="#{catEquCajaMbean.usoAlicuota}">
+								<f:selectItems value="#{catEquCajaMbean.listUse}" />
+								<p:ajax update="menu"
+									listener="#{catEquCajaMbean.eventShowTypeAlicByStudy}" />
+							</p:selectOneMenu></td>
+					</tr>
+					<tr>
+						<td><label><h:outputText
+									value="#{msg.alic_to_alm}#{msg.required_character}"></h:outputText></label></td>
+						<td><p:selectOneMenu id="menu"
+								value="#{catEquCajaMbean.tipoMuestra}" editable="true">
+								<f:selectItems value="#{catEquCajaMbean.typeAlicByStudy}" />
+							</p:selectOneMenu></td>
+						<td><label><h:outputText
+									value="#{msg.alic_pos_neg}#{msg.required_character}"></h:outputText></label></td>
+						<td><p:selectOneMenu value="#{catEquCajaMbean.posNeg}">
+								<f:selectItems value="#{catEquCajaMbean.listPosNeg}" />
+							</p:selectOneMenu></td>
+					</tr>
+					<tr>
+						<td><label><h:outputText
+									value="#{msg.alic_study}#{msg.required_character}"></h:outputText></label></td>
+						<td><p:selectOneMenu id="estudio"
+								value="#{catEquCajaMbean.estudio}" editable="false">
+								<f:selectItems value="#{catEquCajaMbean.listStudy}" />
+							</p:selectOneMenu></td>
+					</tr>
+				</table>
+				<p:separator />
+				<p:commandButton ajax="false" style="width:100px;"
+					value="#{msg.button_accept}" title="#{msg.button_accept}"
+					icon="ui-icon-check"
+					actionListener="#{catEquCajaMbean.actionRegisterCaja}" />
+				<p:spacer width="10" />
+				<p:commandButton ajax="false" style="width:100px;"
+					value="#{msg.return_button}" title="#{msg.return_button}"
+					icon="ui-icon-close"
+					actionListener="#{catEquCajaMbean.actionCancel}" />
+			</p:panel>
+		</h:form>
+
+
+		<h:form id="formCloseVigency" rendered="#{catEquCajaMbean.mode==3}">
+			<p:panel id="panelCloseVigency"
+				header="#{catEquCajaMbean.titlePanel}">
+				<script language="javascript">
+	    	   		window.onload = aplyStyleToPanel('formCloseVigency:panelCloseVigency');
+	    	   	</script>
+				<label> <h:outputText value="#{msg.mot_close_vigency}*" />
+				</label>
+				<br />
+				<h:inputTextarea rows="2"
+					style="margin-top: 10px;margin-left: 30px;" cols="50"
+					value="#{catEquCajaMbean.motCloseVigency}" />
+				<p:separator />
+				<p:commandButton style="width:90px;margin-left: 26%;" ajax="false"
+					value="#{msg.button_accept}" icon="ui-icon-check"
+					actionListener="#{catEquCajaMbean.actionRegisterCaja}" />
+				<p:commandButton style="width:100px; " ajax="false"
+					actionListener="#{catEquCajaMbean.actionCancel}"
+					value="#{msg.button_cancel}" icon="ui-icon-close" />
+			</p:panel>
+
+
+		</h:form>
+	</ui:define>
+</ui:composition>

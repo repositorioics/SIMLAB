@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 12, 2012 11:22:11 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+	<class name="ni.gob.minsa.sistema.hibernate.bussines.Usuario"
+		table="usuario" catalog="SIMLAB">
+		<composite-id name="id"
+			class="ni.gob.minsa.sistema.hibernate.bussines.UsuarioId">
+			<key-property name="usuaCode" type="string">
+				<column name="USUA_CODE" length="20" />
+			</key-property>
+			<key-property name="usuaDatefin" type="timestamp">
+				<column name="USUA_DATEFIN" length="19" />
+			</key-property>
+		</composite-id>
+		<property name="usuaName" type="string">
+			<column name="USUA_NAME" length="100" not-null="true">
+				<comment>NOMBRE DE USUARIO</comment>
+			</column>
+		</property>
+		<property name="usuaIdenti" type="string">
+			<column name="USUA_IDENTI" length="16" not-null="true">
+				<comment>IDENTIFICACION - NUMERO DE CEDULA</comment>
+			</column>
+		</property>
+		<property name="usuaState" type="string">
+			<column name="USUA_STATE" length="1" not-null="true">
+				<comment>ESTADO DE HABILITACION DEL USUARIO</comment>
+			</column>
+		</property>
+		<property name="usuaEmail" type="string">
+			<column name="USUA_EMAIL" length="50" not-null="true">
+				<comment>CORREO ELECTRONICO</comment>
+			</column>
+		</property>
+		<property name="usuaTelf" type="string">
+			<column name="USUA_TELF" length="20">
+				<comment>TELEFONO DEL USUARIO</comment>
+			</column>
+		</property>
+		<property name="usuaComment" type="string">
+			<column name="USUA_COMMENT" length="50">
+				<comment>COMENTARIOS ACERCA DEL USUARIO</comment>
+			</column>
+		</property>
+		<property name="usuaDateini" type="timestamp">
+			<column name="USUA_DATEINI" length="19" not-null="true">
+				<comment>FECHA DE INICIO DE VIGENCIA.</comment>
+			</column>
+		</property>
+	</class>
+</hibernate-mapping>

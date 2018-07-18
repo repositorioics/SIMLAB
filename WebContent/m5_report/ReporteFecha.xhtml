@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="./../template.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="#{reporteFechaMbean.transactionTitle}"></h:outputText>
+	</ui:define>
+
+	<ui:define name="content">
+	
+		<p:ajaxStatus onstart="statusDialog.show()" onsuccess="statusDialog.hide()" />
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+		    <h:graphicImage value="/#{short_system_name}/resources/img/ajaxloadingbar.gif"></h:graphicImage>
+		</p:dialog>
+		
+		<h:form id="form">
+		<p:growl id="growl" showDetail="true" sticky="true" autoUpdate="true"/> 
+			
+			<p:panel id="resultadosPanel" header="#{reporteFechaMbean.transactionTitle}">
+				<p:separator />
+				<h:panelGrid columns="9" style="margin:10px 0">
+			        <p:outputLabel for="fechaInicio" value="#{msg.fechaInicio}#{msg.required_character}" style="font-weight:bold"/>
+			        <p:calendar id="fechaInicio" value="#{reporteFechaMbean.fechaInicio}">
+						<p:ajax event="change" update="@this" process="@this"/>
+					</p:calendar>
+					<p:outputLabel for="fechaFin" value="#{msg.fechaFin}#{msg.required_character}" style="font-weight:bold"/>
+			        <p:calendar id="fechaFin" value="#{reporteFechaMbean.fechaFin}">
+						<p:ajax event="change" update="@this" process="@this"/>
+					</p:calendar>
+			        <p:commandButton update="datosResultados" actionListener="#{reporteFechaMbean.updateColumns}" value="Update" process="@parent" icon="ui-icon-refresh" />
+			    </h:panelGrid>
+			    
+			    
+			    <p:dataTable id="datosResultados" var="datoResultado" value="#{reporteFechaMbean.datosResultados}" widgetVar="datosResultadosTable">                    
+			        <p:columns value="#{reporteFechaMbean.datosResultadosColumns}" var="column" columnIndexVar="colIndex">
+			            <f:facet name="header">
+			                <h:outputText value="#{column.header}" />
+			            </f:facet>
+			            <h:outputText value="#{datoResultado[colIndex]}" />
+			        </p:columns>
+			    </p:dataTable>
+			    
+			</p:panel>	
+			<script language="javascript">
+	   	   		window.onload = aplyStyleToPanel('form:resultadosPanel');
+	   	   	</script>	
+		</h:form>
+		
+   	   	
+   	   	
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="./../template.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="#{catAlicMbean.transactionTitle}"></h:outputText>
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form id="formIngEstu">
+			<p:panel id="panelIngAlic" header="#{catAlicMbean.titlePanel}">
+				<script language="javascript">
+	 	   			window.onload = aplyStyleToPanel('formIngEstu:panelIngAlic');
+		   		</script>
+				<table cellpadding="5">
+					<tr>
+						<td><label><h:outputText
+									value="#{msg.type_alic}#{msg.required_character}" /> </label></td>
+						<td><p:selectOneMenu id="tipo"
+								value="#{muestSalAlicMbean.codeAlic}" panelStyle="width:150px"
+								effect="fade" style="width:160px">
+								<f:selectItem itemLabel="Seleccione Tipo" itemValue="" />
+								<f:selectItems value="#{muestSalAlicMbean.listAlics}" />
+							</p:selectOneMenu></td>
+					</tr>
+					<tr>
+						<td><label><h:outputText
+									value="#{msg.use}#{msg.required_character}"></h:outputText></label></td>
+						<td><p:selectOneMenu id="uso"
+								value="#{muestSalAlicMbean.usoAlic}" panelStyle="width=150px"
+								effect="fade" style="width:160px">
+								<f:selectItem itemLabel="Seleccione Uso" itemValue="" />
+								<f:selectItems value="#{muestSalAlicMbean.listUsos}" />
+							</p:selectOneMenu></td>
+					</tr>
+					<tr>
+						<td><label><h:outputText
+									value="#{msg.weight}#{msg.required_character}"></h:outputText></label></td>
+						<td><p:inputText style="width:90px;"
+								value="#{muestSalAlicMbean.volSalida}"></p:inputText></td>
+					</tr>
+				</table>
+
+				<p:separator />
+				<p:commandButton ajax="false" style="width:100px;"
+					value="#{msg.button_accept}" title="#{msg.button_accept}"
+					icon="ui-icon-check"
+					actionListener="#{muestSalAlicMbean.actionRegisterSalida}" />
+				<p:commandButton ajax="false" style="width:100px;"
+					value="#{msg.button_cancel}" title="#{msg.button_cancel}"
+					icon="ui-icon-check"
+					actionListener="#{muestSalAlicMbean.actionCancel}" />
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

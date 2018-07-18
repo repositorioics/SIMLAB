@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<!-- Archivo de Configuracion de Hibernate con DataSources. -->
+<hibernate-configuration>
+	<!-- name="java:hibernate/SessionFactory" <property name="hibernate.session_factory_name">java:hibernate/SessionFactory</property> -->
+	<session-factory>
+		<!-- Configuracion Tradicional para Generar los Objetos/Tablas -->
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/SIMLAB</property>
+		<property name="hibernate.connection.username">simlab</property>
+		<property name="hibernate.connection.password">SimLab$55</property>
+		<property name="current_session_context_class">thread</property>
+		<property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
+		<property name="hibernate.cache.use_query_cache">false</property>
+		<property name="hibernate.cache.use_second_level_cache">false</property>
+		<!-- Definicion de DataSource name del SessionFactory name=" java:comp/env/hibernate/sessionFactory" 
+			<property name="hibernate.session_factory_name">java:hibernate/SessionFactory</property> 
+			<property name="hibernate.connection.datasource">java:jboss/datasources/SIMLAB</property> 
+			<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property> 
+			<property name="hibernate.transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property> 
+			<property name="hibernate.transaction.manager_lookup_class">org.hibernate.transaction.SunONETransactionManagerLookup</property> 
+			<property name="connection.autocommit">false</property> -->
+
+		<mapping resource="ni/gob/minsa/sistema/hibernate/bussines/DetParam.hbm.xml" />
+		<mapping resource="ni/gob/minsa/sistema/hibernate/bussines/Menprinc.hbm.xml" />
+		<mapping resource="ni/gob/minsa/sistema/hibernate/bussines/Transacs.hbm.xml" />
+		<mapping resource="ni/gob/minsa/sistema/hibernate/bussines/Messages.hbm.xml" />
+		<mapping resource="ni/gob/minsa/sistema/hibernate/bussines/EncrAlic.hbm.xml" />
+		<mapping resource="ni/gob/minsa/sistema/hibernate/bussines/Freezer.hbm.xml" />
+		<mapping resource="ni/gob/minsa/sistema/hibernate/bussines/ListParam.hbm.xml" />
+		<mapping resource="ni/gob/minsa/sistema/hibernate/bussines/Perfil.hbm.xml" />
+		<mapping resource="ni/gob/minsa/sistema/hibernate/bussines/UsuaPerf.hbm.xml" />
+		<mapping resource="ni/gob/minsa/sistema/hibernate/bussines/Alicuotas.hbm.xml" />
+		<mapping resource="ni/gob/minsa/sistema/hibernate/bussines/Rack.hbm.xml" />
+		<mapping resource="ni/gob/minsa/sistema/hibernate/bussines/PerfTransac.hbm.xml" />
+		<mapping resource="ni/gob/minsa/sistema/hibernate/bussines/Menline.hbm.xml" />
+		<mapping resource="ni/gob/minsa/sistema/hibernate/bussines/DetrAlic.hbm.xml" />
+		<mapping resource="ni/gob/minsa/sistema/hibernate/bussines/Caja.hbm.xml" />
+		<mapping resource="ni/gob/minsa/sistema/hibernate/bussines/Password.hbm.xml" />
+		<mapping resource="ni/gob/minsa/sistema/hibernate/bussines/Usuario.hbm.xml" />
+		<mapping resource="ni/gob/minsa/sistema/hibernate/bussines/Patron.hbm.xml" />
+		<mapping
+			resource="ni/gob/minsa/sistema/hibernate/bussines/CatAlicuotas.hbm.xml" />
+		<mapping resource="ni/gob/minsa/sistema/hibernate/bussines/RegAlic.hbm.xml" />
+		<mapping resource="ni/gob/minsa/sistema/hibernate/bussines/ResClinico.hbm.xml" />
+		<mapping resource="ni/gob/minsa/sistema/hibernate/bussines/ResCohorte.hbm.xml" />
+		<mapping
+			resource="ni/gob/minsa/sistema/hibernate/bussines/RegSepCohorte.hbm.xml" />
+		<mapping resource="ni/gob/minsa/sistema/hibernate/bussines/AlicCaja.hbm.xml" />
+	</session-factory>
+</hibernate-configuration>

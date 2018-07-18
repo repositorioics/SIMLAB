@@ -1,0 +1,97 @@
+@CHARSET "ISO-8859-1";
+
+s<!-- Hoja de Estilo para la pagina de login-->.headerLogin {
+	border: yellow;
+	margin-left: auto;
+	margin-right: auto height:  50px;
+	width: 10px;
+	text-align: center;
+}
+
+#title1 {
+	margin-left: 30%;
+	text-align: center;
+	font-size: 22px;
+}
+
+/*Propiedades del panel*/
+.ui-panel {
+	position: absolute;
+	width: 368px;
+	height: 157px;
+	margin-top: 11%;
+	margin-left: 33%;
+}
+
+.inline {
+	display: block;
+	width: 200px;
+	border-top: 10px;
+}
+
+#userCampo {
+	display: inline;
+}
+
+#passwordCampo {
+	display: inline;
+}
+
+#separator {
+	height: 5px;
+}
+
+/*Campo Texto*/
+.ui-inputtext {
+	display: inline;
+	width: 150px;
+	height: 20px;
+}
+
+/*Campo Contraseña*/
+.ui-password {
+	display: inline;
+	width: 150px;
+	height: 20px;
+}
+
+/*boton Text*/
+.ui-button-text {
+	font-size: 12px;
+}
+
+.ui-button {
+	margin-left: 245px;
+}
+
+.labelText {
+	font-size: 12px;
+}
+
+.ui-panel-titlebar {
+	font-size: 14px;
+}
+
+#headerLabel.labelText {
+	font-size: 10px;
+}
+
+.labelText {
+	margin-left: 20%;
+}
+
+#userLogin #passLogin {
+	padding-left: 10%;
+}
+
+.labelTooltip {
+	font-size: 10px;
+}
+
+.inputF {
+	margin-left: 30px;
+}
+
+.inputS {
+	margin-left: 10px;
+}

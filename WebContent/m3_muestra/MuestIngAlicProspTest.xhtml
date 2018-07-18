@@ -1,0 +1,386 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="./../template.xhtml" xmlns="http://www.w3.org/1999/xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="#{muestIngAlicProspTestMbean.transactionTitle}" />
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form id="formIngEstu"
+			rendered="#{muestIngAlicProspTestMbean.mode==0}">
+			<p:panel id="panelIngEst"
+				header="#{msg.system_name_title_tx_MuestIngAlicProspMbean}">
+				<script language="javascript">
+					window.onload = aplyStyleToPanel('formIngEstu:panelIngEst');
+				</script>
+
+				<label> <h:outputText
+						value="#{msg.alic_study}#{msg.required_character}" />
+				</label>
+				<br />
+				<p:selectOneMenu value="#{muestIngAlicProspTestMbean.study}">
+					<f:selectItems value="#{muestIngAlicProspTestMbean.listStudy}" />
+					<p:ajax update="menuTypeAlic"
+						listener="#{muestIngAlicProspTestMbean.eventShowTypeAlicByStudy}" />
+				</p:selectOneMenu>
+
+				<br />
+				<label> <h:outputText
+						value="#{msg.alic_type}#{msg.required_character}" /></label>
+				<br />
+				<p:selectOneMenu id="menuTypeAlic"
+					value="#{muestIngAlicProspTestMbean.typeAlicSelected}">
+					<f:selectItems
+						value="#{muestIngAlicProspTestMbean.typeAlicByStudy}" />
+				</p:selectOneMenu>
+				<br />
+				<p:commandButton style="width:100px;" value="#{msg.button_accept}"
+					actionListener="#{muestIngAlicProspTestMbean.actionFormAddAlic}"
+					ajax="false" icon="ui-icon-arrowthick-1-e" />
+
+			</p:panel>
+		</h:form>
+		
+
+		<h:form id="formMuestIng"
+			rendered="#{muestIngAlicProspTestMbean.mode==1}">
+			<p:messages autoUpdate="true" />
+			<p:message for="regex" />
+			<p:panel id="panelMuestIng"
+				header="#{muestIngAlicProspTestMbean.transactionTitle}">
+				<p:focus />
+				<script language="javascript">
+					$(document).ready(function() {
+						$("form").keypress(function(e) {
+							if (e.which == 13) {
+								return false;
+							}
+						})
+					}
+
+					)
+					window.onload = aplyStyleToPanel('formMuestIng:panelMuestIng');
+				</script>
+
+				<label><h:outputText
+						value="#{msg.code_alic} #{msg.required_character}" /></label>
+				<p:inputText id="regex" style="width:100px;"
+					value="#{muestIngAlicProspTestMbean.codeAlic}"
+					validatorMessage="Alicuota con formato invalido."
+					onkeydown="if (event.keyCode == 13) document.getElementById('formMuestIng:botonSugerir').click()">
+				</p:inputText>
+
+
+				<label style="margin-left: 10px;"><h:outputText
+						value="#{msg.alic_pos_neg} #{msg.required_character}" /></label>
+				<p:selectOneMenu id="menuPosNegId" style="margin-left: 15px;"
+					styleClass="menuPosNeg"
+					value="#{muestIngAlicProspTestMbean.indPosNeg}">
+					<f:selectItems value="#{muestIngAlicProspTestMbean.listPosOrNeg}" />
+				</p:selectOneMenu>
+				
+				<label style="margin-left: 10px;"><h:outputText
+						value="#{msg.alic_condicion} #{msg.required_character}" /></label>
+				<p:selectOneMenu id="menuCondicionId" style="margin-left: 15px;"
+					styleClass="menuCondicion"
+					value="#{muestIngAlicProspTestMbean.condicion}">
+					<f:selectItems value="#{muestIngAlicProspTestMbean.listCondicion}" />
+				</p:selectOneMenu>
+				
+				<label style="margin-left: 10px;"><h:outputText
+						value="#{msg.alic_separada} #{msg.required_character}" /></label>
+				<p:selectOneMenu id="menuLabId" style="margin-left: 15px;"
+					styleClass="menuLab"
+					value="#{muestIngAlicProspTestMbean.separada}">
+					<f:selectItems value="#{muestIngAlicProspTestMbean.listLab}" />
+				</p:selectOneMenu>
+
+				<p:commandButton id="botonSugerir" title="#{msg.sugest_position}"
+					value="#{msg.sugest_position}" icon="ui-icon-circle-zoomin"
+					style="width:160px;margin-left: 16px;"
+					update="suggestion, panelDetail,panelCaja,alics, volAlic,menuPosNegId"
+					actionListener="#{muestIngAlicProspTestMbean.actionSuggestLocation}"
+					oncomplete="document.getElementById('formMuestIng:volAlic').focus();" />
+				<p:spacer width="10" />
+
+
+			</p:panel>
+			<p:separator />
+			<p:panel id="suggestion" style="width:30%;float:left;"
+				header="#{msg.alic_position}">
+
+				<table>
+					<tbody>
+						<tr>
+							<td align="center" width="100px"><label><h:outputText
+										value="#{msg.aparatus_freezer}#{msg.required_character}" /></label></td>
+							<td align="center" width="100px"><label><h:outputText
+										value="#{msg.aparatus_rack}#{msg.required_character}" /></label></td>
+							<td align="center" width="100px"><label><h:outputText
+										value="#{msg.box_code}#{msg.required_character}" /></label></td>
+							<td align="center" width="100px"><label><h:outputText
+										value="#{msg.aparatus_position}#{msg.required_character}" /></label></td>
+						</tr>
+						<tr>
+							<td align="center"><p:inputText id="idFreezer"
+									style="width:50px; margin-left:0px;"
+									value="#{muestIngAlicProspTestMbean.codeFreezer}" /></td>
+							<td align="center"><p:inputText id="idRack"
+									style="width:50px; margin-left:0px;"
+									value="#{muestIngAlicProspTestMbean.codeRack}" /></td>
+							<td align="center"><p:inputText id="idCaja"
+									style="width:50px; margin-left:0px;"
+									value="#{muestIngAlicProspTestMbean.codeBox}" /></td>
+							<td align="center"><p:inputText id="idPosition"
+									style="width:50px;margin-left:0px;"
+									value="#{muestIngAlicProspTestMbean.positionInBox}" /></td>
+						</tr>
+					</tbody>
+				</table>
+			</p:panel>
+
+			<p:panel id="peso" style="width:30%;float:left;"
+				header="#{msg.alic_measurement}">
+
+				<table>
+					<tbody>
+						<tr>
+							<td align="center" width="100px"><label><h:outputText
+										value="#{msg.vol_alic}#{msg.required_character}" /> </label></td>
+							<td align="center" width="100px"><label><h:outputText
+										value="#{msg.button_action  }" /></label></td>
+						</tr>
+						<tr>
+							<td align="center"><p:inputText id="volAlic"
+									style="width:50px;margin-left:0px;"
+									value="#{muestIngAlicProspTestMbean.volAlic}"
+									onkeydown="if (event.keyCode == 13) document.getElementById('formMuestIng:registrarAlic').click()">
+								</p:inputText></td>
+							<td align="center"><p:commandButton id="registrarAlic"
+									update="regex, suggestion, panelDetail,panelCaja,alics, volAlic,menuPosNegId" title="#{msg.add_item_list}"
+									value="#{msg.add_item}" icon="ui-icon-plusthick"
+									style="width:155px; margin-left: 20px;"
+									actionListener="#{muestIngAlicProspTestMbean.actionRegisterAlic}" 
+									oncomplete="document.getElementById('formMuestIng:regex').focus();"/></td>
+						</tr>
+					</tbody>
+				</table>
+			</p:panel>
+
+			<!-- Agregaremos los detalles de la Sugerencia. -->
+			<p:panel id="panelDetail" style="width:30%;float:left;"
+				header="#{msg.detail_suggest}">
+				<table align="center">
+					<tbody>
+						<tr>
+							<td align="right"><label><h:outputText
+										value="#{msg.label_freezer_use}" /></label></td>
+							<td style="color: green;"><label><h:outputText
+										value="#{muestIngAlicProspTestMbean.freezerToSuggest.usoAlm}" />
+							</label> <label><h:outputText value="#{msg.label_empty}"
+										rendered="#{muestIngAlicProspTestMbean.freezerToSuggest.usoAlm==null}" />
+							</label></td>
+						</tr>
+						<tr>
+							<td align="right"><label><h:outputText
+										value="#{msg.box_ofic_temp}#{msg.threee_dot}" /></label></td>
+							<td style="color: green;"><label><h:outputText
+										value="#{muestIngAlicProspTestMbean.boxTosuggest.uso==msg.validation_ofic?msg.label_oficial:msg.label_temporal}"
+										rendered="#{muestIngAlicProspTestMbean.boxTosuggest.uso!=null}" /></label>
+								<label><h:outputText value="#{msg.label_empty}"
+										rendered="#{muestIngAlicProspTestMbean.boxTosuggest.uso==null}" />
+							</label></td>
+						</tr>
+						<tr>
+							<td align="right"><label><h:outputText
+										value="#{msg.pos_neg}" /> </label></td>
+							<td style="color: green;"><label><h:outputText
+										value="#{muestIngAlicProspTestMbean.boxTosuggest.posNeg==muestIngAlicProspTestMbean.labelPosNeg?msg.label_pos:msg.label_notPos}"
+										rendered="#{muestIngAlicProspTestMbean.boxTosuggest.posNeg!=null}" />
+							</label> <label><h:outputText value="#{msg.label_empty}"
+										rendered="#{muestIngAlicProspTestMbean.boxTosuggest.posNeg==null}" />
+							</label></td>
+						</tr>
+						<tr>
+							<td align="right"><label><h:outputText
+										value="#{msg.alic_perm_box} #{msg.threee_dot}" /></label></td>
+							<td style="color: green;"><label><h:outputText
+										value="#{muestIngAlicProspTestMbean.boxTosuggest.tipMues}" />
+							</label> <label><h:outputText value="#{msg.label_empty}"
+										rendered="#{muestIngAlicProspTestMbean.boxTosuggest.tipMues==null}" />
+							</label></td>
+						</tr>
+					</tbody>
+
+				</table>
+			</p:panel>
+			<p:panel id="panelCaja" style="width:99%;float:left;"
+				header="#{msg.box_code} = #{muestIngAlicProspTestMbean.codeBoxInUse} #{msg.alic_to_save} = #{muestIngAlicProspTestMbean.alicBoxInUse}">
+				<p:dataGrid var="alic"
+					value="#{muestIngAlicProspTestMbean.listAlicByCode2}" columns="9"
+					rows="81" layout="tabular" paginator="false" id="alics">
+					<p:panel style="text-align:center; width:100%">
+						<label><h:outputText value="#{alic.id.codAlic}" /></label>
+					</p:panel>
+				</p:dataGrid>
+			</p:panel>
+			<p:panel id="panelDetail2" style="width:99%;float:left;">
+				<p:dataTable style="width:95%" id="tableLstAlic"
+					value="#{muestIngAlicProspTestMbean.listAlicByCode}" var="alic"
+					emptyMessage="#{msg.empty_message_datatable}" paginator="true"
+					rows="5" paginatorPosition="bottom"
+					paginatorTemplate="Pagina {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Filas por cada pagina: {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15,50,100,200">
+					<p:column sortBy="#{alic.id.codAlic}" filterBy="#{alic.id.codAlic}"
+						filterMatchMode="contains" headerText="#{msg.sample}">
+						<h:outputText value="#{alic.id.codAlic}" />
+					</p:column>
+					<p:column sortBy="#{alic.codFreezer}" filterBy="#{alic.codFreezer}"
+						filterMatchMode="exact" headerText="#{msg.code_freezer_rack}">
+						<h:outputText value="#{alic.codFreezer}" />
+					</p:column>
+					<p:column sortBy="#{alic.codRack}" filterBy="#{alic.codRack}"
+						filterMatchMode="exact" headerText="#{msg.rack_code}">
+						<h:outputText value="#{alic.codRack}" />
+					</p:column>
+					<p:column filterBy="#{alic.codBox}" filterMatchMode="exact"
+						sortBy="#{alic.codBox}" headerText="#{msg.code_caja}">
+						<h:outputText value="#{alic.codBox}" />
+					</p:column>
+					<p:column filterBy="#{alic.id.posBox}" filterMatchMode="exact"
+						sortBy="#{alic.id.posBox}" headerText="#{msg.position}">
+						<h:outputText value="#{alic.id.posBox}" />
+					</p:column>
+					<p:column filterBy="#{alic.negPos}" filterMatchMode="contains"
+						sortBy="#{alic.negPos}" headerText="#{msg.alic_pos_neg}">
+						<h:outputText value="#{alic.negPos}" />
+					</p:column>
+					<p:column filterBy="#{alic.volAlic}" filterMatchMode="contains"
+						sortBy="#{alic.volAlic}" headerText="#{msg.vol_alic}">
+						<h:outputText value="#{alic.volAlic}" />
+					</p:column>
+					<p:column filterBy="#{alic.fehorReg}" filterMatchMode="contains"
+						sortBy="#{alic.fehorReg}" headerText="#{msg.fech_regist}">
+						<h:outputText value="#{alic.fehorReg}">
+						</h:outputText>
+					</p:column>
+					<p:column filterBy="#{alic.codUser}" filterMatchMode="contains"
+						sortBy="#{alic.codUser}" headerText="#{msg.user_code}">
+						<h:outputText value="#{alic.codUser}" />
+					</p:column>
+					<p:column headerText="#{msg.admin_user_action}">
+						<p:commandButton icon="ui-icon-pencil" id="edit" ajax="false"
+							title="#{msg.edit_alic}"
+							actionListener="#{muestIngAlicProspTestMbean.actionEditInfoAlic(e,alic)}" />
+						<p:commandButton icon="ui-icon-circle-close" id="closeVigency"
+							ajax="false" title="#{msg.close_vigency_apparatus}"
+							actionListener="#{muestIngAlicProspTestMbean.actionCloseVigencyMuestra(e, alic)}" />
+					</p:column>
+				</p:dataTable>
+
+			</p:panel>
+			<script language="javascript">
+					window.onload = aplyStyleToPanel('formMuestIng:panelDetail2');
+			</script>
+			<!-- 
+			<p:accordionPanel id="panelAccionesAdd">
+    	   			<p:tab title="#{msg.add_to_catalog}" >
+    	   				<p:commandButton title="#{msg.register_box}" value="#{msg.register_box}" icon="ui-icon-plusthick" style="width:160px;" 
+    	   					oncomplete="dlg.show();"/>
+    	   			</p:tab>
+    	   		</p:accordionPanel>
+    	   	 -->
+
+		</h:form>
+		<h:form id="formEditAlic"
+			rendered="#{muestIngAlicProspTestMbean.mode == 2}">
+			<p:panel id="panelRegisterAlic"
+				header="#{muestIngAlicProspTestMbean.titlePanel}">
+				<script language="javascript">
+					window.onload = aplyStyleToPanel('formEditAlic:panelRegisterAlic');
+				</script>
+				<h:panelGrid id="grid" columns="2">
+					<h:outputText styleClass="labelForm"
+						value="#{msg.sample}#{msg.required_character}" />
+					<p:inputText style="width:200px" readonly="false"
+						value="#{muestIngAlicProspTestMbean.alicToEdit.id.codAlic}"></p:inputText>
+					<h:outputText styleClass="labelForm"
+						value="#{msg.code_freezer_rack}#{msg.required_character}" />
+					<p:inputText style="width:200px"
+						value="#{muestIngAlicProspTestMbean.alicToEdit.codFreezer}"></p:inputText>
+					<h:outputText styleClass="labelForm"
+						value="#{msg.rack_code}#{msg.required_character}" />
+					<p:inputText style="width:200px"
+						value="#{muestIngAlicProspTestMbean.alicToEdit.codRack}"></p:inputText>
+					<h:outputText styleClass="labelForm"
+						value="#{msg.code_caja}#{msg.required_character}" />
+					<p:inputText style="width:200px"
+						value="#{muestIngAlicProspTestMbean.alicToEdit.codBox}"></p:inputText>
+					<h:outputText styleClass="labelForm"
+						value="#{msg.position}#{msg.required_character}" />
+					<p:inputText style="width:200px" readonly="false"
+						value="#{muestIngAlicProspTestMbean.alicToEdit.id.posBox}"></p:inputText>
+					<h:outputText styleClass="labelForm"
+						value="#{msg.peso_alic}#{msg.required_character}" />
+					<p:inputText style="width:200px"
+						value="#{muestIngAlicProspTestMbean.alicToEdit.pesoAlic}"></p:inputText>
+					<h:outputText styleClass="labelForm"
+						value="#{msg.vol_alic}#{msg.required_character}" />
+					<p:inputText style="width:200px"
+						value="#{muestIngAlicProspTestMbean.alicToEdit.volAlic}"></p:inputText>
+				</h:panelGrid>
+				<p:separator />
+				<p:commandButton style="width:90px;margin-left: 26%;" ajax="false"
+					value="#{msg.button_accept}" icon="ui-icon-check"
+					actionListener="#{muestIngAlicProspTestMbean.actionRegisterAlicuota}" />
+				<p:commandButton style="width:100px; " ajax="false"
+					actionListener="#{muestIngAlicProspTestMbean.actionCancel}"
+					value="#{msg.button_cancel}" icon="ui-icon-close" />
+			</p:panel>
+		</h:form>
+
+		<h:form id="formCloseVigency"
+			rendered="#{muestIngAlicProspTestMbean.mode == 3}">
+			<p:panel id="panelCloseVigency"
+				header="#{muestIngAlicProspTestMbean.titlePanel}">
+				<script language="javascript">
+	    	   		window.onload = aplyStyleToPanel('formCloseVigency:panelCloseVigency');
+	    	   	</script>
+				<label> <h:outputText value="#{msg.mot_close_vigency}*" />
+				</label>
+				<br />
+				<h:inputTextarea rows="2"
+					style="margin-top: 10px;margin-left: 30px;" cols="50"
+					value="#{muestIngAlicProspTestMbean.motCloseVigency}" />
+				<p:separator />
+				<p:commandButton style="width:90px;margin-left: 26%;" ajax="false"
+					value="#{msg.button_accept}" icon="ui-icon-check"
+					actionListener="#{muestIngAlicProspTestMbean.actionDeleteAlicuota}" />
+				<p:commandButton style="width:100px; " ajax="false"
+					actionListener="#{muestIngAlicProspTestMbean.actionCancel}"
+					value="#{msg.button_cancel}" icon="ui-icon-close" />
+			</p:panel>
+
+
+		</h:form>
+		
+		<p:ajaxStatus onstart="statusDialog.show()" onsuccess="statusDialog.hide()" />
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+		    <h:graphicImage value="/#{short_system_name}/resources/img/ajaxloadingbar.gif"></h:graphicImage>
+		</p:dialog>
+		
+		<script type="text/javascript">
+			function handleRequestDialog(xhr, status, args) {
+				if (args.ok) {
+					dlg.hide();
+				}
+			}
+		</script>
+	</ui:define>
+</ui:composition>

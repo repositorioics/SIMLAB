@@ -1,0 +1,240 @@
+/*Customizando los growl de Primefaces*/
+.ui-growl-title {
+	font-size: 15px;
+}
+
+.ui-growl {
+	font-size: 13px;
+}
+
+#barWellcome {
+	height: 2px;
+	text-align: right;
+}
+
+h1 {
+	height: 18px;
+	margin-top: -1px;
+}
+
+#separador {
+	height: 3px;
+	border-radius: 0px;
+	margin-bottom: -1px;
+}
+
+#container {
+	margin-top: 5px;
+	width: 100%;
+	height: 535px;
+}
+
+#positionLeft {
+	width: 25%;
+	height: 520px !important;
+}
+
+.ui-layout-unit-header {
+	height: 10px;
+	text-align: left;
+}
+
+#positionLeft.ui-layout-unit-header {
+	text-align: center;
+}
+
+.ui-widget-header {
+	padding-top: 3px;
+	padding-bottom: 10px;
+}
+
+.ui-layout-unit-header-title {
+	font-size: 13px;
+}
+
+h4 {
+	padding-left: 25%;
+}
+
+h5 {
+	font-size: 14px;
+}
+
+hHead1 {
+	padding-left: 15%;
+}
+
+hHead2 {
+	padding-left: 1%;
+}
+
+#positionCenter {
+	border-color: white;
+	height: 520px !important;
+}
+
+/**Configuracion Etiquetas Titulos*/
+p {
+	font-weight: bolder;
+	margin-top: 0px;
+	margin-bottom: -10px;
+	font-size: 13px;
+	color: darkBlue;
+	padding-bottom: 7px;
+}
+
+label {
+	font-size: 12px;
+	font-weight: bold;
+	font-family: arial;
+}
+/*Estilo Tablas*/
+.ui-datatable.ui-widget {
+	font-size: 12px;
+}
+
+.ui-datatable-data {
+	text-align: center;
+}
+
+/*Estilo Paneles*/
+.ui-panel-title {
+	font-size: 14px;
+}
+
+/*Estilo de Separadores*/
+.ui-separator {
+	width: auto;
+}
+
+/*Configuracion de Botones*/
+/*Botones dentro de Tablas Solo Iconos*/
+.ui-button-icon-only {
+	width: 25px !important;
+}
+
+.ui-button {
+	text-align: left;
+}
+
+/*Botones con Iconos y Texto*/
+.ui-button-text-icon-left {
+	font-size: 12px !important;
+}
+
+/*InputText*/
+.ui-inputfield {
+	height: 22px;
+	padding: 0px;
+	font-size: 12px;
+	margin-left: 10px;
+	margin-top: 10px;
+}
+
+.ui-inputtext {
+	font-size: 12px !important;
+	text-indent: 5px;
+}
+
+/*Focus*/
+.ui-state-focus {
+	font-size: 12px !important;
+}
+
+/*Personalizando los Dialog*/
+.ui-widget-overlay {
+	height: 0px;
+	z-index: 0 !important;
+	width: 0px;
+}
+
+#formGesTrans:buttonAddTrans.ui-button-text {
+	width: 300px;
+}
+
+/*Personalizando los Radios Select*/
+.ui-selectoneradio .ui-widget {
+	width: 18px !important;
+	padding-right: 0px;
+}
+
+.ui-widget.radio_si_no {
+	width: 150px;
+}
+
+/*Personalizando los Menu Select*/
+.ui-selectonemenu {
+	width: 180px !important;
+	margin-left: 0px;
+	height: 38px;
+}
+
+.ui-selectonemenu-panel {
+	font-size: 12px;
+	width: 174px;
+}
+
+.ui-selectonemenu-items {
+	width: 160px !important;
+}
+
+.ui-selectonemenu-label {
+	width: 135px !important;
+	padding-top: 3%;
+	padding-left: 4%;
+	margin-left: 6px;
+	margin-top: 4px;
+}
+
+#columnRight {
+	margin-left: 200px;
+}
+
+/*Panel Con Leyenda*/
+.ui-fieldset-legend {
+	font-size: 12px;
+}
+
+/*Estilo de Text Area*/
+.titleSeparator {
+	width: 102%;
+	height: 10%;
+	background-image: url('../img/divBackgroun.png');
+	margin-left: -1.5%;
+	margin-top: -9px;
+}
+
+/*Estilo Panel Acordion*/
+.ui-accordion.ui-widget.ui-helper-reset.ui-hidden-container {
+	width: 100%;
+	margin-left: 0px;
+	font-size: 12px;
+}
+
+/*Estilos Para Elementos Con Clases*/
+.menuPosNeg {
+	width: 87px !important;
+	height: 33px;
+}
+
+.menuPosNeg .ui-selectonemenu-label {
+	width: 50px !important;
+}
+
+.menuVolPermited {
+	width: 111px !important;
+	height: 33px;
+}
+
+.menuVolPermited .ui-selectonemenu-label {
+	width: 70px !important;
+}
+
+.ui-widget-content .ui-datatable-odd .rowOrange {
+	background-color: orange;
+}
+
+.cuerpoTemplate {
+	background: url("../img/01.png"), url("../img/02.png");
+	background-repeat: repeat-x, repeat;
+}

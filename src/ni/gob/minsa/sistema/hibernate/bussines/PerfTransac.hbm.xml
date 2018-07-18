@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 08-07-2012 11:27:23 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+	<class name="ni.gob.minsa.sistema.hibernate.bussines.PerfTransac"
+		table="perf_transac" catalog="SIMLAB">
+		<composite-id name="id"
+			class="ni.gob.minsa.sistema.hibernate.bussines.PerfTransacId">
+			<key-property name="codTrans" type="string">
+				<column name="COD_TRANS" length="20" />
+			</key-property>
+			<key-property name="codPerf" type="string">
+				<column name="COD_PERF" length="5" />
+			</key-property>
+		</composite-id>
+		<property name="feiniVig" type="date">
+			<column name="FEINI_VIG" length="10" not-null="true">
+				<comment>FECHA DE INICIO DE VIGENCIA</comment>
+			</column>
+		</property>
+		<property name="fefinVig" type="date">
+			<column name="FEFIN_VIG" length="10" not-null="true">
+				<comment>FECHA DE FIN DE VIGENCIA.</comment>
+			</column>
+		</property>
+	</class>
+</hibernate-mapping>

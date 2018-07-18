@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 15, 2012 2:46:01 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+	<class name="ni.gob.minsa.sistema.hibernate.bussines.Caja" table="caja"
+		catalog="SIMLAB">
+		<composite-id name="id"
+			class="ni.gob.minsa.sistema.hibernate.bussines.CajaId">
+			<key-property name="codCaja" type="string">
+				<column name="COD_CAJA" length="20" />
+			</key-property>
+			<key-property name="ccodRack" type="string">
+				<column name="CCOD_RACK" length="7" />
+			</key-property>
+		</composite-id>
+		<property name="posRack" type="int">
+			<column name="POS_RACK" not-null="true">
+				<comment>POSICION EN EL RACK</comment>
+			</column>
+		</property>
+		<property name="usoAlic" type="string">
+			<column name="USO_ALIC" length="20">
+				<comment>USO DE LA ALICUOTA A ALMACENAR(PCR, AV, ARCHIVO)</comment>
+			</column>
+		</property>
+		<property name="tipMues" type="string">
+			<column name="TIP_MUES" length="20">
+				<comment>TIPO DE MUESTRA A ALMACENAR(a,b,c)</comment>
+			</column>
+		</property>
+		<property name="feIni" type="date">
+			<column name="FE_INI" length="10" not-null="true">
+				<comment>FECHA DE INICIO DE VIGENCIA</comment>
+			</column>
+		</property>
+		<property name="feFin" type="date">
+			<column name="FE_FIN" length="10" not-null="true">
+				<comment>FECHA DE FIN DE VIGENCIA</comment>
+			</column>
+		</property>
+		<property name="tempAlm" type="int">
+			<column name="TEMP_ALM" not-null="true">
+				<comment>TEMPERATURA DE ALMACENAMIENTO</comment>
+			</column>
+		</property>
+		<property name="uso" type="string">
+			<column name="USO" length="20" not-null="true">
+				<comment>PROPOSITO DE USO OFICIAL O RESGUARDO</comment>
+			</column>
+		</property>
+		<property name="capAlm" type="int">
+			<column name="CAP_ALM" not-null="true">
+				<comment>NUMERO DE POSICIONES PARA ALMACEN ALICUOTAS</comment>
+			</column>
+		</property>
+		<property name="posNeg" type="string">
+			<column name="POS_NEG" length="3">
+				<comment>INDICADOR SI ES POSITIVO O NEGATIVO</comment>
+			</column>
+		</property>
+		<property name="estudio" type="string">
+			<column name="ESTUDIO" length="25">
+				<comment>Estudio al que pertenece la caja</comment>
+			</column>
+		</property>
+	</class>
+</hibernate-mapping>

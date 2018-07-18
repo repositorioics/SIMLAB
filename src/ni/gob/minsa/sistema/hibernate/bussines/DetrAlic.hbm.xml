@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 08-07-2012 11:27:23 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+	<class name="ni.gob.minsa.sistema.hibernate.bussines.DetrAlic"
+		table="detr_alic" catalog="SIMLAB">
+		<composite-id name="id"
+			class="ni.gob.minsa.sistema.hibernate.bussines.DetrAlicId">
+			<key-property name="codAlic" type="string">
+				<column name="COD_ALIC" length="10" />
+			</key-property>
+			<key-property name="codReg" type="string">
+				<column name="COD_REG" length="10" />
+			</key-property>
+		</composite-id>
+		<property name="volAlic" type="string">
+			<column name="VOL_ALIC" length="45">
+				<comment>VOLUMEN DE LA ALICUOTA</comment>
+			</column>
+		</property>
+		<property name="posAlic" type="string">
+			<column name="POS_ALIC" length="45">
+				<comment>POSICION DONDE SE REGISTRA LA ALICUOTA DENTRO DE CAJA</comment>
+			</column>
+		</property>
+		<property name="tipAlic" type="string">
+			<column name="TIP_ALIC" length="45">
+				<comment>TIPO (POS, NEG) DET_CAT</comment>
+			</column>
+		</property>
+		<property name="obsAlic" type="string">
+			<column name="OBS_ALIC" length="45">
+				<comment>OBSERVACION DE LA ALICUOTA</comment>
+			</column>
+		</property>
+		<property name="tipMuestr" type="string">
+			<column name="TIP_MUESTR" length="45">
+				<comment>CODIGO DE MUESTRA DE LA ALIC. (DET_CAT)</comment>
+			</column>
+		</property>
+		<property name="tipEstudio" type="string">
+			<column name="TIP_ESTUDIO" length="45">
+				<comment>CODIGO DE ESTUDIO(DET_CAT)</comment>
+			</column>
+		</property>
+	</class>
+</hibernate-mapping>

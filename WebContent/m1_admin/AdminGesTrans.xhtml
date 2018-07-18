@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="./../template.xhtml" xmlns="http://www.w3.org/1999/xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="#{adminGesTransMbean.transactionTitle}" />
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form id="formGesTrans"
+			rendered="#{adminGesTransMbean.modePrincipalView}">
+			<p:panel id="panelTransPrincipal"
+				header="#{adminGesTransMbean.transactionTitle}">
+				<script language="javascript">
+    	   		window.onload = aplyStyleToPanel('formGesTrans:panelTransPrincipal');
+    	   	</script>
+				<p:commandButton style="width:170px;" id="buttonAddTrans"
+					value="#{msg.tx_add}" icon="ui-icon-document-b" ajax="false"
+					actionListener="#{adminGesTransMbean.actionAddTransac}" />
+				<p:separator />
+				<p>
+					<h:outputText value="#{msg.trans_list}" />
+				</p>
+				<p:separator />
+
+				<p:dataTable var="transList" style="width:90%"
+					emptyMessage="#{msg.empty_message_datatable}"
+					value="#{adminGesTransMbean.transListHab}">
+					<p:column headerText="#{msg.tx_code}">
+						<h:outputText value="#{transList.codTrans}" />
+					</p:column>
+					<p:column headerText="#{msg.tx_description}">
+						<h:outputText value="#{transList.descTrans}" />
+					</p:column>
+					<p:column headerText="#{msg.tx_habilited}">
+						<h:outputText value="#{transList.indHab}" />
+					</p:column>
+					<p:column headerText="#{msg.tx_developed}">
+						<h:outputText value="#{transList.indDevelop}" />
+					</p:column>
+					<p:column headerText="#{msg.admin_user_action}">
+						<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+							title="#{msg.tx_edit}" ajax="false"
+							actionListener="#{adminGesTransMbean.actionEditTransac(e, transList)}" />
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+
+		<h:form id="formGesTransEdit"
+			rendered="#{!adminGesTransMbean.modePrincipalView}">
+			<p:panel id="panelTransEditOrAdd">
+				<script language="javascript">
+    	   			window.onload = aplyStyleToPanel('formGesTransEdit:panelTransEditOrAdd');
+    	   		</script>
+				<p:separator />
+				<p>
+					<h:outputText value="#{adminGesTransMbean.labelAddOrEdit}" />
+				</p>
+				<p:separator />
+				<div id="columnLeft" style="float: left;">
+					<label><h:outputText value="#{msg.tx_code}" /></label> <br />
+					<p:inputText style="width:150px; margin-left:-2px;"
+						value="#{adminGesTransMbean.codeTx}" />
+					<br />
+				</div>
+
+				<div id="columnRight">
+					<label><h:outputText styleClass="select_menu"
+							value="#{msg.tx_mod_pert}" /></label> <br />
+					<p:selectOneMenu value="#{adminGesTransMbean.modPert}">
+						<f:selectItems value="#{adminGesTransMbean.listModule}" />
+					</p:selectOneMenu>
+					<br />
+				</div>
+
+				<label><h:outputText value="#{msg.tx_description}" /></label>
+				<p:inputText value="#{adminGesTransMbean.descriptionTx}" />
+				<br />
+				<br />
+				<label><h:outputText value="#{msg.tx_entered_point}" /></label>
+				<p:selectOneRadio styleClass="radio_si_no"
+					value="#{adminGesTransMbean.indEntrada}">
+					<f:selectItems value="#{adminGesTransMbean.paramSiNo}" />
+				</p:selectOneRadio>
+				<br />
+				<label><h:outputText value="#{msg.tx_habilited}" /></label>
+				<p:selectOneRadio styleClass="radio_si_no"
+					value="#{adminGesTransMbean.indHabilited}">
+					<f:selectItems value="#{adminGesTransMbean.paramSiNo}" />
+				</p:selectOneRadio>
+				<br />
+
+				<label><h:outputText value="#{msg.tx_developed}" /></label>
+				<p:selectOneRadio styleClass="radio_si_no"
+					value="#{adminGesTransMbean.indDeveloped}">
+					<f:selectItems value="#{adminGesTransMbean.paramSiNo}" />
+				</p:selectOneRadio>
+				<p:separator />
+				<p:commandButton icon="ui-icon-check" style="width:100px"
+					value="#{msg.button_accept}" title="#{msg.button_accept}"
+					ajax="false"
+					actionListener="#{adminGesTransMbean.actionProcessAddTransaction}" />
+				<p:commandButton icon="ui-icon-close" style="width:100px"
+					value="#{msg.button_cancel}" title="#{msg.button_cancel}"
+					ajax="false" actionListener="#{adminGesTransMbean.actionCancel}" />
+			</p:panel>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 12, 2012 8:55:57 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+	<class name="ni.gob.minsa.sistema.hibernate.bussines.Freezer"
+		table="freezer" catalog="SIMLAB">
+		<id name="codFreezer" type="int">
+			<column name="COD_FREEZER" />
+			<generator class="assigned" />
+		</id>
+		<property name="feinivig" type="date">
+			<column name="FEINIVIG" length="10" not-null="true">
+				<comment>FECHA DE INICIO DE VIGENCIA DEL EQUIPO</comment>
+			</column>
+		</property>
+		<property name="fefinvig" type="date">
+			<column name="FEFINVIG" length="10" not-null="true">
+				<comment>FECHA DE FIN DE VIGENCIA DEL EQUIPO</comment>
+			</column>
+		</property>
+		<property name="tempMin" type="int">
+			<column name="TEMP_MIN" not-null="true">
+				<comment>TEMPERATURA MINIMA DEL EQUIPO</comment>
+			</column>
+		</property>
+		<property name="tempMax" type="int">
+			<column name="TEMP_MAX" not-null="true">
+				<comment>TEMPERATURA MAXIMA DEL EQUIPO</comment>
+			</column>
+		</property>
+		<property name="usoAlm" type="string">
+			<column name="USO_ALM" length="45" not-null="true">
+				<comment>TIPO DE ALICUOTAS QUE ALMACENA (DET_PARAM:PCR,AV,VIREMIA)</comment>
+			</column>
+		</property>
+		<property name="capAlm" type="int">
+			<column name="CAP_ALM" not-null="true">
+				<comment>NUMERO DE CAVIDADES PARA ALMACENAR RACK</comment>
+			</column>
+		</property>
+		<property name="tipAlm" type="string">
+			<column name="TIP_ALM" length="50" not-null="true">
+				<comment>Tipo de Freezer (DET_PARAM: Freezer, Congelador)</comment>
+			</column>
+		</property>
+		<property name="motClose" type="string">
+			<column name="MOT_CLOSE" length="100">
+				<comment>MOTIVO DE CIERRE DE VIGENCIA DEL FREEZER</comment>
+			</column>
+		</property>
+		<property name="equipSerie" type="string">
+			<column name="EQUIP_SERIE" length="50" not-null="true">
+				<comment>Serie del Equipo.</comment>
+			</column>
+		</property>
+		<property name="equipModelo" type="string">
+			<column name="EQUIP_MODELO" length="50" not-null="true">
+				<comment>Modelo del Equipo</comment>
+			</column>
+		</property>
+		<property name="indCalib" type="string">
+			<column name="IND_CALIB" length="1" not-null="false">
+				<comment>Indicador de Calibrado</comment>
+			</column>
+		</property>
+		<property name="serieTerm" type="string">
+			<column name="SERIE_TERM" length="50">
+				<comment>Serie del Termometro</comment>
+			</column>
+		</property>
+		<property name="nameResp" type="string">
+			<column name="NAME_RESP" length="100" not-null="true">
+				<comment>Nombre del Responsable del Equipo</comment>
+			</column>
+		</property>
+		<property name="nroFila" type="int">
+			<column name="NRO_FILA">
+				<comment>NRO. DE FILAS</comment>
+			</column>
+		</property>
+		<property name="nroColumn" type="int">
+			<column name="NRO_COLUMN">
+				<comment>Numero de Columnas</comment>
+			</column>
+		</property>
+	</class>
+</hibernate-mapping>

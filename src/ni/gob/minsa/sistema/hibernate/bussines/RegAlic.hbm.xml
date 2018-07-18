@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 15, 2012 9:23:04 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+	<class name="ni.gob.minsa.sistema.hibernate.bussines.RegAlic"
+		table="reg_alic" catalog="SIMLAB">
+		<composite-id name="id"
+			class="ni.gob.minsa.sistema.hibernate.bussines.RegAlicId">
+			<key-property name="codAlic" type="string">
+				<column name="cod_alic" length="25" />
+			</key-property>
+			<key-property name="posBox" type="int">
+				<column name="pos_box" />
+			</key-property>
+		</composite-id>
+		<property name="codFreezer" type="int">
+			<column name="cod_freezer" not-null="true">
+				<comment>CODIGO DE FREEZER</comment>
+			</column>
+		</property>
+		<property name="codRack" type="string">
+			<column name="cod_rack" length="7" not-null="true">
+				<comment>CODIGO DE RACK</comment>
+			</column>
+		</property>
+		<property name="codBox" type="int">
+			<column name="cod_box" not-null="true">
+				<comment>CODIGO DE CAJA</comment>
+			</column>
+		</property>
+		<property name="negPos" type="string">
+			<column name="neg_pos" length="3" not-null="true">
+				<comment>INDICADOR POSITIVO O NEGATIVO</comment>
+			</column>
+		</property>
+		<property name="fehorReg" type="timestamp">
+			<column name="fehor_reg" length="19" not-null="true">
+				<comment>FECHA-HORA DE REGISTRO</comment>
+			</column>
+		</property>
+		<property name="codUser" type="string">
+			<column name="cod_user" length="20" not-null="true">
+				<comment>CODIGO DE USUARIO QUE REGISTRO</comment>
+			</column>
+		</property>
+		<property name="volAlic" type="float">
+			<column name="vol_alic" not-null="false">
+				<comment>Volumen de la alicuota</comment>
+			</column>
+		</property>
+		<property name="pesoAlic" type="float">
+			<column name="peso_alic" not-null="false">
+				<comment>PESO DE LA ALICUOTA</comment>
+			</column>
+		</property>
+		<property name="tipo" type="string">
+			<column name="tipo" length="20" not-null="false">
+				<comment>ES ALICUOTA DE MUESTREO ANUAL</comment>
+			</column>
+		</property>
+		<property name="condicion" type="string">
+			<column name="condicion" length="20" not-null="false">
+				<comment>CONDICION DE LA MUESTRA</comment>
+			</column>
+		</property>
+		<property name="separada" type="string">
+			<column name="separada" length="20" not-null="false">
+				<comment>Quien separa la muestra</comment>
+			</column>
+		</property>
+		<property name="numDes" type="int">
+			<column name="num_desc" not-null="false">
+				<comment>Numero de descongelaciones</comment>
+			</column>
+		</property>
+	</class>
+</hibernate-mapping>

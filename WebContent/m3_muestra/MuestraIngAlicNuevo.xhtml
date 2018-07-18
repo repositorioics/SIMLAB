@@ -1,0 +1,239 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="./../template.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="#{muestraIngAlicNuevo.transactionTitle}"></h:outputText>
+	</ui:define>
+
+	<ui:define name="content">
+	
+		<p:ajaxStatus onstart="statusDialog.show()" onsuccess="statusDialog.hide()" />
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+		    <h:graphicImage value="/#{short_system_name}/resources/img/ajaxloadingbar.gif"></h:graphicImage>
+		</p:dialog>
+		
+		<h:form id="formIngAlic" rendered="#{muestraIngAlicNuevo.mode==0}">
+		<p:growl id="growl" showDetail="true" sticky="true" autoUpdate="true"/> 
+			<p:panel id="gesAlic" header="#{muestraIngAlicNuevo.transactionTitle}">
+	    	   	<p:separator />
+	    	   	<table>
+		    	   	<tr>
+			    	   	<td>
+							<label> <h:outputText
+									value="#{msg.alic_study}#{msg.required_character}" />
+							</label>
+							<br />
+							<p:selectOneMenu id="menuEstudios" value="#{muestraIngAlicNuevo.study}" required="true"> 
+								<f:selectItems value="#{muestraIngAlicNuevo.listStudy}" />
+								<p:ajax update="menuTipoAlicuota"
+									listener="#{muestraIngAlicNuevo.eventShowTypeAlicByStudy}" />
+							</p:selectOneMenu>
+						</td>
+						<td>
+							<label> <h:outputText
+									value="#{msg.alic_type}#{msg.required_character}" /></label>
+							<br />
+							<p:selectOneMenu id="menuTipoAlicuota"
+								value="#{muestraIngAlicNuevo.typeAlicSelected}" required="true" editable="true">
+								<f:selectItems
+									value="#{muestraIngAlicNuevo.typeAlicByStudy}" />
+							</p:selectOneMenu>
+						</td>
+						<td>
+							<label><h:outputText
+									value="#{msg.alic_pos_neg} #{msg.required_character}" /></label>
+							<br />
+							<p:selectOneMenu id="menuPosNegId"
+								value="#{muestraIngAlicNuevo.indPosNeg}" required="true">
+								<f:selectItems value="#{muestraIngAlicNuevo.listPosOrNeg}"/>
+							</p:selectOneMenu>
+						</td>
+						<td>
+							<p:commandButton id="botonBuscar" title="#{msg.sugest_position}"
+									value="#{msg.sugest_position}" icon="ui-icon-circle-zoomin"
+									style="width:160px;margin-left: 16px;"
+									update="growl, tableCaja"/>
+						</td>
+					</tr>
+				</table>
+			</p:panel>
+			
+			<p:separator />
+			<p:panel id="cajasDisponibles">
+				<p:dataTable id="tableCaja" value="#{muestraIngAlicNuevo.listBoxesSuggested}" 
+					var="box" rowStyleClass="rowOrange" style="width:100%"
+					emptyMessage="#{msg.empty_message_datatable}">
+					<p:column 
+						headerText="#{msg.label_box}">
+						<h:outputText value="#{box[0]}" />
+					</p:column>
+					<p:column headerText="#{msg.label_freezer}">
+						<h:outputText value="#{box[1]}" />
+					</p:column>
+					<p:column headerText="#{msg.position}">
+						<h:outputText value="#{box[2]}" />
+					</p:column>
+					<p:column
+						headerText="#{msg.label_rack}">
+						<h:outputText value="#{box[3]}" />
+					</p:column>
+					<p:column
+						headerText="#{msg.position}">
+						<h:outputText value="#{box[4]}" />
+					</p:column>
+					<p:column
+						headerText="#{msg.temp}">
+						<h:outputText value="#{box[5]}" />
+					</p:column>
+					<p:column
+						headerText="#{msg.use}">
+						<h:outputText value="#{box[6]}" />
+					</p:column>
+					<p:column
+						headerText="#{msg.type_sample}">
+						<h:outputText value="#{box[7]}" />
+					</p:column>
+					<p:column
+						headerText="#{msg.res}">
+						<h:outputText value="#{box[8]}" />
+					</p:column>
+					<p:column
+						headerText="#{msg.sp_free}">
+						<h:outputText value="#{box[9]}" />
+					</p:column>
+					<p:column headerText="#{msg.admin_user_action}">
+						<p:commandButton icon="ui-icon-arrowthickstop-1-e" id="selecCaja" ajax="false"
+							title="#{msg.register_box}"
+							update="alics"
+							actionListener="#{muestraIngAlicNuevo.actionSelectBox(e,box)}" />
+					</p:column>
+				</p:dataTable>
+			</p:panel>	
+			<script language="javascript">
+	   	   		window.onload = aplyStyleToPanel('formIngAlic:gesAlic');
+	   	   		window.onload = aplyStyleToPanel('formIngAlic:cajasDisponibles');
+	   	   	</script>	
+		</h:form>
+		
+		
+		<h:form id="formIngAlic2" rendered="#{muestraIngAlicNuevo.mode==1}">
+			<p:growl id="growl2" showDetail="true" sticky="true" autoUpdate="true"/> 
+			<p:panel id="panelMuestIng"
+				header="#{muestraIngAlicNuevo.transactionTitle}">
+				<table>
+		    	   	<tr>
+			    	   	<td>
+							<label><h:outputText value="#{msg.code_alic} #{msg.required_character}" /></label>
+							<br />
+							<p:focus />
+							<p:inputText id="codeAlic" required="true" style="width:100px;" value="#{muestraIngAlicNuevo.codeAlic}"
+								onkeydown="if (event.keyCode == 13) document.getElementById('formIngAlic2:volAlic').focus()">
+							</p:inputText>
+						</td>
+						<td>
+							<label><h:outputText value="#{msg.alic_condicion} #{msg.required_character}" /></label>
+							<br />
+							<p:selectOneMenu id="menuCondicionId" required="true"
+								value="#{muestraIngAlicNuevo.condicion}">
+								<f:selectItems value="#{muestraIngAlicNuevo.listCondicion}" />
+							</p:selectOneMenu>
+						</td>
+						<td>
+							<label><h:outputText value="#{msg.alic_separada} #{msg.required_character}" /></label>
+							<br />
+							<p:selectOneMenu id="menuLabId" required="true"
+								value="#{muestraIngAlicNuevo.separada}">
+								<f:selectItems value="#{muestraIngAlicNuevo.listLab}" />
+							</p:selectOneMenu>
+						</td>
+						<td>
+							<label><h:outputText value="#{msg.vol_alic} #{msg.required_character}"/></label>
+							<br />
+							<p:inputText id="volAlic" required="true" style="width:100px;" value="#{muestraIngAlicNuevo.volAlic}"
+								onkeydown="if (event.keyCode == 13) document.getElementById('formIngAlic2:registrarAlic').click()">
+								</p:inputText>
+						</td>
+					</tr>
+					<tr>
+			    	   	<td>
+							<label><h:outputText value="#{msg.label_box} #{msg.required_character}" /></label>
+							<br />
+							<p:inputText readonly="true" id="codeCaja" style="width:100px;" value="#{muestraIngAlicNuevo.codeCaja}"></p:inputText>
+						</td>
+						<td>
+							<label><h:outputText value="#{msg.position} #{msg.required_character}" /></label>
+							<br />
+							<p:inputText readonly="true" id="posicion" style="width:100px;" value="#{muestraIngAlicNuevo.posicion}"></p:inputText>
+						</td>
+						<td>
+							<label><h:outputText value="#{msg.label_freezer} #{msg.required_character}" /></label>
+							<br />
+							<p:inputText readonly="true" id="codeFreezer" style="width:100px;" value="#{muestraIngAlicNuevo.codeFreezer}"></p:inputText>
+						</td>
+						<td>
+							<label><h:outputText value="#{msg.label_rack} #{msg.required_character}" /></label>
+							<br />
+							<p:inputText readonly="true" id="codeRack" style="width:100px;" value="#{muestraIngAlicNuevo.codeRack}"></p:inputText>
+						</td>
+						<td>
+							<label><h:outputText value="#{msg.res} #{msg.required_character}" /></label>
+							<br />
+							<p:inputText readonly="true" id="codeRes" style="width:100px;" value="#{muestraIngAlicNuevo.codeRes}"></p:inputText>
+						</td>
+						<td>
+							<p:commandButton id="registrarAlic"
+									update="growl2, codeAlic, volAlic, alics, posicion" title="#{msg.add_item_list}"
+									value="#{msg.add_item}" icon="ui-icon-plusthick"
+									style="width:155px; margin-left: 20px;"
+									actionListener="#{muestraIngAlicNuevo.actionRegisterAlic}" 
+									oncomplete="document.getElementById('formIngAlic2:codeAlic').focus();"/>
+						</td>
+						<td>
+							<p:commandButton value="#{msg.return_button}" icon="ui-icon-arrowreturn-1-n" onclick="window.history.back();" style="width:155px; margin-left: 20px;"/>
+						</td>
+					</tr>
+				</table>
+
+			</p:panel>
+			<p:separator />
+			
+			<p:panel id="panelCaja" style="width:99%;float:left;"
+				header="#{msg.box_code} = #{muestraIngAlicNuevo.codeCaja} / #{msg.alic_to_save} = #{muestraIngAlicNuevo.typeAlicSelected} / #{msg.use} = #{muestraIngAlicNuevo.uso}" >
+				<p:dataGrid var="alic"
+					value="#{muestraIngAlicNuevo.listAlicByCode2}" columns="9"
+					rows="81" layout="tabular" paginator="false" id="alics">
+					<p:panel style="text-align:center; width:100%">
+						<label><h:outputText value="#{alic.id.codAlic}" rendered="#{alic.id.codAlic != '---'}"/></label>
+						<p:commandLink update=":formIngAlic2:posicion, :formIngAlic2:growl2" rendered="#{alic.id.codAlic == '---'}">
+		                    <label><h:outputText value="Disponible" /></label>
+		                    <f:setPropertyActionListener value="#{alic.id.posBox}" target="#{muestraIngAlicNuevo.posicion}" />
+		                </p:commandLink>
+					</p:panel>
+				</p:dataGrid>
+			</p:panel>
+	   	   	
+	   	   	<script language="javascript">
+				$(document).ready(function() {
+					$("form").keypress(function(e) {
+						if (e.which == 13) {
+							return false;
+						}
+					})
+				}
+
+				)
+				window.onload = aplyStyleToPanel('formIngAlic2:panelMuestIng');
+			</script>
+				
+		</h:form>
+   	   	
+   	   	
+	</ui:define>
+</ui:composition>

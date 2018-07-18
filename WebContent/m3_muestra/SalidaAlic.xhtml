@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="./../template.xhtml" xmlns="http://www.w3.org/1999/xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="#{salidaAlicMbean.transactionTitle}" />
+	</ui:define>
+	<ui:define name="content">
+	
+		<p:ajaxStatus onstart="statusDialog.show()" onsuccess="statusDialog.hide()" />
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+		    <h:graphicImage value="/#{short_system_name}/resources/img/ajaxloadingbar.gif"></h:graphicImage>
+		</p:dialog>
+		 
+
+		<h:form id="formGesSalida">
+				<p:panelGrid columns="8">
+				<h:outputText value="Filas:" styleClass="etitulo"/>
+				<p:inputText id="filas" style="width:100px" required="true"
+						value="#{salidaAlicMbean.filas}"></p:inputText>
+				<h:outputText value="Columnas:" styleClass="etitulo"/>
+				<p:inputText id="columnas" style="width:100px" required="true"
+						value="#{salidaAlicMbean.columnas}"></p:inputText> 
+				<p:selectOneMenu id="tipo" value="#{salidaAlicMbean.tipo}" required="true" editable="false">
+					<p:ajax event="change" update="@this" process="@this"/>
+					<f:selectItem itemLabel="Seleccionar" itemValue="" />
+					<f:selectItem itemLabel="Estudios" itemValue="estudios" />
+					<f:selectItem itemLabel="Muestreo Anual Cohorte" itemValue="muestreoanual" />
+					<f:selectItem itemLabel="Muestreo Anual CHF" itemValue="muestreoanualchf" />
+				</p:selectOneMenu>
+						
+				<p:fileUpload fileUploadListener="#{salidaAlicMbean.upload}" style="width:100px;"
+					showButtons="false" allowTypes="/(\.|\/)(xlsx)$/"
+					sizeLimit="600000" invalidFileMessage="Tipo de archivo invalido" mode="advanced" onstart="submitDestino()"
+					update="tableAlicuotas,tableAlicuotasNe, filas, columnas" cancelLabel="Cancelar" uploadLabel="Subir"
+					label="Cargar Excel" description="Seleccionar archivo" />
+				<p:remoteCommand name="submitDestino" process="destAlic, fechaSalida,tipo,filas, columnas" />
+				<h:outputText value=".................................." styleClass="etitulo"/>
+				</p:panelGrid>			
+				<p:panel id="gestSalida" header="Lista de alicuotas a retirar" style="width:1500px;">
+					
+					<p:separator />
+
+					<p:dataTable style="width:100%" id="tableAlicuotas"
+						value="#{salidaAlicMbean.listAlicuotas}" var="alic"
+						widgetVar="aliTable" emptyMessage="#{msg.empty_message_datatable}"
+						paginator="true" rows="5" paginatorPosition="bottom"
+						paginatorTemplate="Pagina {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Filas por cada pagina: {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15,50">
+
+						<p:column sortBy="#{alic.id.codAlic}"
+							filterBy="#{alic.id.codAlic}" filterMatchMode="contains"
+							headerText="#{msg.sample}">
+							<h:outputText value="#{alic.id.codAlic}" />
+						</p:column>
+						<p:column sortBy="#{alic.codFreezer}"
+							filterBy="#{alic.codFreezer}" filterMatchMode="exact"
+							headerText="#{msg.code_freezer_rack}">
+							<h:outputText value="#{alic.codFreezer}" />
+						</p:column>
+						<p:column sortBy="#{alic.codRack}" filterBy="#{alic.codRack}"
+							filterMatchMode="exact" headerText="#{msg.rack_code}">
+							<h:outputText value="#{alic.codRack}" />
+						</p:column>
+						<p:column filterBy="#{alic.codBox}" filterMatchMode="exact"
+							sortBy="#{alic.codBox}" headerText="#{msg.code_caja}">
+							<h:outputText value="#{alic.codBox}" />
+						</p:column>
+						<p:column filterBy="#{alic.id.posBox}" filterMatchMode="exact"
+							sortBy="#{alic.id.posBox}" headerText="#{msg.position}">
+							<h:outputText value="#{alic.id.posBox}" />
+						</p:column>
+						<p:column filterBy="#{alic.negPos}" filterMatchMode="contains"
+							sortBy="#{alic.negPos}" headerText="#{msg.alic_pos_neg}">
+							<h:outputText value="#{alic.negPos}" />
+						</p:column>
+						<p:column filterBy="#{alic.volAlic}" filterMatchMode="contains"
+							sortBy="#{alic.volAlic}" headerText="#{msg.vol_alic}">
+							<h:outputText value="#{alic.volAlic}" />
+						</p:column>
+						<p:column filterBy="#{alic.pesoAlic}" filterMatchMode="contains"
+							sortBy="#{alic.pesoAlic}" headerText="#{msg.peso_alic}">
+							<h:outputText value="#{alic.pesoAlic}" />
+						</p:column>
+						<p:column filterBy="#{alic.fehorReg}" filterMatchMode="contains"
+							sortBy="#{alic.fehorReg}" headerText="#{msg.fech_regist}">
+							<h:outputText value="#{alic.fehorReg}">
+							</h:outputText>
+						</p:column>
+						<p:column filterBy="#{alic.codUser}" filterMatchMode="contains"
+							sortBy="#{alic.codUser}" headerText="#{msg.user_code}">
+							<h:outputText value="#{alic.codUser}" />
+						</p:column>
+						<p:column headerText="#{msg.admin_user_action}">
+							<p:commandButton icon="ui-icon-circle-close" id="closeVigency"
+								ajax="false" title="Quitar"
+								actionListener="#{salidaAlicMbean.actionRemoveAlic(e, alic)}"
+								immediate="true" />
+						</p:column>
+					</p:dataTable>
+
+					<p:separator />
+					<p:panelGrid columns="8">
+					<h:outputText styleClass="etitulo"	value="ENIC:*" />
+					<p:inputText id="eNic" style="width:200px" required="true"
+						value="#{salidaAlicMbean.eNic}"></p:inputText>
+					
+					<h:outputText styleClass="etitulo"	value="Medio:*" />	
+					<p:selectOneMenu id="menumedioTrans"
+						value="#{salidaAlicMbean.medioTrans}" required="true" editable="false">
+						<f:selectItem itemLabel="Seleccionar" itemValue="" />
+			            <f:selectItem itemLabel="Termo con hielo seco" itemValue="1" />
+			            <f:selectItem itemLabel="Termo con refrigerante" itemValue="2" />
+			            <f:selectItem itemLabel="Tanque nitrógeno líquido" itemValue="3" />
+					</p:selectOneMenu>
+					
+					<h:outputText styleClass="etitulo"	value="Num Contenedor:*" />
+					<p:inputText id="numCont" style="width:200px" required="true"
+						value="#{salidaAlicMbean.numCont}"></p:inputText>
+						
+					<h:outputText styleClass="etitulo"	value="Transporta:*" />
+					<p:inputText id="transporta" style="width:200px" required="true"
+						value="#{salidaAlicMbean.transporta}"></p:inputText>	
+						
+					<h:outputText styleClass="etitulo"	value="Fecha de envío:*" />
+					<p:calendar id="fechaSalida" value="#{salidaAlicMbean.fechaSalida}" style="width:100px"/>											
+						
+					<h:outputText styleClass="etitulo"	value="Destino:*" />
+					<p:inputText id="destAlic" style="width:200px" required="true"
+						value="#{salidaAlicMbean.destAlic}"></p:inputText>
+						
+					<h:outputText styleClass="etitulo"	value="Resp Búsqueda:*" />
+					<p:inputText id="respBusqueda" style="width:200px" required="true"
+						value="#{salidaAlicMbean.respBusqueda}"></p:inputText>
+						
+					<h:outputText styleClass="etitulo"	value="Resp Embalaje:*" />
+					<p:inputText id="respEmbalaje" style="width:200px" required="true"
+						value="#{salidaAlicMbean.respEmbalaje}"></p:inputText>
+						
+					<h:outputText styleClass="etitulo"	value="Num. Caja:*" />
+					<p:inputText id="numCaja" style="width:200px" required="true"
+						value="#{salidaAlicMbean.numCaja}"></p:inputText>
+						
+					<h:outputText styleClass="etitulo"	value="Solicitado por:*" />
+					<p:inputText id="solicita" style="width:200px" required="true"
+						value="#{salidaAlicMbean.solicita}"></p:inputText>	
+						
+					<h:outputText styleClass="etitulo"	value="Aprobado por:*" />
+					<p:inputText id="aprueba" style="width:200px" required="true"
+						value="#{salidaAlicMbean.aprueba}"></p:inputText>
+						
+					<h:outputText styleClass="etitulo"	value="Propósito:*" />
+					<p:inputText id="proposito" style="width:200px" required="true"
+						value="#{salidaAlicMbean.proposito}"></p:inputText>		
+							
+        			</p:panelGrid>
+					<p:separator />        				
+
+
+					<p:commandButton style="width:200px;" icon="ui-icon-check"
+						value="Procesar" title="Procesar salida de muestras" ajax="false"
+						actionListener="#{salidaAlicMbean.actionProcess}" />
+					
+					<p:separator />
+					<h:outputText styleClass="etitulo"
+						value="Lista de alicuotas no encontradas" />
+					<p:separator />
+
+					<p:dataTable style="width:100%" id="tableAlicuotasNe"
+						value="#{salidaAlicMbean.listNoEncontradas}" var="alicNe"
+						widgetVar="aliTableNe" emptyMessage="#{msg.empty_message_datatable}"
+						paginator="true" rows="5" paginatorPosition="bottom"
+						paginatorTemplate="Pagina {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Filas por cada pagina: {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15,50">
+
+						<p:column sortBy="#{alicNe}"
+							filterBy="#{alicNe}" filterMatchMode="contains"
+							headerText="#{msg.sample}">
+							<h:outputText value="#{alicNe}" />
+						</p:column>
+						<p:column headerText="#{msg.admin_user_action}">
+							<p:commandButton icon="ui-icon-circle-close" id="closeVigency"
+								ajax="false" title="Quitar"
+								actionListener="#{salidaAlicMbean.actionRemoveAlicNe(e, alicNe)}"
+								immediate="true" />
+						</p:column>
+					</p:dataTable>
+
+					<p:separator />						
+				</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

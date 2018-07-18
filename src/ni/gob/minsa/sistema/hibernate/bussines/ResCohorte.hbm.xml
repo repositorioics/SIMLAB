@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 19, 2012 12:05:16 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+	<class name="ni.gob.minsa.sistema.hibernate.bussines.ResCohorte"
+		table="res_cohorte" catalog="SIMLAB">
+		<id name="codigo" type="int">
+			<column name="Codigo" />
+			<generator class="assigned" />
+		</id>
+		<property name="fis" type="timestamp">
+			<column name="FIS" length="19" not-null="true" />
+		</property>
+		<property name="codepi" type="string">
+			<column name="Cod_Epi" length="25" not-null="true" />
+		</property>
+		<property name="resultadof" type="string">
+			<column name="ResultadoF" length="3" not-null="true" />
+		</property>
+	</class>
+</hibernate-mapping>

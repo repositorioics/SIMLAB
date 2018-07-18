@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 08-07-2012 11:27:23 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+	<class name="ni.gob.minsa.sistema.hibernate.bussines.Menprinc"
+		table="menprinc" catalog="SIMLAB">
+		<id name="codMen" type="string">
+			<column name="COD_MEN" length="10" />
+			<generator class="assigned" />
+		</id>
+		<property name="descMen" type="string">
+			<column name="DESC_MEN" length="45" not-null="true">
+				<comment>DESCRIPCION DE LA LINEA DE MENU PRINCIPAL</comment>
+			</column>
+		</property>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 08-07-2012 11:27:23 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+	<class name="ni.gob.minsa.sistema.hibernate.bussines.EncrAlic"
+		table="encr_alic" catalog="SIMLAB">
+		<id name="codReg" type="string">
+			<column name="COD_REG" length="10" />
+			<generator class="assigned" />
+		</id>
+		<property name="userReg" type="int">
+			<column name="USER_REG" not-null="true">
+				<comment>CODIGO DE PERSONA QUE REGISTRA</comment>
+			</column>
+		</property>
+		<property name="datiReg" type="timestamp">
+			<column name="DATI_REG" length="19" not-null="true">
+				<comment>FECHA/HORA DE REGISTRO</comment>
+			</column>
+		</property>
+		<property name="cajaReg" type="string">
+			<column name="CAJA_REG" length="20" not-null="true">
+				<comment>CAJA DONDE SE ALMACENA LA ALIC</comment>
+			</column>
+		</property>
+		<property name="rack" type="int">
+			<column name="RACK" not-null="true">
+				<comment>RACK ASOCIADA A LA CAJA</comment>
+			</column>
+		</property>
+		<property name="freezer" type="int">
+			<column name="FREEZER" not-null="true">
+				<comment>FREEZER ASOCIADO AL RACK</comment>
+			</column>
+		</property>
+	</class>
+</hibernate-mapping>

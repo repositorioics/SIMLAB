@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 08-07-2012 11:27:23 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+	<class name="ni.gob.minsa.sistema.hibernate.bussines.DetParam"
+		table="det_param" catalog="SIMLAB">
+		<composite-id name="id"
+			class="ni.gob.minsa.sistema.hibernate.bussines.DetParamId">
+			<key-property name="codItem" type="string">
+				<column name="COD_ITEM" length="10" />
+			</key-property>
+			<key-property name="codCat" type="string">
+				<column name="COD_CAT" length="15" />
+			</key-property>
+		</composite-id>
+		<property name="descItem" type="string">
+			<column name="DESC_ITEM" length="50" not-null="true">
+				<comment>DESCRIPCION DEL ELEMENTO</comment>
+			</column>
+		</property>
+		<property name="nroOrde" type="int">
+			<column name="NRO_ORDE" not-null="true">
+				<comment>NUMERO DE ORDEN</comment>
+			</column>
+		</property>
+	</class>
+</hibernate-mapping>

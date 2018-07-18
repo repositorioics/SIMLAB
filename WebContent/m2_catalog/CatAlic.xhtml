@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="./../template.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="#{catAlicMbean.transactionTitle}"></h:outputText>
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form id="formGestAlic" rendered="#{catAlicMbean.mode == 0}">
+			<p:panel id="gesAlic" header="#{catAlicMbean.transactionTitle}">
+				<script language="javascript">
+    	   		window.onload = aplyStyleToPanel('formGestAlic:gesAlic');
+    	   	</script>
+				<p:separator />
+				<p:commandButton style="width:115px;" icon="ui-icon-newwin"
+					value="#{msg.add_item}" title="#{msg.register_alic}" ajax="false"
+					actionListener="#{catAlicMbean.actionChangeViewToRegisterAlic}" />
+				<p:separator />
+				<p:dataTable id="tableAlic" value="#{catAlicMbean.listAlic}"
+					lazy="true" var="alic"
+					emptyMessage="#{msg.empty_message_datatable}">
+					<p:column headerText="#{msg.type_alic}">
+						<h:outputText value="#{alic.id.tipoAlicuota}" />
+					</p:column>
+					<p:column headerText="#{msg.type_study}">
+						<h:outputText value="#{alic.id.estudioPert}" />
+					</p:column>
+					<p:column headerText="#{msg.use}">
+						<h:outputText value="#{alic.sepUso}" />
+					</p:column>
+					<p:column headerText="#{msg.temp}">
+						<h:outputText value="#{alic.tempAlm}" />
+					</p:column>
+					<p:column headerText="#{msg.volume}">
+						<h:outputText value="#{alic.volPerm}" />
+					</p:column>
+					<p:column headerText="#{msg.type_sample}">
+						<h:outputText value="#{alic.muestPert}" />
+					</p:column>
+					<p:column headerText="#{msg.admin_user_action}">
+						<p:commandButton icon="ui-icon-pencil" id="edit" ajax="false"
+							title="#{msg.edit_equip}"
+							actionListener="#{catAlicMbean.actionEditInfoAlic(e,alic)}" />
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+
+		<h:form id="formIngEstu"
+			rendered="#{catAlicMbean.mode == 1 || catAlicMbean.mode == 2}">
+			<p:panel id="panelIngAlic" header="#{catAlicMbean.titlePanel}">
+				<script language="javascript">
+	 	   			window.onload = aplyStyleToPanel('formIngEstu:panelIngAlic');
+		   		</script>
+				<table cellpadding="5">
+					<tr>
+						<td><label><h:outputText
+									value="#{msg.type_alic}#{msg.required_character}" /> </label></td>
+						<td><p:inputText style="width:90px;"
+								value="#{catAlicMbean.tipoAlicuota}"></p:inputText></td>
+
+						<td><label><h:outputText
+									value="#{msg.type_study}#{msg.required_character}" /> </label></td>
+						<td><p:selectOneMenu id="oneMenuTEstudio"
+								value="#{catAlicMbean.estudioAlic}">
+								<f:selectItems value="#{catAlicMbean.listEstudioAlic}" />
+							</p:selectOneMenu></td>
+					</tr>
+					<tr>
+						<td><label><h:outputText
+									value="#{msg.temp}#{msg.required_character}"></h:outputText></label></td>
+						<td><p:inputText style="width:90px;"
+								value="#{catAlicMbean.temperatura}"></p:inputText></td>
+
+						<td><label><h:outputText
+									value="#{msg.use}#{msg.required_character}"></h:outputText></label></td>
+						<td><p:selectOneMenu id="oneMenuUso"
+								value="#{catAlicMbean.usoAlic}">
+								<f:selectItems value="#{catAlicMbean.listTypeAlic}" />
+							</p:selectOneMenu></td>
+					</tr>
+					<tr>
+						<td><label><h:outputText
+									value="#{msg.volume}#{msg.required_character}"></h:outputText></label></td>
+						<td><p:inputText style="width:90px;"
+								value="#{catAlicMbean.volumenAlic}"></p:inputText></td>
+						<td><label><h:outputText
+									value="#{msg.type_sample}#{msg.required_character}"></h:outputText></label></td>
+						<td><p:selectOneMenu id="oneMenuTMuestra"
+								value="#{catAlicMbean.tipoMuestra}">
+								<f:selectItems value="#{catAlicMbean.listMuestPertAlic}" />
+							</p:selectOneMenu></td>
+					</tr>
+				</table>
+				<p:separator />
+				<p:commandButton ajax="false" style="width:100px;"
+					value="#{msg.button_accept}" title="#{msg.button_accept}"
+					icon="ui-icon-check"
+					actionListener="#{catAlicMbean.actionSaveAlic}" />
+				<p:commandButton ajax="false" style="width:100px;"
+					value="#{msg.button_cancel}" title="#{msg.button_cancel}"
+					icon="ui-icon-check" actionListener="#{catAlicMbean.actionCancel}" />
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

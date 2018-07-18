@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 08-07-2012 11:27:23 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+	<class name="ni.gob.minsa.sistema.hibernate.bussines.Perfil"
+		table="perfil" catalog="SIMLAB">
+		<id name="codPerf" type="string">
+			<column name="COD_PERF" length="5" />
+			<generator class="assigned" />
+		</id>
+		<property name="descPerf" type="string">
+			<column name="DESC_PERF" length="50" not-null="true">
+				<comment>DESCRIPCION DEL PERFIL</comment>
+			</column>
+		</property>
+		<property name="finiVig" type="date">
+			<column name="FINI_VIG" length="10" not-null="true">
+				<comment>FECHA DE INICIO DE VIGENCIA</comment>
+			</column>
+		</property>
+		<property name="ffinVig" type="date">
+			<column name="FFIN_VIG" length="10" not-null="true">
+				<comment>FECHA DE FIN DE VIGENCIA</comment>
+			</column>
+		</property>
+	</class>
+</hibernate-mapping>

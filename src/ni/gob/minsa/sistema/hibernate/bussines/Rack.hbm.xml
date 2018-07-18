@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 15, 2012 1:54:57 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+	<class name="ni.gob.minsa.sistema.hibernate.bussines.Rack" table="rack"
+		catalog="SIMLAB">
+		<composite-id name="id"
+			class="ni.gob.minsa.sistema.hibernate.bussines.RackId">
+			<key-property name="codRack" type="string">
+				<column name="COD_RACK" length="7" />
+			</key-property>
+			<key-property name="rcodFreezer" type="int">
+				<column name="RCOD_FREEZER" />
+			</key-property>
+		</composite-id>
+		<property name="capAlm" type="java.lang.Integer">
+			<column name="CAP_ALM">
+				<comment>CAPACIDAD DE ALMACENAMIENTO (CAJAS)</comment>
+			</column>
+		</property>
+		<property name="feIni" type="date">
+			<column name="FE_INI" length="10">
+				<comment>FECHA DE INICIO DE VIGENCIA</comment>
+			</column>
+		</property>
+		<property name="feFin" type="date">
+			<column name="FE_FIN" length="10">
+				<comment>FECHA DE FIN DE VIGENCIA</comment>
+			</column>
+		</property>
+		<property name="posFreezer" type="java.lang.Integer">
+			<column name="POS_FREEZER">
+				<comment>POSICIONAMIENTO DENTRO DEL FREEZER</comment>
+			</column>
+		</property>
+	</class>
+</hibernate-mapping>

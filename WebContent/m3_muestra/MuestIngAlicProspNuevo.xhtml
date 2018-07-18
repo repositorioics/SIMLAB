@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="./../template.xhtml" xmlns="http://www.w3.org/1999/xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="#{muestIngAlicProspNuevoMbean.transactionTitle}" />
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form id="formIngEstu">
+			<p:panel id="panelIngEst"
+				header="#{msg.system_name_title_tx_MuestIngAlicProspMbean}">
+				<script language="javascript">
+					window.onload = aplyStyleToPanel('formIngEstu:panelIngEst');
+				</script>
+
+				<label> <h:outputText
+						value="#{msg.alic_study}#{msg.required_character}" />
+				</label>
+				<p:selectOneMenu value="#{muestIngAlicProspNuevoMbean.study}">
+					<f:selectItems value="#{muestIngAlicProspNuevoMbean.listStudy}" />
+					<p:ajax update="menuTypeAlic"
+						listener="#{muestIngAlicProspNuevoMbean.eventShowTypeAlicByStudy}" />
+				</p:selectOneMenu>
+				<label> <h:outputText
+						value="#{msg.alic_type}#{msg.required_character}" /></label>
+				<p:selectOneMenu id="menuTypeAlic" editable="true"
+					value="#{muestIngAlicProspNuevoMbean.typeAlicSelected}">
+					<f:selectItems
+						value="#{muestIngAlicProspNuevoMbean.typeAlicByStudy}" />
+				</p:selectOneMenu>
+				<br />
+				<p:commandButton style="width:100px;" value="#{msg.button_accept}"
+					actionListener="#{muestIngAlicProspNuevoMbean.actionFormAddAlic}"
+					ajax="false" icon="ui-icon-arrowthick-1-e" />
+
+			</p:panel>
+		</h:form>
+
+		<script type="text/javascript">
+			function handleRequestDialog(xhr, status, args) {
+				if (args.ok) {
+					dlg.hide();
+				}
+			}
+		</script>
+	</ui:define>
+</ui:composition>

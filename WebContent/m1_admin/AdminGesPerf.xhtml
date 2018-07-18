@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="./../template.xhtml" xmlns="http://www.w3.org/1999/xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="#{adminGesPerfMbean.transactionTitle}" />
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form id="formGesPerf"
+			rendered="#{adminGesPerfMbean.switchView == 0}">
+			<p:panel id="gesPerf" header="#{adminGesPerfMbean.transactionTitle}">
+				<script language="javascript">
+    	   		window.onload = aplyStyleToPanel('formGesPerf:gesPerf');
+    	   	</script>
+				<p:commandButton style="width:170px;" id="buttonAddTrans"
+					value="#{msg.pf_add}" icon="ui-icon-document-b" ajax="false"
+					actionListener="#{adminGesPerfMbean.actionAddProfile}" />
+				<p:separator />
+				<p>
+					<h:outputText value="#{msg.profile_list}" />
+				</p>
+				<p:separator />
+
+				<p:dataTable style="width:90%" id="tableProfile" var="listProfile"
+					value="#{adminGesPerfMbean.listProfileAble}">
+					<p:column headerText="#{msg.tx_code}">
+						<h:outputText value="#{listProfile.codPerf}" />
+					</p:column>
+					<p:column headerText="#{msg.tx_description}">
+						<h:outputText value="#{listProfile.descPerf}" />
+					</p:column>
+					<p:column headerText="#{msg.pf_dateini}">
+						<h:outputText value="#{listProfile.finiVig}">
+							<f:convertDateTime pattern="#{msg.default_date_pattern}" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="#{msg.admin_user_action}">
+						<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+							title="#{msg.pf_edit_data}" ajax="false"
+							actionListener="#{adminGesPerfMbean.actionEditProfile(e, listProfile)}" />
+
+						<p:commandButton
+							actionListener="#{adminGesPerfMbean.actionGetProfile(e,listProfile)}"
+							icon="ui-icon-cancel" update="@form"
+							oncomplete="confirmation.show()"
+							title="#{msg.admin_user_close_vig}" />
+
+						<p:commandButton
+							actionListener="#{adminGesPerfMbean.actionAsociateTransaction(e,listProfile)}"
+							oncomplete="dlgAsociation.show()" icon="ui-icon-link"
+							title="#{msg.pf_asociate_transaction}" />
+					</p:column>
+				</p:dataTable>
+
+				<p:confirmDialog style="font-size:14px;"
+					message="#{msg.pf_confirmation_message_closevig}"
+					header="#{msg.confirmation_message_header}" severity="alert"
+					widgetVar="confirmation" id="dialogConfirmation">
+					<p:commandButton id="yesDialog" update="@form" style="width:60px"
+						icon="ui-icon-check" value="#{msg.affirmation_dialog}"
+						oncomplete="confirmation.hide()"
+						actionListener="#{adminGesPerfMbean.actionCloseVigenciProfile}" />
+					<p:commandButton id="noDialog" style="width:60px"
+						icon="ui-icon-closethick" value="#{msg.negation_dialog}"
+						oncomplete="confirmation.hide()" />
+				</p:confirmDialog>
+
+			</p:panel>
+		</h:form>
+		<h:form id="formModeAddOrEdit"
+			rendered="#{adminGesPerfMbean.switchView == 1 ||adminGesPerfMbean.switchView == 2 }">
+			<p:panel id="panelAddOrEdit">
+				<script language="javascript">
+    	   		window.onload = aplyStyleToPanel('formModeAddOrEdit:panelAddOrEdit');
+    	 	</script>
+				<p:separator />
+				<p>
+					<h:outputText value="#{adminGesPerfMbean.labelAddOrEdit}" />
+				</p>
+				<p:separator />
+				<label><h:outputText
+						value="#{msg.tx_code}#{msg.required_character}" /></label>
+				<p:inputText style="width:150px;margin-left:46px;"
+					value="#{adminGesPerfMbean.codigoPerfil}" />
+				<br />
+				<label><h:outputText
+						value="#{msg.tx_description}#{msg.required_character}" /></label>
+				<p:inputText style="width:150px;margin-left:19px;"
+					value="#{adminGesPerfMbean.descriptionPerfil}" />
+				<p:separator />
+				<p:commandButton id="buttonActionAcept" icon="ui-icon-circle-check"
+					style="width:100px; margin-left:10px;" value="#{msg.button_accept}"
+					ajax="false" actionListener="#{adminGesPerfMbean.actionProcess}">
+				</p:commandButton>
+				<p:commandButton id="buttonActionCancel" icon="ui-icon-circle-close"
+					style="width:100px;margin-left:10px;" value="#{msg.button_cancel}"
+					ajax="false" actionListener="#{adminGesPerfMbean.actionCancel}" />
+			</p:panel>
+		</h:form>
+
+		<p:dialog width="640" header="#{msg.pf_asociate_transaction}"
+			resizable="false" id="asociateTxProfile" widgetVar="dlgAsociation"
+			dynamic="true" modal="true">
+			<h:form>
+				<label><h:outputText value="#{msg.pf_transaction}" /> </label>
+				<br />
+				<p:selectOneMenu id="menuTx" value="#{adminGesPerfMbean.txSelected}">
+					<f:selectItems value="#{adminGesPerfMbean.menuTx}" />
+				</p:selectOneMenu>
+
+				<p:commandButton id="buttonActionAsocite" icon="ui-icon-link"
+					style="width:100px;margin-left:10px;"
+					value="#{msg.pf_button_asociate}" ajax="false"
+					actionListener="#{adminGesPerfMbean.actionAddTransactionToProfile}" />
+
+				<p:commandButton id="buttonActionReturn"
+					icon="ui-icon-arrowreturnthick-1-w"
+					style="width:100px;margin-left:10px;" value="#{msg.button_return}"
+					ajax="false" actionListener="#{adminGesPerfMbean.actionReturn}" />
+
+				<p:separator />
+				<p:dataTable paginator="true" rows="5"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					emptyMessage="#{msg.empty_message_datatable}" style="width:90%"
+					id="listTransactionAsociateToProfile" var="listTransProf"
+					value="#{adminGesPerfMbean.txOfPerfil}">
+					<p:column headerText="#{msg.pf_transaction}">
+						<h:outputText value="#{listTransProf.descTrans}" />
+					</p:column>
+					<p:column headerText="#{msg.admin_user_action}">
+						<p:commandButton id="buttonCloseVigenci"
+							icon="ui-icon-circle-close" style="width:166px;margin-left:10px;"
+							value="#{msg.pf_close_transaction}" ajax="false"
+							actionListener="#{adminGesPerfMbean.actionDisabledTransaction(e, listTransProf)}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

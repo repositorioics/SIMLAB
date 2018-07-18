@@ -1,0 +1,33 @@
+.ui-slidemenu-content {
+	height: 270px !important;
+	width: 244px;
+}
+
+.ui-slidemenu-wrapper {
+	height: 300px !important;
+	width: 250px;
+}
+
+.ui-menu {
+	width: 250px;
+	padding-left: 30px;
+	padding-right: 10px;
+	height: 200px;
+}
+
+.ui-widget {
+	width: 300px;
+}
+
+.ui-menuitem-icon {
+	margin-right: 10px;
+}
+
+.ui-menuitem-link {
+	font-size: 13px;
+}
+
+.ui-slidemenu-backward {
+	font-size: 13px;
+	border: 0px;
+}

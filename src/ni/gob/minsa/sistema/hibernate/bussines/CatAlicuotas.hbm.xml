@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 3, 2012 1:14:50 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+	<class name="ni.gob.minsa.sistema.hibernate.bussines.CatAlicuotas"
+		table="cat_alicuotas" catalog="SIMLAB">
+		<composite-id name="id"
+			class="ni.gob.minsa.sistema.hibernate.bussines.CatAlicuotasId">
+			<key-property name="tipoAlicuota" type="string">
+				<column name="tipo_alicuota" length="10" />
+			</key-property>
+			<key-property name="estudioPert" type="string">
+				<column name="estudio_pert" length="50" />
+			</key-property>
+		</composite-id>
+		<property name="sepUso" type="string">
+			<column name="sep_uso" length="50" not-null="true">
+				<comment>Tecnica a la cual fue sometida la Alicuota o el Uso
+					(Det_param: PCR, ARCHIVO, VIREMIA)</comment>
+			</column>
+		</property>
+		<property name="tempAlm" type="int">
+			<column name="temp_alm" not-null="true">
+				<comment>Temperatura de Almacenamiento de la alicuota</comment>
+			</column>
+		</property>
+		<property name="volPerm" type="int">
+			<column name="vol_perm" not-null="true">
+				<comment>Volumen Permitido de la Alicuota</comment>
+			</column>
+		</property>
+		<property name="muestPert" type="string">
+			<column name="muest_pert" length="50" not-null="true">
+				<comment>Tipo de Muestra de Pertenencia de la Alicuota. (det_param:
+					SUERO, PLASMA)</comment>
+			</column>
+		</property>
+	</class>
+</hibernate-mapping>

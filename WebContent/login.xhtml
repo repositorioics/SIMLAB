@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<f:loadBundle
+	basename="ni.gob.minsa.simlab.sistema.recursos.simlab_label" var="msg"></f:loadBundle>
+<h:head>
+	<!-- Aca habra que agregar el Nombre del Sistema mediante el Properties -->
+	<title>SISTEMA DE INVENTARIO DE MUESTRAS DE LABORATORIO -
+		SIMLAB</title>
+	<link href="/#{msg.short_system_name}/resources/css/login.css"
+		rel="stylesheet" type="text/css" />
+	<link href="/#{msg.short_system_name}/resources/css/default.css"
+		rel="stylesheet" type="text/css" />
+</h:head>
+<h:body>
+	<div id="body">
+		<div class="ui-widget ui-widget-header">
+			<div class="headerLogin">
+				<br />
+				<h:outputLabel id="title1" value="#{msg.long_system_name}" />
+			</div>
+		</div>
+
+		<f:view>
+			<h:form id="formLogin">
+				<p:focus />
+				<p:growl showDetail="true" sticky="false" id="msnException"
+					life="3000" />
+				<!-- p:messages autoUpdate="true" id="messages" showDetail="true"/ -->
+				<p:panel id="panelLogin" header="#{msg.label_login_acces}">
+					<div class="inline" id="userCampo">
+						<h:outputText styleClass="labelText" value="#{msg.user_account}"
+							title="#{msg.user_account}" />
+						<p:inputText style="margin-left:33px;" id="userLogin"
+							styleClass="inputF" title="#{msg.tooltip_login_user}"
+							value="#{loginMbean.codeUser}" />
+						<p:tooltip for="userLogin" styleClass="labelTooltip"
+							showEvent="focus" showEffect="fade" hideEffect="fade"
+							hideEvent="blur" />
+					</div>
+					<div id="separator"></div>
+					<div class="inline" id="passwordCampo">
+						<h:outputText styleClass="labelText"
+							value="#{msg.password_account}" title="#{msg.password_account}" />
+						<p:password id="passLogin" styleClass="inputS"
+							style="margin-top:5px;" title="#{msg.tooltip_pass_user}"
+							value="#{loginMbean.passUser}" />
+						<p:tooltip for="passLogin" styleClass="labelTooltip"
+							showEvent="focus" showEffect="fade" hideEffect="fade"
+							hideEvent="blur" />
+					</div>
+					<p:separator style="width:100%; border-top:20px; " />
+
+					<p:commandButton update="msnException"
+						value="#{msg.label_login_sign}" id="buttonIngreso"
+						styleClass="test" icon="ui-icon-person"
+						action="#{loginMbean.login}">
+					</p:commandButton>
+				</p:panel>
+
+			</h:form>
+
+		</f:view>
+
+	</div>
+</h:body>
+</html>

@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="./../template.xhtml" xmlns="http://www.w3.org/1999/xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="#{adminGesUserMbean.transactionTitle}" />
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form id="formUsr"
+			rendered="#{adminGesUserMbean.modePanelPrincipal}">
+			<p:panel id="panelAdminUser"
+				header="#{adminGesUserMbean.transactionTitle}">
+				<script language="javascript">
+    	   		window.onload = aplyStyleToPanel('formUsr:panelAdminUser');
+    	   	</script>
+				<p:commandButton style="width:150px;" id="buttonAddUser"
+					value="#{msg.admin_user_add}" icon="ui-icon-person" ajax="false"
+					actionListener="#{adminGesUserMbean.actionAddUser}" />
+				<p:separator />
+				<p>
+					<h:outputText value="#{msg.user_list}" />
+				</p>
+				<p:separator />
+				<p:dataTable style="width:90%" id="tabListUser"
+					value="#{adminGesUserMbean.listUser}" var="listUser"
+					emptyMessage="#{msg.empty_message_datatable}">
+					<p:column headerText="#{msg.user_code}">
+						<h:outputText value="#{listUser.id.usuaCode}" />
+					</p:column>
+					<p:column headerText="#{msg.user_name}">
+						<h:outputText value="#{listUser.usuaName}" />
+					</p:column>
+					<p:column headerText="#{msg.user_identi}">
+						<h:outputText value="#{listUser.usuaIdenti}" />
+					</p:column>
+					<p:column headerText="#{msg.email_addres}">
+						<h:outputText value="#{listUser.usuaEmail}" />
+					</p:column>
+					<p:column headerText="#{msg.user_date_ini}">
+						<h:outputText value="#{listUser.usuaDateini}">
+							<f:convertDateTime pattern="#{msg.default_date_pattern}" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="#{msg.admin_user_action}" style="width:13%">
+						<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+							title="#{msg.admin_user_edit}" ajax="false"
+							actionListener="#{adminGesUserMbean.actionEditUser(e, listUser)}">
+						</p:commandButton>
+						<p:commandButton
+							actionListener="#{adminGesUserMbean.actionGetUser(e,listUser)}"
+							icon="ui-icon-cancel" update="@form"
+							oncomplete="confirmation.show()"
+							title="#{msg.admin_user_close_vig}" />
+						<p:commandButton oncomplete="dialogAsociateProfile.show()"
+							actionListener="#{adminGesUserMbean.loadCodeUser(e, listUser)}"
+							icon="ui-icon-link" title="#{msg.admin_user_asociate}" />
+					</p:column>
+				</p:dataTable>
+
+				<p:confirmDialog style="font-size:14px;"
+					message="#{msg.confirmation_message_closevig}"
+					header="#{msg.confirmation_message_header}" severity="alert"
+					widgetVar="confirmation" id="dialogConfirmation">
+					<p:commandButton id="yesDialog" update="@form" style="width:60px"
+						icon="ui-icon-check" value="#{msg.affirmation_dialog}"
+						oncomplete="confirmation.hide()"
+						actionListener="#{adminGesUserMbean.actionCloseVigUser}" />
+					<p:commandButton id="noDialog" style="width:60px"
+						icon="ui-icon-closethick" value="#{msg.negation_dialog}"
+						oncomplete="confirmation.hide()" />
+				</p:confirmDialog>
+
+			</p:panel>
+
+		</h:form>
+
+		<h:form id="editUsr"
+			rendered="#{adminGesUserMbean.modePanelAddOrEditUser}">
+			<p:panel id="panelAdminUserAddOrEdit"
+				header="#{adminGesUserMbean.transactionTitle}">
+				<script language="javascript">
+    	   		window.onload = aplyStyleToPanel('editUsr:panelAdminUserAddOrEdit');
+    	 </script>
+				<p:separator />
+				<p>
+					<h:outputText value="#{adminGesUserMbean.labelAddOrEdit}" />
+				</p>
+				<p:separator />
+
+				<label><h:outputText
+						value="#{msg.user_code}#{msg.required_character}" /></label>
+				<p:inputText size="10" style="width:100px; text-align:center;"
+					value="#{adminGesUserMbean.codeUser}"></p:inputText>
+				<br />
+				<label><h:outputText
+						value="#{msg.user_name}#{msg.required_character}" /></label>
+				<p:inputText style="width:150px; margin-left:48px;"
+					value="#{adminGesUserMbean.nameUserFirst}"></p:inputText>
+				<p:inputText value="#{adminGesUserMbean.nameUserSecond}"
+					style="width:150px;" />
+				<br />
+				<label><h:outputText
+						value="#{msg.user_last_name}#{msg.required_character}" /></label>
+				<p:inputText style="width:150px;margin-left:46px;"
+					value="#{adminGesUserMbean.lastNameUserFirst}"></p:inputText>
+				<p:inputText style="width:150px;"
+					value="#{adminGesUserMbean.lastNameUserSecond}" />
+				<br />
+				<label><h:outputText
+						value="#{msg.user_identi}#{msg.required_character}" /></label>
+				<p:inputText maxlength="14"
+					style="width:150px;margin-left:62px; text-align:center"
+					value="#{adminGesUserMbean.idUser}"></p:inputText>
+				<br />
+				<label><h:outputText
+						value="#{msg.email_addres}#{msg.required_character}" /> <p:inputText
+						style="margin-left:44px;" value="#{adminGesUserMbean.emailUser}" /></label>
+				<br />
+				<label><h:outputText value="#{msg.user_phone}" /> <p:inputText
+						style="width:100px; margin-left:16px;"
+						value="#{adminGesUserMbean.phoneUser}" /></label>
+				<br />
+				<label><h:outputText value="#{msg.user_comment}" /></label>
+				<p:inputText value="#{adminGesUserMbean.comentUser}"
+					style="margin-left:38px;" maxlength="50" />
+				<br />
+				<label><h:outputText
+						value="#{msg.user_pass}#{msg.required_character}"
+						rendered="#{adminGesUserMbean.modeAddOrEdit}" /></label>
+				<p:password style="width:100px; margin-left:36px;"
+					rendered="#{adminGesUserMbean.modeAddOrEdit}"
+					value="#{adminGesUserMbean.passUser}" />
+				<br />
+				<label><h:outputText
+						value="#{msg.user_pass_retype}#{msg.required_character}"
+						rendered="#{adminGesUserMbean.modeAddOrEdit}" /> </label>
+				<p:password style="width:100px"
+					value="#{adminGesUserMbean.passUserConf}"
+					rendered="#{adminGesUserMbean.modeAddOrEdit}" />
+				<br />
+				<p:separator />
+				<p:commandButton id="buttonActionAcept" icon="ui-icon-circle-check"
+					style="width:100px; margin-left:10px;" value="#{msg.button_accept}"
+					ajax="false" actionListener="#{adminGesUserMbean.actionProcess}">
+				</p:commandButton>
+				<p:commandButton id="buttonActionCancel" icon="ui-icon-circle-close"
+					style="width:100px;margin-left:10px;" value="#{msg.button_cancel}"
+					ajax="false" actionListener="#{adminGesUserMbean.actionCancel}">
+				</p:commandButton>
+				<p:separator />
+			</p:panel>
+		</h:form>
+
+		<p:dialog id="dlgAsociation" modal="false" resizable="false"
+			header="#{msg.admin_user_asociate}" widgetVar="dialogAsociateProfile"
+			dynamic="true">
+			<h:form>
+
+				<table>
+					<tbody>
+						<tr>
+							<td><label><h:outputText value="#{msg.user_code}" /></label></td>
+							<td><label><h:outputText
+										value="#{msg.label_profile}" /></label></td>
+						</tr>
+						<tr>
+							<td style="width: 120px;"><p:inputText readonly="true"
+									style="margin-left:0px; width:100px"
+									value="#{adminGesUserMbean.codeUser}" /></td>
+							<td style="width: 120px;"><p:selectOneMenu
+									value="#{adminGesUserMbean.profileToAssociate}">
+									<f:selectItem itemLabel="#{msg.select_profile}"
+										itemValue="#{msg.select_profile}" />
+									<f:selectItems value="#{adminGesUserMbean.profileForView}" />
+								</p:selectOneMenu></td>
+						</tr>
+						<tr>
+							<td colspan="2" align="center"><p:commandButton
+									actionListener="#{adminGesUserMbean.actionAsociationProfile}"
+									style="width:120px" title="#{msg.asociar_profile_user}"
+									value="#{msg.asociar_profile_user}" ajax="false"
+									icon="ui-icon-link" /></td>
+						</tr>
+					</tbody>
+				</table>
+
+
+			</h:form>
+		</p:dialog>
+
+
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 29, 2012 6:12:10 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+	<class name="ni.gob.minsa.sistema.hibernate.bussines.RegDescarte"
+		table="reg_descarte" catalog="SIMLAB">
+		<composite-id name="id"
+			class="ni.gob.minsa.sistema.hibernate.bussines.RegDescarteId">
+			<key-property name="codAlic" type="string">
+				<column name="cod_alic" length="10" />
+			</key-property>
+			<key-property name="fehorDesc" type="timestamp">
+				<column name="fehor_desc" length="19" />
+			</key-property>
+		</composite-id>
+		<property name="codUsr" type="string">
+			<column name="cod_usr" length="20" not-null="true">
+				<comment>C&#243;digo de Usuario que realizo el Registro de Descarte</comment>
+			</column>
+		</property>
+	</class>
+</hibernate-mapping>

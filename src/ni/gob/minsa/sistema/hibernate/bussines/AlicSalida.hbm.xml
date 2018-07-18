@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 06-ene-2014 9:45:54 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+	<class name="AlicSalida" table="alic_salida" catalog="simlab">
+		<id name="idalicSalida" type="int">
+			<column name="idalic_salida" />
+			<generator class="identity" />
+		</id>
+		<property name="codAlic" type="string">
+			<column name="codAlic" length="45" />
+		</property>
+		<property name="propUso" type="string">
+			<column name="propUso" length="45" />
+		</property>
+		<property name="volSalida" type="string">
+			<column name="vol_salida" length="45" />
+		</property>
+	</class>
+</hibernate-mapping>

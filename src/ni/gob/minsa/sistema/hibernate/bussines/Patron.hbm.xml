@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 2, 2012 9:29:45 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+	<class name="ni.gob.minsa.sistema.hibernate.bussines.Patron"
+		table="patron" catalog="SIMLAB">
+		<id name="codPatron" type="string">
+			<column name="cod_patron" length="20" />
+			<generator class="assigned" />
+		</id>
+		<property name="patron" type="string">
+			<column name="patron" length="50" not-null="true">
+				<comment>La nomenclatura del Patron</comment>
+			</column>
+		</property>
+		<property name="descripcion" type="string">
+			<column name="descripcion" length="100" not-null="true">
+				<comment>Descripcion acerca del Patron, en un lenguaje entendible</comment>
+			</column>
+		</property>
+	</class>
+</hibernate-mapping>

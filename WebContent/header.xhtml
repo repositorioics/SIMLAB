@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition>
+	<div id="headerCommon" class="ui-widget-header">
+		<h1>
+			<h:outputText id="systemName" value="#{msg.long_system_name}"
+				style="font-size:18px; margin-left: 2.7% ;font-family: Arial, sans-serif; color: #0B0B5C;" />
+		</h1>
+		<div id="userProperty">
+			<h:form>
+				<div id="nameUser">
+					<label> <h:outputText
+							value="#{loginMbean.usuario.usuaName}" style="color:#0B0B5C;" /></label>
+				</div>
+				<div>
+					<p:commandButton style="width:80px; margin-left:2%; border:none;"
+						value="#{msg.logout_system}" onclick="doRedirect()"
+						icon="ui-icon-arrowthick-1-nw" ajax="false"
+						title="#{msg.logout_system}" id="buttonSalir"
+						action="#{loginMbean.doLogout}" />
+				</div>
+
+			</h:form>
+			<script type="javascript">
+			function doRedirect(){
+				var page = "http://www.google.com";
+				location.href  = page;				
+			}
+		</script>
+		</div>
+	</div>
+</ui:composition>
+</html>
