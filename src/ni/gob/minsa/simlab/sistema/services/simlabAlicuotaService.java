@@ -418,6 +418,22 @@ public class simlabAlicuotaService {
 		return objetosResultado;
 	}
 	
+	public static Object[] getUbicacionMA2019(String codigo) {
+		Object[] objetosResultado = null;
+		Session session = null;
+		Query query = null;
+			try {
+				session = HibernateUtil.openSesion();
+				query = session.createSQLQuery("SELECT * from posiciones_ma_2019 where cod_alic =:codigo");
+				query.setParameter("codigo", codigo);
+				objetosResultado = (Object[]) query.uniqueResult();
+				session.close();
+			} catch (Throwable exception) {
+				SimlabAppException.generateExceptionBySelect(simlabAlicuotaService.class, exception);
+			}
+		return objetosResultado;
+	}
+	
 	public static Object[] getEstadoParticipante(Integer codigo) {
 		Object[] objetoResultado = null;
 		Session session = null;

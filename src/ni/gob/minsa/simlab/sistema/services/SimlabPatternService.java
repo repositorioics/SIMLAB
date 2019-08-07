@@ -55,5 +55,17 @@ public class SimlabPatternService {
 		isValid = matcher.matches();
 		//			throw new SimlabAppException(11005);
 		return isValid;
-	}		
+	}	
+	
+	public static void savePattern (Session session, Patron pattern) throws SimlabAppException{		
+		try {
+			session.beginTransaction();
+			session.saveOrUpdate(pattern);
+			session.getTransaction().commit();
+		}
+		catch (Exception e) {
+			throw SimlabAppException.generateExceptionByUpdate(SimlabPatternService.class, e);
+		}
+	}
+	
 }

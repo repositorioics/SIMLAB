@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="./../template.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="#{estPbmcMbean.transactionTitle}"></h:outputText>
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form id="formGestStud" rendered="#{estPbmcMbean.mode == 0}">
+			<p:panel id="gesStud" header="#{estPbmcMbean.transactionTitle}">
+				<script language="javascript">
+    	   		window.onload = aplyStyleToPanel('formGestStud:gesStud');
+    	   	</script>
+				<p:separator />
+				<p:commandButton style="width:115px;" icon="ui-icon-newwin"
+					value="#{msg.add_estu}" title="#{msg.add_estu}" ajax="false"
+					actionListener="#{estPbmcMbean.actionChangeViewToRegisterEstu}" />
+				<p:separator />
+				<p:dataTable id="tableStud" value="#{estPbmcMbean.listStudies}"
+					lazy="true" var="study"
+					emptyMessage="#{msg.empty_message_datatable}">
+					<p:column headerText="#{msg.descItem}">
+						<h:outputText value="#{study.descItem}" />
+					</p:column>
+					<p:column headerText="#{msg.admin_user_action}">
+						<p:commandButton icon="ui-icon-pencil" id="edit" ajax="false"
+							title="#{msg.edit_equip}"
+							actionListener="#{estPbmcMbean.actionEditInfoEstu(e,study)}" />
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+
+		<h:form id="formIngEstu" rendered="#{estPbmcMbean.mode == 1 || estPbmcMbean.mode == 2}">
+			<p:panel id="panelIngEstu" header="#{estPbmcMbean.titlePanel}">
+				<script language="javascript">
+	 	   			window.onload = aplyStyleToPanel('formIngEstu:panelIngEstu');
+		   		</script>
+				<table cellpadding="5">
+					<tr>
+						<td><label><h:outputText
+									value="#{msg.codItem}#{msg.required_character}" /> </label></td>
+						<td><p:inputText style="width:400px;" readonly="#{estPbmcMbean.mode == 2}" required="true" 
+								value="#{estPbmcMbean.codItem}"></p:inputText></td>
+					</tr>
+					<tr>
+						<td><label><h:outputText
+									value="#{msg.codCat}#{msg.required_character}"></h:outputText></label></td>
+						<td><p:inputText style="width:400px;" readonly="true" required="true" 
+								value="#{estPbmcMbean.codCat}"></p:inputText></td>
+					</tr>
+					<tr>
+						<td><label><h:outputText
+									value="#{msg.descItem}#{msg.required_character}"></h:outputText></label></td>
+						<td><p:inputText style="width:400px;" required ="true" 
+								value="#{estPbmcMbean.descItem}"></p:inputText></td>
+
+					</tr>
+					<tr>
+						<td><label><h:outputText
+									value="#{msg.pat}#{msg.required_character}"></h:outputText></label></td>
+						<td><p:inputText style="width:400px;" required ="true"
+								value="#{estPbmcMbean.patron}"></p:inputText></td>
+
+					</tr>
+					<tr>
+						<td><label><h:outputText
+									value="#{msg.numOrden}#{msg.required_character}"></h:outputText></label></td>
+						<td><p:inputText style="width:400px;" required ="true"
+								value="#{estPbmcMbean.nroOrde}"></p:inputText></td>
+
+					</tr>
+				</table>
+				<p:separator />
+				<p:commandButton ajax="false" style="width:100px;"
+					value="#{msg.button_accept}" title="#{msg.button_accept}"
+					icon="ui-icon-check"
+					actionListener="#{estPbmcMbean.actionSaveEstu}" />
+				<p:commandButton ajax="false" style="width:100px;" immediate="true"
+					value="#{msg.button_cancel}" title="#{msg.button_cancel}"
+					icon="ui-icon-close" actionListener="#{estPbmcMbean.actionCancel}" />
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

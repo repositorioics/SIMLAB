@@ -240,7 +240,7 @@ public class MuestraIngAlicNuevo extends GenericMbean implements Serializable {
 					listAlic.add(alicuota.getAlicPerm());
 				}
 				this.setTypeAlicByStudy(listAlic);
-				if(this.getStudy().matches("Muestreo Anual")||this.getStudy().matches("Muestreo Anual 2016")||this.getStudy().matches("Muestreo Anual 2017")||this.getStudy().matches("Muestreo Anual 2018")) {
+				if(this.getStudy().matches("Muestreo Anual")||this.getStudy().matches("Muestreo Anual 2016")||this.getStudy().matches("Muestreo Anual 2017")||this.getStudy().matches("Muestreo Anual 2018")||this.getStudy().matches("Muestreo Anual 2019")) {
 					this.tipo="muestreoanual";
 				}
 				else if(this.getStudy().matches("Cohorte Familia MA2017")) {
@@ -413,7 +413,7 @@ public class MuestraIngAlicNuevo extends GenericMbean implements Serializable {
 		//Separamos en un arreglo de String los elementos de las alicuotas seleccionadas.
 		String[] itemTypeAlicSelected = this.getTypeAlicSelected().split(","); 
 		String getSufixAlic="";
-		if (this.getStudy().matches("Estudio Hospitalario")|| this.getStudy().matches("Estudio Longitudinal")){
+		if (this.getStudy().matches("Estudio Hospitalario")){
 			//Validamos el patron
 			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 1))) return false;
 			//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
@@ -496,8 +496,13 @@ public class MuestraIngAlicNuevo extends GenericMbean implements Serializable {
 			//Validamos el patron
 			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 16))) return false;
 			//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
-			getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().indexOf(".")+4, this.getCodeAlic().length());
-			if(getSufixAlic.equals("PX1")||getSufixAlic.equals("PX2")) getSufixAlic = "TX"+getSufixAlic;
+			if(this.getCodeAlic().substring(this.getCodeAlic().length()-1, this.getCodeAlic().length()).equals("N")) {
+				getSufixAlic = "TXN";
+			}
+			else {
+				getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().indexOf(".")+4, this.getCodeAlic().length());
+				if(getSufixAlic.equals("PX1")||getSufixAlic.equals("PX2")||getSufixAlic.equals("N")) getSufixAlic = "TX"+getSufixAlic;
+			}
 		}
 		else if(this.getStudy().matches("Estudio ZPO")){
 			//Validamos el patron
@@ -521,6 +526,12 @@ public class MuestraIngAlicNuevo extends GenericMbean implements Serializable {
 		else if(this.getStudy().matches("Muestreo Anual 2018")){
 			//Validamos el patron
 			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 19))) return false;
+			//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
+			getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().indexOf(".")+1, this.getCodeAlic().length());
+		}
+		else if(this.getStudy().matches("Muestreo Anual 2019")){
+			//Validamos el patron
+			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 20))) return false;
 			//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
 			getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().indexOf(".")+1, this.getCodeAlic().length());
 		}

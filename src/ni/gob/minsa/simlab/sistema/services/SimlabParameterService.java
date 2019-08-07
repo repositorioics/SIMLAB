@@ -21,7 +21,8 @@ public class SimlabParameterService {
 		POS_NEG("POS_NEG"),
 		VOL_ALIC("VOL_ALIC"),
 		LIST_USO("LIST_USO_ALIC"),
-		LIST_USO_CAJA("LIST_PROPO");		
+		LIST_USO_CAJA("LIST_PROPO"),	
+		LIST_EST_PBMC("LIST_PBMC");
 				
 		String codeParam = null;
 		
@@ -76,5 +77,16 @@ public class SimlabParameterService {
 			}
 		return itemParam;
 		
+	}
+	
+	public static void saveDetParam (Session session, DetParam detParam) throws SimlabAppException{
+		try {
+			session.beginTransaction();
+			session.saveOrUpdate(detParam);
+			session.getTransaction().commit();
+		}
+		catch (Exception e) {
+			throw SimlabAppException.generateExceptionByUpdate(SimlabParameterService.class, e);
+		}
 	}
 }

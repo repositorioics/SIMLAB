@@ -22,10 +22,14 @@
 				<p:panelGrid columns="8">
 				<h:outputText value="Filas:" styleClass="etitulo"/>
 				<p:inputText id="filas" style="width:100px" required="true"
-						value="#{salidaAlicMbean.filas}"></p:inputText>
+						value="#{salidaAlicMbean.filas}">
+						<p:ajax event="change" update="@this" process="@this"/>
+				</p:inputText>
 				<h:outputText value="Columnas:" styleClass="etitulo"/>
 				<p:inputText id="columnas" style="width:100px" required="true"
-						value="#{salidaAlicMbean.columnas}"></p:inputText> 
+						value="#{salidaAlicMbean.columnas}">
+						<p:ajax event="change" update="@this" process="@this"/>
+				</p:inputText> 
 				<p:selectOneMenu id="tipo" value="#{salidaAlicMbean.tipo}" required="true" editable="false">
 					<p:ajax event="change" update="@this" process="@this"/>
 					<f:selectItem itemLabel="Seleccionar" itemValue="" />

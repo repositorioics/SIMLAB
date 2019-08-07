@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="./../template.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="#{boxesPbmcMbean.transactionTitle}"></h:outputText>
+	</ui:define>
+
+	<ui:define name="content">
+		<f:metadata>
+			<f:viewParam name="codeRack" value="#{boxesPbmcMbean.codeRack}" />
+		    <f:viewParam name="tanqueId" value="#{boxesPbmcMbean.tanqueId}" />
+		</f:metadata>
+
+		<h:form id="formGestBox" rendered="#{boxesPbmcMbean.mode == 0}">
+			<p:panel id="gesBox" header="#{boxesPbmcMbean.transactionTitle}">
+				<script language="javascript">
+    	   		window.onload = aplyStyleToPanel('formGestBox:gesBox');
+    	   	</script>
+				<p:separator />
+				<p:button outcome="/m6_pbmc/RacksPbmc" icon="ui-icon-search">
+							 <f:param name="tanqueId" value="#{boxesPbmcMbean.tanqueId}" />   
+						</p:button>
+				<br />
+				
+				
+				<p:dataTable id="tableCaja" value="#{boxesPbmcMbean.listCaja}"
+					var="box" rowStyleClass="rowOrange"
+					emptyMessage="#{msg.empty_message_datatable}">
+					<p:column 
+						headerText="#{msg.code_caja}">
+						<h:outputText value="#{box.id.codCaja}" />
+					</p:column>
+					<p:column
+						headerText="#{msg.rack_code}">
+						<h:outputText value="#{box.id.ccodRack}" />
+					</p:column>
+					<p:column
+						headerText="#{msg.type_alic}">
+						<h:outputText value="#{box.usoAlic}" />
+					</p:column>
+					<p:column
+						headerText="#{msg.position_caja_rack}">
+						<h:outputText value="#{box.posRack}" />
+					</p:column>
+					<p:column
+						headerText="#{msg.type_sample}">
+						<h:outputText value="#{box.tipMues}" />
+					</p:column>
+					<p:column
+						headerText="#{msg.pos_neg}">
+						<h:outputText value="#{msg.label_pos}"
+							rendered="#{box.posNeg==boxesPbmcMbean.posView}" />
+						<h:outputText value="#{msg.label_notPos}"
+							rendered="#{box.posNeg==boxesPbmcMbean.negView}" />
+						<h:outputText value="#{msg.label_notRes}"
+							rendered="#{box.posNeg==boxesPbmcMbean.NRView}" />
+					</p:column>
+					<p:column
+						filterMatchMode="contains" headerText="#{msg.box_ofic_temp}">
+						<h:outputText
+							value="#{box.uso==msg.validation_ofic?msg.label_oficial:msg.label_temporal}" />
+					</p:column>
+					<p:column
+						headerText="#{msg.temp}">
+						<h:outputText value="#{box.tempAlm}" />
+					</p:column>
+					<p:column headerText="#{msg.admin_user_action}">
+						
+					</p:column>
+				</p:dataTable>
+				
+					
+				<p:separator />
+			</p:panel>
+		</h:form>
+
+		
+	</ui:define>
+</ui:composition>

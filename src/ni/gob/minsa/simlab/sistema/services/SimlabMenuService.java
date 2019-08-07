@@ -123,6 +123,7 @@ public class SimlabMenuService {
 					else if(simlabStringUtils.trimUpper(menline.getDescMen()).contains("MUEST")) submenu.setIcon("ui-icon-star");
 					else if(simlabStringUtils.trimUpper(menline.getDescMen()).contains("EQUI")) submenu.setIcon("ui-icon-calculator");
 					else if(simlabStringUtils.trimUpper(menline.getDescMen()).contains("REPOR")) submenu.setIcon("ui-icon-script");
+					else if(simlabStringUtils.trimUpper(menline.getDescMen()).contains("PBMC")) submenu.setIcon("ui-icon-lightbulb");
 					//Agregamos el Submenu creado
 					menuModel.addSubmenu(submenu);
 					//Agregamos los elementos de Menu

@@ -199,6 +199,57 @@ public class SimlabEquipService {
 		return listFreezer;				
 	}
 	
+	/**Obtenemos una lista de Freezer de PBMC*/
+	@SuppressWarnings("unchecked")
+	public static Collection<Object> getListFreezerPBMC(){
+		Collection<Object> listFreezer = new ArrayList<Object>();
+			Session session  = null;
+			try {
+				session = HibernateUtil.openSesion();
+				listFreezer = session.createSQLQuery("SELECT freezer.COD_FREEZER, freezer.USO_ALM, freezer.CAP_ALM, Count(rack.COD_RACK) AS total, freezer.CAP_ALM- Count(rack.COD_RACK) as libres, " + 
+						"freezer.NAME_RESP FROM freezer LEFT JOIN rack ON freezer.COD_FREEZER = rack.RCOD_FREEZER " + 
+						"GROUP BY freezer.COD_FREEZER, freezer.USO_ALM, freezer.CAP_ALM HAVING (((freezer.USO_ALM)='PBMC'));").list();
+				session.close();
+			} catch (Throwable e) {
+				SimlabAppException.generateExceptionBySelect(SimlabEquipService.class, e);
+			}
+		return listFreezer;				
+	}
+	
+	/**Obtenemos una lista de Freezer de PBMC*/
+	@SuppressWarnings("unchecked")
+	public static Collection<Integer> getListCodesFreezerPBMC(){
+		Collection<Integer> listFreezer = new ArrayList<Integer>();
+			Session session  = null;
+			try {
+				session = HibernateUtil.openSesion();
+				listFreezer = session.createSQLQuery("SELECT freezer.COD_FREEZER FROM freezer LEFT JOIN rack ON freezer.COD_FREEZER = rack.RCOD_FREEZER " + 
+						"GROUP BY freezer.COD_FREEZER, freezer.USO_ALM, freezer.CAP_ALM HAVING (((freezer.USO_ALM)='PBMC'));").list();
+				session.close();
+			} catch (Throwable e) {
+				SimlabAppException.generateExceptionBySelect(SimlabEquipService.class, e);
+			}
+		return listFreezer;				
+	}
+	
+	/**Obtenemos una lista de Rack del Freezer*/
+	@SuppressWarnings("unchecked")
+	public static Collection<Object> getListRackPBMC(Integer tanqueId){
+		Collection<Object> listFreezer = new ArrayList<Object>();
+			Session session  = null;
+			try {
+				session = HibernateUtil.openSesion();
+				listFreezer = session.createSQLQuery("SELECT rack.RCOD_FREEZER, rack.COD_RACK, rack.POS_FREEZER, rack.CAP_ALM, Count(caja.COD_CAJA) AS usados, rack.CAP_ALM-Count(caja.COD_CAJA) AS libres " + 
+						"FROM caja RIGHT JOIN (rack INNER JOIN freezer ON rack.RCOD_FREEZER = freezer.COD_FREEZER) ON caja.CCOD_RACK = rack.COD_RACK " + 
+						"GROUP BY rack.COD_RACK, rack.RCOD_FREEZER, rack.CAP_ALM, rack.POS_FREEZER " + 
+						"HAVING (((rack.RCOD_FREEZER)= " + tanqueId + "));").list();
+				session.close();
+			} catch (Throwable e) {
+				SimlabAppException.generateExceptionBySelect(SimlabEquipService.class, e);
+			}
+		return listFreezer;				
+	}
+	
 
 	public static boolean isMaxCapacFreezer(int codigoFreezer){
 		boolean state = false;
@@ -1358,6 +1409,17 @@ public class SimlabEquipService {
 			e.printStackTrace();
 			SimlabAppException.addFacesMessageError(11050);
 			return Integer.toString(0);
+		}
+	}
+	
+	public static void saveTanque (Session session, Freezer tanque) throws SimlabAppException{
+		try {
+			session.beginTransaction();
+			session.saveOrUpdate(tanque);
+			session.getTransaction().commit();
+		}
+		catch (Exception e) {
+			throw SimlabAppException.generateExceptionByUpdate(SimlabEquipService.class, e);
 		}
 	}
 }
