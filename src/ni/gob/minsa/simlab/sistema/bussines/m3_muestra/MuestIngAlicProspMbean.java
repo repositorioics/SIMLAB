@@ -662,6 +662,10 @@ public class MuestIngAlicProspMbean extends GenericMbean implements Serializable
 				//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
 				getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().indexOf(".")+1, this.getCodeAlic().length());
 			}
+			else if(this.getStudy().matches("Estudio Muestras Superficie")){
+				//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
+				getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().lastIndexOf(".")+2, this.getCodeAlic().length());
+			}
 			//Validamos si el Arreglo contiene elementos
 			if(itemTypeAlicSelected.length>0){
 				for (String itemAlic : itemTypeAlicSelected) {
@@ -739,6 +743,9 @@ public class MuestIngAlicProspMbean extends GenericMbean implements Serializable
 			}
 			if (this.getStudy().matches("Muestreo Anual 2016")){
 				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 18));
+			}
+			if (this.getStudy().matches("Estudio Muestras Superficie")){
+				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 21));
 			}
 			} catch (SimlabAppException e) {
 				e.printStackTrace();
@@ -1047,6 +1054,11 @@ public class MuestIngAlicProspMbean extends GenericMbean implements Serializable
 		}
 		if (this.getStudy().matches("Muestreo Anual 2016")){
 			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 18)))
+				throw new SimlabAppException(10038);
+			//Validamos que el codigo de Alicuota Ingresado corresponda a algun tipo de alicuota registrado en la BD.
+		}
+		if (this.getStudy().matches("Estudio Muestras Superficie")){
+			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 21)))
 				throw new SimlabAppException(10038);
 			//Validamos que el codigo de Alicuota Ingresado corresponda a algun tipo de alicuota registrado en la BD.
 		}
