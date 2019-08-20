@@ -846,6 +846,11 @@ public void suggestLocationMA2017() throws SimlabAppException{
 				//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
 				getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().lastIndexOf(".")+2, this.getCodeAlic().length());
 			}
+			//Estudio Influenza U01
+			else if(this.getStudy().matches("Estudio Influenza U01")){
+				//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
+				getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().lastIndexOf(".")+1, this.getCodeAlic().length());
+			}
 			//Validamos si el Arreglo contiene elementos
 			if(itemTypeAlicSelected.length>0){
 				this.setNotWrong(false);
@@ -933,6 +938,9 @@ public void suggestLocationMA2017() throws SimlabAppException{
 			}
 			if (this.getStudy().matches("Estudio Muestras Superficie")){
 				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 21));
+			}
+			if (this.getStudy().matches("Estudio Influenza U01")){
+				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 22));
 			}
 			} catch (SimlabAppException e) {
 				e.printStackTrace();
@@ -1351,6 +1359,11 @@ public void suggestLocationMA2017() throws SimlabAppException{
 		}
 		if (this.getStudy().matches("Estudio Muestras Superficie")){
 			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 21)))
+				throw new SimlabAppException(10038);
+			//Validamos que el codigo de Alicuota Ingresado corresponda a algun tipo de alicuota registrado en la BD.
+		}
+		if (this.getStudy().matches("Estudio Influenza U01")){
+			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 22)))
 				throw new SimlabAppException(10038);
 			//Validamos que el codigo de Alicuota Ingresado corresponda a algun tipo de alicuota registrado en la BD.
 		}
