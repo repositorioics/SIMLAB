@@ -548,6 +548,12 @@ public class MuestraIngAlicNuevo extends GenericMbean implements Serializable {
 			getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().lastIndexOf(".")+1, this.getCodeAlic().length());
 		}
 
+		else if(this.getStudy().matches("Estudio CNS")){
+			//Validamos el patron
+			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 23))) return false;
+
+		}
+
 		//Validamos si el Arreglo contiene elementos
 		if(itemTypeAlicSelected.length>0){
 			for (String itemAlic : itemTypeAlicSelected) {

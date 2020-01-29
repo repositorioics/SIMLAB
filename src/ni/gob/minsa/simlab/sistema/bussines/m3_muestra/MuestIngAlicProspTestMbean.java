@@ -851,6 +851,7 @@ public void suggestLocationMA2017() throws SimlabAppException{
 				//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
 				getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().lastIndexOf(".")+1, this.getCodeAlic().length());
 			}
+
 			//Validamos si el Arreglo contiene elementos
 			if(itemTypeAlicSelected.length>0){
 				this.setNotWrong(false);
@@ -942,6 +943,9 @@ public void suggestLocationMA2017() throws SimlabAppException{
 			if (this.getStudy().matches("Estudio Influenza U01")){
 				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 22));
 			}
+            if (this.getStudy().matches("Estudio CNS")){
+                patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 23));
+            }
 			} catch (SimlabAppException e) {
 				e.printStackTrace();
 			}
@@ -1367,6 +1371,11 @@ public void suggestLocationMA2017() throws SimlabAppException{
 				throw new SimlabAppException(10038);
 			//Validamos que el codigo de Alicuota Ingresado corresponda a algun tipo de alicuota registrado en la BD.
 		}
+        if (this.getStudy().matches("Estudio CNS")){
+            if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 23)))
+                throw new SimlabAppException(10038);
+            //Validamos que el codigo de Alicuota Ingresado corresponda a algun tipo de alicuota registrado en la BD.
+        }
 		String[] itemTypeAlicSelected = this.getTypeAlicSelected().split(",");
 		boolean exito = false;
 		if(itemTypeAlicSelected.length>0){
