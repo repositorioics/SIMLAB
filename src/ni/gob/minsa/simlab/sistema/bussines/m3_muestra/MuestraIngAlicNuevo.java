@@ -551,6 +551,8 @@ public class MuestraIngAlicNuevo extends GenericMbean implements Serializable {
 		else if(this.getStudy().matches("Estudio CNS")){
 			//Validamos el patron
 			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 23))) return false;
+			//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
+			getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().lastIndexOf(".")+3, this.getCodeAlic().length());
 
 		}
 

@@ -669,7 +669,7 @@ public class MuestIngAlicProspMbean extends GenericMbean implements Serializable
 
 			else if(this.getStudy().matches("Estudio CNS")){
 				//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
-				getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().lastIndexOf(".")+1, this.getCodeAlic().length());
+				getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().lastIndexOf(".")+3, this.getCodeAlic().length());
 			}
 			//Validamos si el Arreglo contiene elementos
 			if(itemTypeAlicSelected.length>0){
