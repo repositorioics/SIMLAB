@@ -624,6 +624,65 @@ public class MuestIngAlicProspTestMbean extends GenericMbean implements Serializ
 				else {
 					this.sugerirUbicacionMA2018("EST_MA19S");
 				}
+			}	else if (this.getStudy().matches("Muestreo Anual 2020")) {
+				Object[] ubicacion = simlabAlicuotaService.getUbicacionMA2020(this.getCodeAlic());
+				if (ubicacion!=null) {
+					this.setCodeRack(ubicacion[3].toString());
+					this.setCodeBox(Integer.parseInt(ubicacion[4].toString()));
+					this.setCodeBoxInUse(Integer.parseInt(ubicacion[4].toString()));
+					this.setCodeFreezer(Integer.parseInt(ubicacion[2].toString()));
+					this.setPositionInBox(Integer.parseInt(ubicacion[1].toString()));
+					//this.setVolAlic(Float.valueOf(ubicacion[6].toString()));
+					//Seteamos los Equipos a Sugerir para los Detalles de la Vista.
+					Freezer freezer = SimlabEquipService.getFreezerbyID(ubicacion[2].toString());
+					Rack rack = SimlabEquipService.getRack(ubicacion[3].toString());
+					Caja caja = SimlabEquipService.getCajaByCode(ubicacion[4].toString());
+					this.setFreezerToSuggest(freezer);
+					this.setRackToSuggest(rack);
+					this.setBoxTosuggest(caja);
+					this.setAlicBoxInUse(this.getTypeAlicFromCodeAlic());
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("17[n|N]{1}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("17[h|H]{1}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("17[i|I]{1}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("17[b|B]{1}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("17[e|E]{1}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("16[t|T]{1}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("17[s|S]{1}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("17[z|Z]{1}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("17[px|PX]{2}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("17[px1|PX1]{3}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("17[px2|PX2]{3}")) {
+					this.sugerirUbicacion();
+				}
+
+				else if(this.getTypeAlicFromCodeAlic().matches("17[u|U]{1}")) {
+					this.sugerirUbicacion();
+				}
+				else if (this.getEstudioParticipante()!=null) {
+					this.sugerirUbicacionMA2018(this.getEstudioParticipante());
+				}
+
 			}
 			else{
 				this.sugerirUbicacion();
@@ -857,6 +916,11 @@ public void suggestLocationMA2017() throws SimlabAppException{
 				getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().lastIndexOf(".")+3, this.getCodeAlic().length());
 			}
 
+			else if(this.getStudy().matches("Muestreo Anual 2020")){
+				//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
+				getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().indexOf(".")+1, this.getCodeAlic().length());
+			}
+
 			//Validamos si el Arreglo contiene elementos
 			if(itemTypeAlicSelected.length>0){
 				this.setNotWrong(false);
@@ -951,6 +1015,10 @@ public void suggestLocationMA2017() throws SimlabAppException{
             if (this.getStudy().matches("Estudio CNS")){
                 patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 23));
             }
+
+			if (this.getStudy().matches("Muestreo Anual 2020")){
+				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 24));
+			}
 			} catch (SimlabAppException e) {
 				e.printStackTrace();
 			}
@@ -1036,6 +1104,23 @@ public void suggestLocationMA2017() throws SimlabAppException{
 				String paramNR = SimlabParameterService.getItemParam(CatalogParam.POS_NEG, 3).getDescItem();
 				this.setIndPosNeg(paramNR);
 				
+			}
+
+			else if(this.getStudy().matches("Muestreo Anual 2020")) {
+				int indiceCodigo2 = this.getCodeAlic().lastIndexOf(".");
+				//Obtenemos el Codigo del participante
+				Integer codigo = Integer.parseInt(simlabStringUtils.cutToLength(this.getCodeAlic(), indiceCodigo2));
+				if(codigo>0) {
+					Object[] participante = simlabAlicuotaService.getEstadoParticipante(codigo);
+					if (participante != null){
+						this.setCodigoParticipante(codigo);
+						this.setEstudioParticipante(participante[3].toString());
+					}
+
+				}
+				String paramNR = SimlabParameterService.getItemParam(CatalogParam.POS_NEG, 3).getDescItem();
+				this.setIndPosNeg(paramNR);
+
 			}
 			else {
 				String paramNR = SimlabParameterService.getItemParam(CatalogParam.POS_NEG, 3).getDescItem();
@@ -1187,6 +1272,9 @@ public void suggestLocationMA2017() throws SimlabAppException{
 			}
 			
 		}
+
+
+
 	
 	private Integer searchPosition(int freezerCode, String rackCode, int boxCode){
 		//Obtenemos la lista de Alicuotas Registradas. En Dependencia de la Ubicacion.
@@ -1381,6 +1469,11 @@ public void suggestLocationMA2017() throws SimlabAppException{
                 throw new SimlabAppException(10038);
             //Validamos que el codigo de Alicuota Ingresado corresponda a algun tipo de alicuota registrado en la BD.
         }
+		if (this.getStudy().matches("Muestreo Anual 2020")){
+			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 24)))
+				throw new SimlabAppException(10038);
+			//Validamos que el codigo de Alicuota Ingresado corresponda a algun tipo de alicuota registrado en la BD.
+		}
 		String[] itemTypeAlicSelected = this.getTypeAlicSelected().split(",");
 		boolean exito = false;
 		if(itemTypeAlicSelected.length>0){
@@ -1430,7 +1523,7 @@ public void suggestLocationMA2017() throws SimlabAppException{
 		//Se retorna una Variable de Tipo Temporal
 		boolean isTemporal = false;
 		//if(simlabStringUtils.isNullOrEmpty(this.getVolAlic()))throw new SimlabAppException(10035);
-		if(this.getStudy().matches("Muestreo Anual")||this.getStudy().matches("Muestreo Anual 2016")||this.getStudy().matches("Muestreo Anual 2017")||this.getStudy().matches("Muestreo Anual 2018")||this.getStudy().matches("Muestreo Anual 2019")) {
+		if(this.getStudy().matches("Muestreo Anual")||this.getStudy().matches("Muestreo Anual 2016")||this.getStudy().matches("Muestreo Anual 2017")||this.getStudy().matches("Muestreo Anual 2018")||this.getStudy().matches("Muestreo Anual 2019") ||this.getStudy().matches("Muestreo Anual 2020")) {
 			this.tipo="muestreoanual";
 		}
 		else if(this.getStudy().matches("Cohorte Familia MA2017")) {
