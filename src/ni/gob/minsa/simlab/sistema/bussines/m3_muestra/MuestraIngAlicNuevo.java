@@ -1,9 +1,11 @@
 package ni.gob.minsa.simlab.sistema.bussines.m3_muestra;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.enterprise.inject.New;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -307,6 +309,18 @@ public class MuestraIngAlicNuevo extends GenericMbean implements Serializable {
 		codeRack = (String) caja[3];
 		codeRes = (String) caja[8];
 		uso = (String) caja[6];
+
+		String tipoAl = (String) caja[7];
+
+		if (tipoAl.equals("17PX,17PX1,17PX2")) {
+			volAlic = 1500F;
+		}
+
+		if (tipoAl.equals("17U")) {
+			volAlic = 400F;
+		}
+
+
 		for (int i=1;i<82;i++){
 			RegAlic temp = null;
 			try {
@@ -350,7 +364,14 @@ public class MuestraIngAlicNuevo extends GenericMbean implements Serializable {
 				regAlic.setCondicion(simlabDescriptionService.getCodeByDescriptionAndEstudy("LIST_CONDICION", this.getCondicion()));
 				regAlic.setSeparada(simlabDescriptionService.getCodeByDescriptionAndEstudy("LIST_LAB", this.getSeparada()));
 				simlabAlicuotaService.saveAlicuota(regAlic);
-				this.fieldToNull();
+
+				//limpiar solo si el tipo de alicuota es dif de paxgene o influenza
+				if (regAlicId.getCodAlic().toUpperCase().contains("U") || regAlicId.getCodAlic().toUpperCase().contains("PX")) {
+					this.setCodeAlic( null );
+				} else {
+					this.fieldToNull();
+				}
+
 				for (int i=1;i<82;i++){
 					RegAlic temp = SimlabEquipService.getAlicBoxPos(this.codeCaja,i);
 					if(temp==null){

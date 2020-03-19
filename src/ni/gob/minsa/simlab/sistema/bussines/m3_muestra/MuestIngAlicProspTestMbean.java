@@ -657,7 +657,7 @@ public class MuestIngAlicProspTestMbean extends GenericMbean implements Serializ
 				else if(this.getTypeAlicFromCodeAlic().matches("17[e|E]{1}")) {
 					this.sugerirUbicacion();
 				}
-				else if(this.getTypeAlicFromCodeAlic().matches("16[t|T]{1}")) {
+				else if(this.getTypeAlicFromCodeAlic().matches("17[t|T]{1}")) {
 					this.sugerirUbicacion();
 				}
 				else if(this.getTypeAlicFromCodeAlic().matches("17[s|S]{1}")) {
