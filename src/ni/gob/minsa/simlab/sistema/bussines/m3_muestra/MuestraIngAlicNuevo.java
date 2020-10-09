@@ -496,9 +496,20 @@ public class MuestraIngAlicNuevo extends GenericMbean implements Serializable {
 		}
 		else if(this.getStudy().matches("Estudio Cohorte Flu")){
 			//Validamos el patron
-			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 13))) return false;
+			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 13))) {
+				return false;
+			}
+
 			//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
-			getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().lastIndexOf(".")+3, this.getCodeAlic().length());
+			String[] fluCode = this.getCodeAlic().split("\\.");
+			if (fluCode.length == 2) {
+				getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().lastIndexOf(".") + 3, this.getCodeAlic().length());
+
+			} else {
+				getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().lastIndexOf(".") + 1, this.getCodeAlic().length());
+
+			}
+
 		}
 		else if(this.getStudy().matches("Muestreo Anual 2017")){
 			//Validamos el patron

@@ -574,7 +574,15 @@ public void suggestLocationMA2017() throws SimlabAppException{
 			}
 			else if(this.getStudy().matches("Estudio Cohorte Flu")){
 				//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
-				getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().lastIndexOf(".")+3, this.getCodeAlic().length());
+				String[] fluCode = this.getTypeAlicSelected().split("\\.");
+
+				if (fluCode.length == 2) {
+					getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().lastIndexOf(".") + 3, this.getCodeAlic().length());
+
+				} else {
+					getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().lastIndexOf(".") + 1, this.getCodeAlic().length());
+
+				}
 			}
 			else if(this.getStudy().matches("Muestreo Anual 2017")){
 				//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
