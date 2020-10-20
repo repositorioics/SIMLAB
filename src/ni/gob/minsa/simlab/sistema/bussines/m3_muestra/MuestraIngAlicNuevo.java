@@ -595,6 +595,13 @@ public class MuestraIngAlicNuevo extends GenericMbean implements Serializable {
 			getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().indexOf(".")+1, this.getCodeAlic().length());
 		}
 
+		else if(this.getStudy().matches("Muestreo Covid 2020")){
+			//Validamos el patron
+			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 25))) return false;
+			//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
+			getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().indexOf(".")+1, this.getCodeAlic().length());
+		}
+
 		//Validamos si el Arreglo contiene elementos
 		if(itemTypeAlicSelected.length>0){
 			for (String itemAlic : itemTypeAlicSelected) {

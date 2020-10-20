@@ -476,6 +476,10 @@ public class MuestIngAlicMbean extends GenericMbean implements Serializable{
 				//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
 				getSufixAlic = this.getCodeAlic().substring(this.getCodeAlic().length()-1, this.getCodeAlic().length());
 			}
+			else if(this.getStudy().matches("Muestreo Covid 2020")){
+				//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
+				getSufixAlic = this.getCodeAlic().substring(this.getCodeAlic().length()-1, this.getCodeAlic().length());
+			}
 			//Validamos si el Arreglo contiene elementos
 			if(itemTypeAlicSelected.length>0){
 				for (String itemAlic : itemTypeAlicSelected) {
@@ -526,6 +530,9 @@ public class MuestIngAlicMbean extends GenericMbean implements Serializable{
 			}
 			if (this.getStudy().matches("Muestreo Anual")){
 				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 9));
+			}
+			if (this.getStudy().matches("Muestreo Covid 2020")){
+				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 25));
 			}
 			} catch (SimlabAppException e) {
 				e.printStackTrace();
@@ -844,6 +851,11 @@ public class MuestIngAlicMbean extends GenericMbean implements Serializable{
 		}
 		if (this.getStudy().matches("Estudio Transmision Chikungunya")){
 			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 8)))
+				throw new SimlabAppException(10038);
+			//Validamos que el codigo de Alicuota Ingresado corresponda a algun tipo de alicuota registrado en la BD.
+		}
+		if (this.getStudy().matches("Muestreo Covid 2020")){
+			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 25)))
 				throw new SimlabAppException(10038);
 			//Validamos que el codigo de Alicuota Ingresado corresponda a algun tipo de alicuota registrado en la BD.
 		}
