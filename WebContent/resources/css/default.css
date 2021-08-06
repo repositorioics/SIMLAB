@@ -164,7 +164,7 @@ label {
 
 /*Personalizando los Menu Select*/
 .ui-selectonemenu {
-	width: 180px !important;
+	width: 180px;
 	margin-left: 0px;
 	height: 38px;
 }
@@ -175,19 +175,43 @@ label {
 }
 
 .ui-selectonemenu-items {
-	width: 160px !important;
+	width: 160px;
 }
 
-.ui-selectonemenu-label {
+/*.ui-selectonemenu-label {
 	width: 135px !important;
 	padding-top: 3%;
 	padding-left: 4%;
 	margin-left: 6px;
 	margin-top: 4px;
-}
+}*/
 
 #columnRight {
 	margin-left: 200px;
+}
+
+/*Personalizar menu estudios */
+.ui-selectonemenu.form-control {
+	width: 100% !important;
+	margin-left: 0px;
+	height: 38px;
+}
+
+.ui-selectonemenu-panel.form-control {
+	font-size: 12px; !important;
+	width: 94%;
+}
+
+.ui-selectonemenu-items.form-control {
+	width: 80% !important;
+}
+
+.ui-selectonemenu-label.form-control {
+	width: 95% !important;
+	padding-top: 3%;
+	padding-left: 4%;
+	margin-left: 6px;
+	margin-top: 4px;
 }
 
 /*Panel Con Leyenda*/

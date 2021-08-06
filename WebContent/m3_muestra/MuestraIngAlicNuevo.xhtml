@@ -23,39 +23,42 @@
 		<p:growl id="growl" showDetail="true" sticky="true" autoUpdate="true"/> 
 			<p:panel id="gesAlic" header="#{muestraIngAlicNuevo.transactionTitle}">
 	    	   	<p:separator />
-	    	   	<table>
+	    	   	<table width="100%" >
 		    	   	<tr>
-			    	   	<td>
+			    	   	<td width="25%">
+							<div class="form-group" style="width: 100%">
+
 							<label> <h:outputText
 									value="#{msg.alic_study}#{msg.required_character}" />
 							</label>
-							<br />
-							<p:selectOneMenu id="menuEstudios" value="#{muestraIngAlicNuevo.study}" required="true"> 
+
+							<p:selectOneMenu styleClass="form-control" id="menuEstudios" value="#{muestraIngAlicNuevo.study}" required="true">
 								<f:selectItems value="#{muestraIngAlicNuevo.listStudy}" />
 								<p:ajax update="menuTipoAlicuota"
 									listener="#{muestraIngAlicNuevo.eventShowTypeAlicByStudy}" />
 							</p:selectOneMenu>
+							</div>
 						</td>
-						<td>
+						<td width="20%">
 							<label> <h:outputText
 									value="#{msg.alic_type}#{msg.required_character}" /></label>
 							<br />
-							<p:selectOneMenu id="menuTipoAlicuota"
+							<p:selectOneMenu styleClass="form-control" id="menuTipoAlicuota"
 								value="#{muestraIngAlicNuevo.typeAlicSelected}" required="true" editable="true">
 								<f:selectItems
 									value="#{muestraIngAlicNuevo.typeAlicByStudy}" />
 							</p:selectOneMenu>
 						</td>
-						<td>
+						<td width="20%">
 							<label><h:outputText
 									value="#{msg.alic_pos_neg} #{msg.required_character}" /></label>
 							<br />
-							<p:selectOneMenu id="menuPosNegId"
+							<p:selectOneMenu styleClass="form-control" id="menuPosNegId"
 								value="#{muestraIngAlicNuevo.indPosNeg}" required="true">
 								<f:selectItems value="#{muestraIngAlicNuevo.listPosOrNeg}"/>
 							</p:selectOneMenu>
 						</td>
-						<td>
+						<td >
 							<p:commandButton id="botonBuscar" title="#{msg.sugest_position}"
 									value="#{msg.sugest_position}" icon="ui-icon-circle-zoomin"
 									style="width:160px;margin-left: 16px;"
@@ -70,7 +73,7 @@
 				<p:dataTable id="tableCaja" value="#{muestraIngAlicNuevo.listBoxesSuggested}" 
 					var="box" rowStyleClass="rowOrange" style="width:100%"
 					emptyMessage="#{msg.empty_message_datatable}">
-					<p:column 
+					<p:column
 						headerText="#{msg.label_box}">
 						<h:outputText value="#{box[0]}" />
 					</p:column>
@@ -96,7 +99,7 @@
 						headerText="#{msg.use}">
 						<h:outputText value="#{box[6]}" />
 					</p:column>
-					<p:column
+					<p:column width="30%"
 						headerText="#{msg.type_sample}">
 						<h:outputText value="#{box[7]}" />
 					</p:column>
@@ -129,7 +132,7 @@
 				header="#{muestraIngAlicNuevo.transactionTitle}">
 				<table>
 		    	   	<tr>
-			    	   	<td>
+			    	   	<td >
 							<label><h:outputText value="#{msg.code_alic} #{msg.required_character}" /></label>
 							<br />
 							<p:focus />

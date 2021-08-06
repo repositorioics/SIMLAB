@@ -102,7 +102,7 @@
 	    	   		window.onload = aplyStyleToPanel('formRegisterCaja:panelRegisterCaja');
 	    	   	</script>
 				<!-- PROBANDO EL FORM QUE SE ENCUENTRA EN INGALIC -->
-				<table cellspacing="5">
+				<table cellspacing="5" width="90%">
 					<tr>
 						<td><label><h:outputText
 									value="#{msg.code_freezer_rack}#{msg.required_character}"></h:outputText></label></td>
@@ -150,7 +150,7 @@
 					<tr>
 						<td><label><h:outputText
 									value="#{msg.alic_to_alm}#{msg.required_character}"></h:outputText></label></td>
-						<td><p:selectOneMenu id="menu"
+						<td width="25%"><p:selectOneMenu styleClass="form-control" id="menu"
 								value="#{catEquCajaMbean.tipoMuestra}" editable="true">
 								<f:selectItems value="#{catEquCajaMbean.typeAlicByStudy}" />
 							</p:selectOneMenu></td>
@@ -160,10 +160,10 @@
 								<f:selectItems value="#{catEquCajaMbean.listPosNeg}" />
 							</p:selectOneMenu></td>
 					</tr>
-					<tr>
+					<tr >
 						<td><label><h:outputText
 									value="#{msg.alic_study}#{msg.required_character}"></h:outputText></label></td>
-						<td><p:selectOneMenu id="estudio"
+						<td width="25%"><p:selectOneMenu styleClass="form-control" id="estudio"
 								value="#{catEquCajaMbean.estudio}" editable="false">
 								<f:selectItems value="#{catEquCajaMbean.listStudy}" />
 							</p:selectOneMenu></td>

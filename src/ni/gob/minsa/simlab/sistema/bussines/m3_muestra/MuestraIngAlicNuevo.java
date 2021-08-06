@@ -242,7 +242,7 @@ public class MuestraIngAlicNuevo extends GenericMbean implements Serializable {
 					listAlic.add(alicuota.getAlicPerm());
 				}
 				this.setTypeAlicByStudy(listAlic);
-				if(this.getStudy().matches("Muestreo Anual")||this.getStudy().matches("Muestreo Anual 2016")||this.getStudy().matches("Muestreo Anual 2017")||this.getStudy().matches("Muestreo Anual 2018")||this.getStudy().matches("Muestreo Anual 2019") ||this.getStudy().matches("Muestreo Anual 2020") ) {
+				if(this.getStudy().matches("Muestreo Anual")||this.getStudy().matches("Muestreo Anual 2016")||this.getStudy().matches("Muestreo Anual 2017")||this.getStudy().matches("Muestreo Anual 2018")||this.getStudy().matches("Muestreo Anual 2019") ||this.getStudy().matches("Muestreo Anual 2020") ||this.getStudy().matches("Muestreo Anual 2021")) {
 					this.tipo="muestreoanual";
 				}
 				else if(this.getStudy().matches("Cohorte Familia MA2017")) {
@@ -600,6 +600,129 @@ public class MuestraIngAlicNuevo extends GenericMbean implements Serializable {
 			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 25))) return false;
 			//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
 			getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().indexOf(".")+1, this.getCodeAlic().length());
+		}
+		else if(this.getStudy().matches("Muestreo Anual 2021")){
+			//Validamos el patron
+			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 26))) return false;
+			//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
+			getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().indexOf(".")+1, this.getCodeAlic().length());
+		}
+
+		else if(this.getStudy().matches("Estudio Clinico Hospitalario \\(PBMC\\)")){
+			//Validamos el patron
+			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 27))) return false;
+			//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
+			getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().indexOf(".")+1, this.getCodeAlic().length());
+		}
+
+		else if(this.getStudy().matches("Estudio de Cohorte Dengue Hospitalizado \\(PBMC\\)")){
+			//Validamos el patron
+			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 28))) return false;
+			//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
+			getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().lastIndexOf(".")+1, this.getCodeAlic().length());
+		}
+
+		else if(this.getStudy().matches("Estudio Longitudinal \\(PBMC\\)")){
+			//Validamos el patron
+			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 29))) return false;
+			//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
+			getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().indexOf(".")+1, this.getCodeAlic().length());
+		}
+		else if(this.getStudy().matches("Estudio Cohorte Dengue Centro de Salud \\(PBMC\\)")){
+			//Validamos el patron
+			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 30))) return false;
+			//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
+			getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().lastIndexOf(".")+1, this.getCodeAlic().length());
+		}
+
+		else if(this.getStudy().matches("Estudio Longitudinal 3M \\(PBMC\\)")){
+			//Validamos el patron
+			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 31))) return false;
+			//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
+			getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().indexOf(".")+1, this.getCodeAlic().length());
+		}
+		else if(this.getStudy().matches("Estudio Longitudinal 6M \\(PBMC\\)")){
+			//Validamos el patron
+			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 32))) return false;
+			//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
+			getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().indexOf(".")+1, this.getCodeAlic().length());
+		}
+
+		else if(this.getStudy().matches("Estudio Longitudinal 12M \\(PBMC\\)")){
+			//Validamos el patron
+			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 33))) return false;
+			//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
+			getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().indexOf(".")+1, this.getCodeAlic().length());
+		}
+
+		else if(this.getStudy().matches("Estudio Longitudinal 18M \\(PBMC\\)")){
+			//Validamos el patron
+			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 34))) return false;
+			//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
+			getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().indexOf(".")+1, this.getCodeAlic().length());
+		}
+
+		else if(this.getStudy().matches("Plasma Estudio de transmision \\(PBMC\\)")){
+			//Validamos el patron
+			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 35))) return false;
+			//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
+			getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().lastIndexOf(".")+1, this.getCodeAlic().length());
+		}
+
+		else if(this.getStudy().matches("Respiratoria Estudio de transmisión \\(PBMC\\)")){
+			//Validamos el patron
+			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 36))) return false;
+			//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
+			getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().indexOf(".")+1, this.getCodeAlic().length());
+		}
+
+		else if(this.getStudy().matches("Estudio Cluster Degue-Chik \\(PBMC\\)")){
+			//Validamos el patron
+			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 37))) return false;
+			//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
+			getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().indexOf(".")+1, this.getCodeAlic().length());
+		}
+
+		else if(this.getStudy().matches("Muestreo Anual Dengue-Influenza \\(PBMC\\)")){
+			//Validamos el patron
+			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 38))) return false;
+			//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
+			getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().indexOf(".")+1, this.getCodeAlic().length());
+		}
+
+		else if(this.getStudy().matches("Estudio ZIP \\(PBMC\\)")){
+			//Validamos el patron
+			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 39))) return false;
+			//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
+			getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().indexOf("-")+8, this.getCodeAlic().length());
+		}
+
+		else if(this.getStudy().matches("Estudio ZIKA \\+ \\(PBMC\\)")){
+			//Validamos el patron
+			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 40))) return false;
+			//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
+			getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().indexOf("-")+8, this.getCodeAlic().length());
+		}
+
+		else if(this.getStudy().matches("Estudio UO1 \\(PBMC\\)")){
+			//Validamos el patron
+			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 41))) return false;
+			//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
+			getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().lastIndexOf(".")+1, this.getCodeAlic().length());
+		}
+
+		else if(this.getStudy().matches("Estudio CEIRS \\(PBMC\\)")){
+			//Validamos el patron
+			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 42))) return false;
+			//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
+			getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().lastIndexOf(".")+1, this.getCodeAlic().length());
+		}
+
+		else if(this.getStudy().matches("Seroprevalencia SARS COV2 \\(PBMC\\)")){
+			//Validamos el patron
+			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 43))) return false;
+			//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
+			getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().lastIndexOf(".")+1, this.getCodeAlic().length());
 		}
 
 		//Validamos si el Arreglo contiene elementos

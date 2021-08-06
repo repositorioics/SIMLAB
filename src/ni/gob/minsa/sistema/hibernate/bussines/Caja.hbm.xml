@@ -25,7 +25,7 @@
 			</column>
 		</property>
 		<property name="tipMues" type="string">
-			<column name="TIP_MUES" length="20">
+			<column name="TIP_MUES" length="500">
 				<comment>TIPO DE MUESTRA A ALMACENAR(a,b,c)</comment>
 			</column>
 		</property>

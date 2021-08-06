@@ -6,7 +6,7 @@
 	<class name="ni.gob.minsa.sistema.hibernate.bussines.AlicCaja"
 		table="alic_caja" catalog="SIMLAB">
 		<id name="alicPerm" type="string">
-			<column name="alic_perm" length="50" />
+			<column name="alic_perm" length="500" />
 			<generator class="assigned" />
 		</id>
 		<property name="estudio" type="string">
