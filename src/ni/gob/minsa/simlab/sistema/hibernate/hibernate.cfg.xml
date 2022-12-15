@@ -6,6 +6,7 @@
 <hibernate-configuration>
 	<!-- name="java:hibernate/SessionFactory" <property name="hibernate.session_factory_name">java:hibernate/SessionFactory</property> -->
 	<session-factory>
+		<!--Testing force-->
 		<!-- Configuracion Tradicional para Generar los Objetos/Tablas -->
 		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
 		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/SIMLAB</property>
