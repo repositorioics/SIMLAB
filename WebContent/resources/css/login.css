@@ -3,7 +3,7 @@
 s<!-- Hoja de Estilo para la pagina de login-->.headerLogin {
 	border: yellow;
 	margin-left: auto;
-	margin-right: auto height:  50px;
+	margin-right: auto; height:  50px;
 	width: 10px;
 	text-align: center;
 }
@@ -48,7 +48,7 @@ s<!-- Hoja de Estilo para la pagina de login-->.headerLogin {
 	height: 20px;
 }
 
-/*Campo Contraseña*/
+/*Campo Contrase?a*/
 .ui-password {
 	display: inline;
 	width: 150px;

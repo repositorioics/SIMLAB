@@ -1,14 +1,24 @@
 package ni.gob.minsa.simlab.sistema.bussines.m3_muestra;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.*;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -20,6 +30,7 @@ import ni.gob.minsa.simlab.sistema.utileria.SimlabDateUtil;
 import ni.gob.minsa.sistema.hibernate.bussines.Caja;
 import ni.gob.minsa.sistema.hibernate.bussines.Rack;
 import ni.gob.minsa.sistema.hibernate.bussines.RegAlic;
+import org.primefaces.event.FileUploadEvent;
 
 
 @ManagedBean(name="busqMuestraMbean")
@@ -29,15 +40,23 @@ public class BusqMuestraMbean extends GenericMbean implements Serializable{
 	private static final long serialVersionUID = 8523255793629321552L;
 	
 	private Integer mode;
-	
 	private String codeAlic;
 	private String titlePanel;
 	private String motCloseVigency;
 	private RegAlic alicToEdit;
 	private String codeAlicToFind = null;
-	
+	Collection<RegAlic> listAlicuotas = new ArrayList<RegAlic>();
+    List<String> alicList = new ArrayList<String>();
 
-	public String getMotCloseVigency() {
+    public List<String> getAlicList() {
+        return alicList;
+    }
+
+    public void setAlicList(List<String> alicList) {
+        this.alicList = alicList;
+    }
+
+    public String getMotCloseVigency() {
 		return motCloseVigency;
 	}
 
@@ -68,8 +87,6 @@ public class BusqMuestraMbean extends GenericMbean implements Serializable{
 	public void setTitlePanel(String titlePanel) {
 		this.titlePanel = titlePanel;
 	}
-	
-	
 
 	public String getCodeAlicToFind() {
 		return codeAlicToFind;
@@ -77,6 +94,14 @@ public class BusqMuestraMbean extends GenericMbean implements Serializable{
 
 	public void setCodeAlicToFind(String codeAlicToFind) {
 		this.codeAlicToFind = codeAlicToFind;
+	}
+
+	public Collection<RegAlic> getListAlicuotas() {
+		return listAlicuotas;
+	}
+
+	public void setListAlicuotas(Collection<RegAlic> listAlicuotas) {
+		this.listAlicuotas = listAlicuotas;
 	}
 
 	public BusqMuestraMbean() {
@@ -116,6 +141,55 @@ public class BusqMuestraMbean extends GenericMbean implements Serializable{
 		}
 		return listAlicByCode;
 	}
+
+
+	public Collection<RegAlic> getListAlicByCode2() {
+
+		Collection<RegAlic> listAlicByCode2 = new ArrayList<RegAlic>();
+		try {
+			if (this.getAlicList() == null) {
+				listAlicByCode2 = null;
+			} else if (this.getAlicList().equals("")) {
+				listAlicByCode2 = null;
+			} else {
+				for (int i = 0; i < this.getAlicList().size(); i++) {
+					String cod = this.getAlicList().get(i);
+					Collection<RegAlic> temp = SimlabEquipService.getListAlicCrit2(cod);
+
+					if (temp != null) {
+
+						for (RegAlic ra : temp) {
+							ra.setCodFreezer(0);
+							ra.setCodRack(null);
+
+							Caja caja = SimlabEquipService.getCajaByCode(String.valueOf(ra.getCodBox()));
+							if (caja != null) {
+								Rack rack = SimlabEquipService.getRack(caja.getId().getCcodRack());
+								ra.setCodFreezer(rack.getId().getRcodFreezer());
+								ra.setCodRack(rack.getId().getCodRack());
+							}
+
+							listAlicByCode2.add(ra);
+
+
+						}
+
+					}
+
+				}
+
+			}
+
+
+
+		} catch (SimlabAppException e) {
+			SimlabAppException.addFacesMessageError(e);
+		}
+
+		return listAlicByCode2;
+
+	}
+
 	
 	
 	
@@ -199,5 +273,84 @@ public class BusqMuestraMbean extends GenericMbean implements Serializable{
 		this.setMode(0);
 		//FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,this.getTransactionTitle(), "Realizado"));
 	}
-	
+
+
+	public void uploadFile(FileUploadEvent event) {
+		Session session   = null;
+		Query query = null;
+
+			//BufferedWriter writer = null;
+			// Do what you want with the file
+			try {
+				session = this.openSessionAndBeginTransaction();
+				Workbook wb = WorkbookFactory.create(event.getFile().getInputstream());
+				Sheet sheet = wb.getSheetAt(0);
+				Iterator<Row> rowIterator = sheet.iterator();
+				this.alicList.clear();
+
+				while (rowIterator.hasNext())
+				{
+					Row row = rowIterator.next();
+					//For each row, iterate through all the columns
+					Iterator<Cell> cellIterator = row.cellIterator();
+
+					while (cellIterator.hasNext()) {
+
+						Cell nextCell = cellIterator.next();
+
+						int columnIndex = nextCell.getColumnIndex();
+
+						switch (columnIndex) {
+
+							case 0:
+								//First column
+								if (nextCell.getCellType() == Cell.CELL_TYPE_STRING) {
+									if (!nextCell.getStringCellValue().isEmpty()) {
+										String col1 = nextCell.getStringCellValue();
+										alicList.add(col1);
+									}
+
+									break;
+								} else if (nextCell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+									if (nextCell.getNumericCellValue() != 0) {
+										int col2 = (int) nextCell.getNumericCellValue();
+										alicList.add(String.valueOf(col2));
+
+									}
+									break;
+								}
+
+							default:
+								break;
+						}
+					}
+
+				}
+                wb.close();
+				this.closeSessionAndCommitTransaction(session);
+				FacesContext context = FacesContext.getCurrentInstance();
+				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+						"Búsqueda finalizada." ,"Se encontraron  " + getListAlicByCode2().size() +  " " + "registros para" + " " + alicList.size() + " " + "códigos de alicuotas importados."));
+			} catch (InvalidFormatException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			catch(Exception e){
+				FacesContext context = FacesContext.getCurrentInstance();
+				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+						"Ha ocurrido un error" ,e.getLocalizedMessage()));
+				e.printStackTrace();
+			}
+			finally {
+				try {
+					// Close the writer regardless of what happens...
+					//writer.close();
+				} catch (Exception e) {
+				}
+			}
+	}
+
 }

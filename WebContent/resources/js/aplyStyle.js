@@ -6,6 +6,21 @@ function aplyStyleToPanel(panelId){
 }
 
 
+function hidePanel(panelId){
+    //Obtenemos el Elemento Panel al cual le aplicaremos el Ancho
+    var elementPanel = document.getElementById(panelId);
+    //Aplicamos el 99% del Ancho.
+    elementPanel.style.display = 'none';
+}
+
+function showPanel(panelId){
+    //Obtenemos el Elemento Panel al cual le aplicaremos el Ancho
+    var elementPanel = document.getElementById(panelId);
+    //Aplicamos el 99% del Ancho.
+    elementPanel.style.display = 'block';
+}
+
+
 function configureWidhtAndHeightToContainer(classNameContainer, classNameElementTable){
 	//Traemos la lista de Elementos Contenedores en la Pagina.
 	var elementsContainer = document.getElementsByClassName(classNameContainer);

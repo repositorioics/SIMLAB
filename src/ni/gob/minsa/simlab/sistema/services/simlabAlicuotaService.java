@@ -497,6 +497,38 @@ public class simlabAlicuotaService {
 		}
 		return objetosResultado;
 	}
+
+	public static Object[] getUbicacionEstMinsa(String codigo) {
+		Object[] objetosResultado = null;
+		Session session = null;
+		Query query = null;
+		try {
+			session = HibernateUtil.openSesion();
+			query = session.createSQLQuery("SELECT * from posiciones_minsa where cod_alic =:codigo");
+			query.setParameter("codigo", codigo);
+			objetosResultado = (Object[]) query.uniqueResult();
+			session.close();
+		} catch (Throwable exception) {
+			SimlabAppException.generateExceptionBySelect(simlabAlicuotaService.class, exception);
+		}
+		return objetosResultado;
+	}
+
+	public static Object[] getUbicacionMA2022(String codigo) {
+		Object[] objetosResultado = null;
+		Session session = null;
+		Query query = null;
+		try {
+			session = HibernateUtil.openSesion();
+			query = session.createSQLQuery("SELECT * from posiciones_ma_2022 where cod_alic =:codigo");
+			query.setParameter("codigo", codigo);
+			objetosResultado = (Object[]) query.uniqueResult();
+			session.close();
+		} catch (Throwable exception) {
+			SimlabAppException.generateExceptionBySelect(simlabAlicuotaService.class, exception);
+		}
+		return objetosResultado;
+	}
 	
 	public static Object[] getEstadoParticipante(Integer codigo) {
 		Object[] objetoResultado = null;
@@ -541,7 +573,7 @@ public class simlabAlicuotaService {
 		Query query = null;
 			try {
 				session = HibernateUtil.openSesion();
-				String sqlQueryTipoAlic = "((caja.TIP_MUES) Like '"+tipoAlic+",%' Or (caja.TIP_MUES) Like '%,"+tipoAlic+",%' Or (caja.TIP_MUES) Like '%,"+tipoAlic+"' Or (caja.TIP_MUES)='"+tipoAlic+"'))";
+				String sqlQueryTipoAlic = "((caja.TIP_MUES)='"+tipoAlic+"'))";
 				query = session.createSQLQuery("SELECT caja.COD_CAJA, rack.RCOD_FREEZER, rack.POS_FREEZER, caja.CCOD_RACK, caja.POS_RACK, caja.TEMP_ALM, "
 						+ "caja.USO_ALIC, caja.TIP_MUES, caja.POS_NEG, 81 - count(reg_alic.cod_alic) AS libres "
 						+ "FROM (caja LEFT JOIN reg_alic ON caja.COD_CAJA = reg_alic.cod_box) INNER JOIN rack ON caja.CCOD_RACK = rack.COD_RACK "
@@ -567,7 +599,7 @@ public class simlabAlicuotaService {
 		Query query = null;
 			try {
 				session = HibernateUtil.openSesion();
-				query = session.createSQLQuery("select cod_alic, destino from reg_alic_salidas where cod_alic Like '%"+codigoABuscar+"%'");
+				query = session.createSQLQuery("select cod_alic, cod_freezer, cod_rack, cod_box, pos_box, neg_pos,vol_alic, peso_alic, fecha_salida, usuario from reg_alic_salidas where cod_alic Like '%"+codigoABuscar+"%'");
 				objetosResultado = query.list();
 				session.close();
 			} catch (Throwable exception) {

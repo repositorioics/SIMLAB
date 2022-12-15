@@ -1,220 +1,479 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
-	template="./../template.xhtml">
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                template="./../template.xhtml" xmlns="http://www.w3.org/1999/xhtml">
 
-	<ui:define name="title">
-		<h:outputText value="#{busqMuestraMbean.transactionTitle}"></h:outputText>
-	</ui:define>
+    <ui:define name="title">
+        <h:outputText value="#{busqMuestraMbean.transactionTitle}"></h:outputText>
+    </ui:define>
 
-	<ui:define name="content">
-		<h:form id="formListAlic" rendered="#{busqMuestraMbean.mode == 0}">
-			<p:panel id="panelListAlic"
-				header="#{busqMuestraMbean.transactionTitle}">
-				<script language="javascript">
-					window.onload = aplyStyleToPanel('formListAlic:panelListAlic');
-				</script>
-				<p:separator />
-				<label><h:outputText value="#{msg.sample}" /> </label>
-				<p:inputText style="width:90px;"
-					value="#{busqMuestraMbean.codeAlicToFind}">
-					<p:ajax event="keyup" update="tableLstAlic"></p:ajax>
-				</p:inputText>
-				<p:separator />
-				<p:dataTable style="width:95%" id="tableLstAlic"
-					value="#{busqMuestraMbean.listAlicByCode}" var="alic"
-					emptyMessage="#{msg.empty_message_datatable}" paginator="true"
-					rows="5" paginatorPosition="bottom"
-					paginatorTemplate="Pagina {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Filas por cada pagina: {RowsPerPageDropdown}"
-					rowsPerPageTemplate="5,10,15,50,100,200">
-					<p:column sortBy="#{alic.id.codAlic}" filterBy="#{alic.id.codAlic}"
-						filterMatchMode="contains" headerText="#{msg.sample}">
-						<h:outputText value="#{alic.id.codAlic}" />
-					</p:column>
-					<p:column sortBy="#{alic.codFreezer}" filterBy="#{alic.codFreezer}"
-						filterMatchMode="exact" headerText="#{msg.code_freezer_rack}">
-						<h:outputText value="#{alic.codFreezer}" />
-					</p:column>
-					<p:column sortBy="#{alic.codRack}" filterBy="#{alic.codRack}"
-						filterMatchMode="exact" headerText="#{msg.rack_code}">
-						<h:outputText value="#{alic.codRack}" />
-					</p:column>
-					<p:column filterBy="#{alic.codBox}" filterMatchMode="exact"
-						sortBy="#{alic.codBox}" headerText="#{msg.code_caja}">
-						<h:outputText value="#{alic.codBox}" />
-					</p:column>
-					<p:column filterBy="#{alic.id.posBox}" filterMatchMode="exact"
-						sortBy="#{alic.id.posBox}" headerText="#{msg.position}">
-						<h:outputText value="#{alic.id.posBox}" />
-					</p:column>
-					<p:column filterBy="#{alic.negPos}" filterMatchMode="contains"
-						sortBy="#{alic.negPos}" headerText="#{msg.alic_pos_neg}">
-						<h:outputText value="#{alic.negPos}" />
-					</p:column>
-					<p:column filterBy="#{alic.pesoAlic}" filterMatchMode="contains"
-						sortBy="#{alic.pesoAlic}" headerText="#{msg.peso_alic}">
-						<h:outputText value="#{alic.pesoAlic}" />
-					</p:column>
-					<p:column filterBy="#{alic.volAlic}" filterMatchMode="contains"
-						sortBy="#{alic.volAlic}" headerText="#{msg.vol_alic}">
-						<h:outputText value="#{alic.volAlic}" />
-					</p:column>
-					<p:column filterBy="#{alic.fehorReg}" filterMatchMode="contains"
-						sortBy="#{alic.fehorReg}" headerText="#{msg.fech_regist}">
-						<h:outputText value="#{alic.fehorReg}">
-						</h:outputText>
-					</p:column>
-					<p:column filterBy="#{alic.codUser}" filterMatchMode="contains"
-						sortBy="#{alic.codUser}" headerText="#{msg.user_code}">
-						<h:outputText value="#{alic.codUser}" />
-					</p:column>
-					<p:column headerText="#{msg.admin_user_action}">
-						<p:commandButton icon="ui-icon-pencil" id="edit" ajax="false"
-							title="#{msg.edit_alic}"
-							actionListener="#{busqMuestraMbean.actionEditInfoAlic(e,alic)}" />
-						<p:commandButton icon="ui-icon-circle-close" id="closeVigency"
-							ajax="false" title="#{msg.close_vigency_apparatus}"
-							actionListener="#{busqMuestraMbean.actionCloseVigencyMuestra(e, alic)}" />
-					</p:column>
-				</p:dataTable>
-				<p:spacer height="30" />
+    <ui:define name="content">
+        <h:form id="formListAlic" rendered="#{busqMuestraMbean.mode == 0}">
 
-			</p:panel>
-			<p:separator />
-			<h:panelGrid columns="2">
-				<p:panel header="#{msg.all_data}">
-					<h:commandLink>
-						<p:graphicImage
-							value="/#{short_system_name}/resources/img/excel.png" />
-						<p:dataExporter type="xls" target="tableLstAlic" fileName="alics" />
-					</h:commandLink>
+            <p:messages showSummary="true" id="messages" closable="true" showDetail="true" globalOnly="true" autoUpdate="true" />
 
-					<h:commandLink>
-						<p:graphicImage
-							value="/#{short_system_name}/resources/img/pdf.png" />
-						<p:dataExporter type="pdf" target="tableLstAlic" fileName="alics" />
-					</h:commandLink>
+            <p:panel style="width: 700px" id="panelListAlic1"
+                     header="#{busqMuestraMbean.transactionTitle}">
+                <p:panelGrid>
+                    <p:row>
 
-					<h:commandLink>
-						<p:graphicImage
-							value="/#{short_system_name}/resources/img/csv.png" />
-						<p:dataExporter type="csv" target="tableLstAlic" fileName="alics" />
-					</h:commandLink>
+                        <p:column style="font-weight: bold;">
+                            <label><h:outputText value="#{msg.search_type}"/> </label>
 
-					<h:commandLink>
-						<p:graphicImage
-							value="/#{short_system_name}/resources/img/xml.png" />
-						<p:dataExporter type="xml" target="tableLstAlic" fileName="alics" />
-					</h:commandLink>
-				</p:panel>
+                        </p:column>
+                        <p:column style="font-weight: bold;">
+                            <p:selectOneRadio onchange="updateGrid()" styleClass="RadioGroup marginRightRadioGround" id="searchType" tabindex="1">
+                                <f:selectItem itemLabel="Código de muestra" itemValue="1"/>
+                                <f:selectItem itemLabel="Importar excel" itemValue="2"/>
+                                <p:focus></p:focus>
+                            </p:selectOneRadio>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </p:panel>
 
-				<p:panel header="#{msg.page_data}">
-					<h:commandLink>
-						<p:graphicImage
-							value="/#{short_system_name}/resources/img/excel.png" />
-						<p:dataExporter type="xls" target="tableLstAlic" fileName="alics"
-							pageOnly="true" />
-					</h:commandLink>
+            <p:panel closable="true" toggleable="true" id="panelListAlic2" style="width:1500px; display: none">
 
-					<h:commandLink>
-						<p:graphicImage
-							value="/#{short_system_name}/resources/img/pdf.png" />
-						<p:dataExporter type="pdf" target="tableLstAlic" fileName="alics"
-							pageOnly="true" />
-					</h:commandLink>
+                <p:panelGrid >
+                    <p:row>
+                        <p:column style="font-weight: bold;">
+                            <label><h:outputText value="#{msg.sample}"/> </label>
 
-					<h:commandLink>
-						<p:graphicImage
-							value="/#{short_system_name}/resources/img/csv.png" />
-						<p:dataExporter type="csv" target="tableLstAlic" fileName="alics"
-							pageOnly="true" />
-					</h:commandLink>
+                        </p:column>
 
-					<h:commandLink>
-						<p:graphicImage
-							value="/#{short_system_name}/resources/img/xml.png" />
-						<p:dataExporter type="xml" target="tableLstAlic" fileName="alics"
-							pageOnly="true" />
-					</h:commandLink>
-				</p:panel>
-			</h:panelGrid>
-			<p:separator />
-		</h:form>
+                        <p:column style="font-weight: bold;">
+                            <p:inputText id="inpSample" style="width:90px;"
+                                         value="#{busqMuestraMbean.codeAlicToFind}">
+                                <p:ajax onstart="bui.show()" oncomplete="bui.hide()" event="change"  update="formListAlic:tableLstAlic"></p:ajax>
 
-		<h:form id="formEditAlic" rendered="#{busqMuestraMbean.mode == 1}">
-			<p:panel id="panelRegisterAlic"
-				header="#{busqMuestraMbean.titlePanel}">
-				<script language="javascript">
-					window.onload = aplyStyleToPanel('formEditAlic:panelRegisterAlic');
-				</script>
-				<h:panelGrid id="grid" columns="2">
-					<h:outputText styleClass="labelForm"
-						value="#{msg.sample}#{msg.required_character}" />
-					<p:inputText style="width:200px" readonly="true"
-						value="#{busqMuestraMbean.alicToEdit.id.codAlic}"></p:inputText>
-					<h:outputText styleClass="labelForm"
-						value="#{msg.code_freezer_rack}#{msg.required_character}" />
-					<p:inputText style="width:200px"
-						value="#{busqMuestraMbean.alicToEdit.codFreezer}"></p:inputText>
-					<h:outputText styleClass="labelForm"
-						value="#{msg.rack_code}#{msg.required_character}" />
-					<p:inputText style="width:200px"
-						value="#{busqMuestraMbean.alicToEdit.codRack}"></p:inputText>
-					<h:outputText styleClass="labelForm"
-						value="#{msg.code_caja}#{msg.required_character}" />
-					<p:inputText style="width:200px"
-						value="#{busqMuestraMbean.alicToEdit.codBox}"></p:inputText>
-					<h:outputText styleClass="labelForm"
-						value="#{msg.position}#{msg.required_character}" />
-					<p:inputText style="width:200px" readonly="true"
-						value="#{busqMuestraMbean.alicToEdit.id.posBox}"></p:inputText>
-					<h:outputText styleClass="labelForm"
-						value="#{msg.peso_alic}#{msg.required_character}" />
-					<p:inputText style="width:200px"
-						value="#{busqMuestraMbean.alicToEdit.pesoAlic}"></p:inputText>
-					<h:outputText styleClass="labelForm"
-						value="#{msg.vol_alic}#{msg.required_character}" />
-					<p:inputText style="width:200px"
-						value="#{busqMuestraMbean.alicToEdit.volAlic}"></p:inputText>
-				</h:panelGrid>
-				<p:separator />
-				<p:commandButton style="width:90px;margin-left: 26%;" ajax="false"
-					value="#{msg.button_accept}" icon="ui-icon-check"
-					actionListener="#{busqMuestraMbean.actionRegisterAlicuota}" />
-				<p:commandButton style="width:100px; " ajax="false"
-					actionListener="#{busqMuestraMbean.actionCancel}"
-					value="#{msg.button_cancel}" icon="ui-icon-close" />
-			</p:panel>
-		</h:form>
+                            </p:inputText>
+                        </p:column>
 
-		<h:form id="formCloseVigency" rendered="#{busqMuestraMbean.mode == 2}">
-			<p:panel id="panelCloseVigency"
-				header="#{busqMuestraMbean.titlePanel}">
-				<script language="javascript">
-	    	   		window.onload = aplyStyleToPanel('formCloseVigency:panelCloseVigency');
-	    	   	</script>
-				<label> <h:outputText value="#{msg.mot_close_vigency}*" />
-				</label>
-				<br />
-				<h:inputTextarea rows="2"
-					style="margin-top: 10px;margin-left: 30px;" cols="50"
-					value="#{busqMuestraMbean.motCloseVigency}" />
-				<p:separator />
-				<p:commandButton style="width:90px;margin-left: 26%;" ajax="false"
-					value="#{msg.button_accept}" icon="ui-icon-check"
-					actionListener="#{busqMuestraMbean.actionDeleteAlicuota}" />
-				<p:commandButton style="width:100px; " ajax="false"
-					actionListener="#{busqMuestraMbean.actionCancel}"
-					value="#{msg.button_cancel}" icon="ui-icon-close" />
-			</p:panel>
+                    </p:row>
+                </p:panelGrid>
+
+                <p:dialog widgetVar="bui" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                    <div class="text-center">
+                        <h:graphicImage value="/#{short_system_name}/resources/img/ajaxloadingbar.gif"></h:graphicImage>
+                    </div>
+                </p:dialog>
+
+                <p:separator/>
+                <p:dataTable style="width:95%" id="tableLstAlic"
+                             value="#{busqMuestraMbean.listAlicByCode}" var="alic"
+                             emptyMessage="#{msg.empty_message_datatable}" paginator="true"
+                             rows="10" paginatorPosition="bottom"
+                             paginatorTemplate="Pagina {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Filas por cada pagina: {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="10,15,20,50,100,200">
+                    <p:column sortBy="#{alic.id.codAlic}" filterBy="#{alic.id.codAlic}"
+                              filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.sample}"/>
+                        </f:facet>
+                        <h:outputText value="#{alic.id.codAlic}"/>
+                    </p:column>
+                    <p:column sortBy="#{alic.codFreezer}" filterBy="#{alic.codFreezer}"
+                              filterMatchMode="exact">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.code_freezer_rack}"/>
+                        </f:facet>
+                        <h:outputText value="#{alic.codFreezer}"/>
+                    </p:column>
+                    <p:column sortBy="#{alic.codRack}" filterBy="#{alic.codRack}"
+                              filterMatchMode="exact">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.rack_code}"/>
+                        </f:facet>
+                        <h:outputText value="#{alic.codRack}"/>
+                    </p:column>
+                    <p:column filterBy="#{alic.codBox}" filterMatchMode="exact"
+                              sortBy="#{alic.codBox}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.code_caja}"/>
+                        </f:facet>
+                        <h:outputText value="#{alic.codBox}"/>
+                    </p:column>
+                    <p:column filterBy="#{alic.id.posBox}" filterMatchMode="exact"
+                              sortBy="#{alic.id.posBox}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.position}"/>
+                        </f:facet>
+                        <h:outputText value="#{alic.id.posBox}"/>
+                    </p:column>
+                    <p:column filterBy="#{alic.negPos}" filterMatchMode="contains"
+                              sortBy="#{alic.negPos}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.alic_pos_neg}"/>
+                        </f:facet>
+                        <h:outputText value="#{alic.negPos}"/>
+                    </p:column>
+                    <p:column filterBy="#{alic.pesoAlic}" filterMatchMode="contains"
+                              sortBy="#{alic.pesoAlic}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.peso_alic}"/>
+                        </f:facet>
+                        <h:outputText value="#{alic.pesoAlic}"/>
+                    </p:column>
+                    <p:column filterBy="#{alic.volAlic}" filterMatchMode="contains"
+                              sortBy="#{alic.volAlic}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.vol_alic}"/>
+                        </f:facet>
+                        <h:outputText value="#{alic.volAlic}"/>
+                    </p:column>
+                    <p:column filterBy="#{alic.fehorReg}" filterMatchMode="contains"
+                              sortBy="#{alic.fehorReg}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.fech_regist}"/>
+                        </f:facet>
+                        <h:outputText value="#{alic.fehorReg}">
+                        </h:outputText>
+                    </p:column>
+                    <p:column filterBy="#{alic.codUser}" filterMatchMode="contains"
+                              sortBy="#{alic.codUser}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.user_code}"/>
+                        </f:facet>
+                        <h:outputText value="#{alic.codUser}"/>
+                    </p:column>
+                    <p:column exportable="false" headerText="#{msg.admin_user_action}">
+                        <p:commandButton icon="ui-icon-pencil" id="edit" ajax="false"
+                                         title="#{msg.edit_alic}"
+                                         actionListener="#{busqMuestraMbean.actionEditInfoAlic(e,alic)}"/>
+                        <p:commandButton icon="ui-icon-circle-close" id="closeVigency"
+                                         ajax="false" title="#{msg.close_vigency_apparatus}"
+                                         actionListener="#{busqMuestraMbean.actionCloseVigencyMuestra(e, alic)}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:spacer height="30"/>
+
+            </p:panel>
+
+            <h:panelGrid id="pExport" columns="2" style="display: none">
+                <p:panel header="#{msg.all_data}">
+
+                    <h:commandLink>
+                        <p:graphicImage
+                                value="/#{short_system_name}/resources/img/excel.png"/>
+                        <p:dataExporter  type="xls" target="tableLstAlic" fileName="BusquedaMuestras"/>
+                    </h:commandLink>
+
+                    <h:commandLink>
+                        <p:graphicImage
+                                value="/#{short_system_name}/resources/img/pdf.png"/>
+                        <p:dataExporter type="pdf" target="tableLstAlic" fileName="BusquedaMuestras"/>
+                    </h:commandLink>
+
+                    <h:commandLink>
+                        <p:graphicImage
+                                value="/#{short_system_name}/resources/img/csv.png"/>
+                        <p:dataExporter type="csv" target="tableLstAlic" fileName="BusquedaMuestras"/>
+                    </h:commandLink>
+
+                    <h:commandLink>
+                        <p:graphicImage
+                                value="/#{short_system_name}/resources/img/xml.png"/>
+                        <p:dataExporter type="xml" target="tableLstAlic" fileName="BusquedaMuestras"/>
+                    </h:commandLink>
+                </p:panel>
+
+                <p:panel header="#{msg.page_data}">
+                    <h:commandLink>
+                        <p:graphicImage
+                                value="/#{short_system_name}/resources/img/excel.png"/>
+                        <p:dataExporter type="xls" target="tableLstAlic" fileName="alics"
+                                        pageOnly="true"/>
+                    </h:commandLink>
+
+                    <h:commandLink>
+                        <p:graphicImage
+                                value="/#{short_system_name}/resources/img/pdf.png"/>
+                        <p:dataExporter type="pdf" target="tableLstAlic" fileName="alics"
+                                        pageOnly="true"/>
+                    </h:commandLink>
+
+                    <h:commandLink>
+                        <p:graphicImage
+                                value="/#{short_system_name}/resources/img/csv.png"/>
+                        <p:dataExporter type="csv" target="tableLstAlic" fileName="alics"
+                                        pageOnly="true"/>
+                    </h:commandLink>
+
+                    <h:commandLink>
+                        <p:graphicImage
+                                value="/#{short_system_name}/resources/img/xml.png"/>
+                        <p:dataExporter type="xml" target="tableLstAlic" fileName="alics"
+                                        pageOnly="true"/>
+                    </h:commandLink>
+                </p:panel>
+            </h:panelGrid>
+
+            <p:panel id="panelListAlic3" closable="true" toggleable="true" style="width:1500px; display: none">
+                <p:panelGrid >
+                    <p:row>
+                        <p:column  style="font-weight: bold;">
+                            <p:fileUpload oncomplete="bui.hide()" id="btnUpload" fileUploadListener="#{busqMuestraMbean.uploadFile}"
+                                          showButtons="false" allowTypes="/(\.|\/)(xlsx)$/"
+                                          sizeLimit="600000" invalidFileMessage="Tipo de archivo invalido"
+                                          mode="advanced" onstart="submitDestino();bui.show()"
+                                          update="tableLstAlic2,messages" cancelLabel="Cancelar" uploadLabel="Subir"
+                                          label="Cargar Excel" description="Seleccionar archivo"/>
+                            <p:remoteCommand name="submitDestino"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                <p:separator/>
+                <p:dataTable style="width:95%" id="tableLstAlic2"
+                             value="#{busqMuestraMbean.listAlicByCode2}" var="alic"
+                             emptyMessage="#{msg.empty_message_datatable}" paginator="true"
+                             rows="10" paginatorPosition="bottom"
+                             paginatorTemplate="Pagina {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Filas por cada pagina: {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="10,20,30,50,100,200">
+                    <p:column sortBy="#{alic.id.codAlic}" filterBy="#{alic.id.codAlic}"
+                              filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.sample}"/>
+                        </f:facet>
+                        <h:outputText value="#{alic.id.codAlic}"/>
+                    </p:column>
+                    <p:column sortBy="#{alic.codFreezer}" filterBy="#{alic.codFreezer}"
+                              filterMatchMode="exact">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.code_freezer_rack}"/>
+                        </f:facet>
+                        <h:outputText value="#{alic.codFreezer}"/>
+                    </p:column>
+                    <p:column sortBy="#{alic.codRack}" filterBy="#{alic.codRack}"
+                              filterMatchMode="exact">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.rack_code}"/>
+                        </f:facet>
+                        <h:outputText value="#{alic.codRack}"/>
+                    </p:column>
+                    <p:column filterBy="#{alic.codBox}" filterMatchMode="exact"
+                              sortBy="#{alic.codBox}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.code_caja}"/>
+                        </f:facet>
+                        <h:outputText value="#{alic.codBox}"/>
+                    </p:column>
+                    <p:column filterBy="#{alic.id.posBox}" filterMatchMode="exact"
+                              sortBy="#{alic.id.posBox}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.position}"/>
+                        </f:facet>
+                        <h:outputText value="#{alic.id.posBox}"/>
+                    </p:column>
+                    <p:column exportable="true" filterBy="#{alic.negPos}" filterMatchMode="contains"
+                              sortBy="#{alic.negPos}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.alic_pos_neg}"/>
+                        </f:facet>
+                        <h:outputText value="#{alic.negPos}"/>
+                    </p:column>
+                    <p:column filterBy="#{alic.pesoAlic}" filterMatchMode="contains"
+                              sortBy="#{alic.pesoAlic}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.peso_alic}"/>
+                        </f:facet>
+                        <h:outputText value="#{alic.pesoAlic}"/>
+                    </p:column>
+                    <p:column filterBy="#{alic.volAlic}" filterMatchMode="contains"
+                              sortBy="#{alic.volAlic}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.vol_alic}"/>
+                        </f:facet>
+                        <h:outputText value="#{alic.volAlic}"/>
+                    </p:column>
+                    <p:column filterBy="#{alic.fehorReg}" filterMatchMode="contains"
+                              sortBy="#{alic.fehorReg}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.fech_regist}"/>
+                        </f:facet>
+                        <h:outputText value="#{alic.fehorReg}">
+                        </h:outputText>
+                    </p:column>
+                    <p:column filterBy="#{alic.codUser}" filterMatchMode="contains"
+                              sortBy="#{alic.codUser}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.user_code}"/>
+                        </f:facet>
+                        <h:outputText value="#{alic.codUser}"/>
+                    </p:column>
+                    <p:column exportable="false" headerText="#{msg.admin_user_action}">
+                        <p:commandButton icon="ui-icon-pencil" id="edit2" ajax="false"
+                                         title="#{msg.edit_alic}"
+                                         actionListener="#{busqMuestraMbean.actionEditInfoAlic(e,alic)}"/>
+                        <p:commandButton icon="ui-icon-circle-close" id="closeVigency2"
+                                         ajax="false" title="#{msg.close_vigency_apparatus}"
+                                         actionListener="#{busqMuestraMbean.actionCloseVigencyMuestra(e, alic)}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:spacer height="30"/>
+
+            </p:panel>
+
+            <h:panelGrid id="pExport2" columns="2" style="display: none">
+                <p:panel header="#{msg.all_data}">
+
+                    <h:commandLink>
+                        <p:graphicImage
+                                value="/#{short_system_name}/resources/img/excel.png"/>
+                        <p:dataExporter  type="xls" target="tableLstAlic2" fileName="BusquedaMuestras"/>
+                    </h:commandLink>
+
+                    <h:commandLink>
+                        <p:graphicImage
+                                value="/#{short_system_name}/resources/img/pdf.png"/>
+                        <p:dataExporter type="pdf" target="tableLstAlic2" fileName="BusquedaMuestras"/>
+                    </h:commandLink>
+
+                    <h:commandLink>
+                        <p:graphicImage
+                                value="/#{short_system_name}/resources/img/csv.png"/>
+                        <p:dataExporter type="csv" target="tableLstAlic2" fileName="BusquedaMuestras"/>
+                    </h:commandLink>
+
+                    <h:commandLink>
+                        <p:graphicImage
+                                value="/#{short_system_name}/resources/img/xml.png"/>
+                        <p:dataExporter type="xml" target="tableLstAlic2" fileName="BusquedaMuestras"/>
+                    </h:commandLink>
+                </p:panel>
+
+                <p:panel header="#{msg.page_data}">
+                    <h:commandLink>
+                        <p:graphicImage
+                                value="/#{short_system_name}/resources/img/excel.png"/>
+                        <p:dataExporter type="xls" target="tableLstAlic2" fileName="alics"
+                                        pageOnly="true"/>
+                    </h:commandLink>
+
+                    <h:commandLink>
+                        <p:graphicImage
+                                value="/#{short_system_name}/resources/img/pdf.png"/>
+                        <p:dataExporter type="pdf" target="tableLstAlic2" fileName="alics"
+                                        pageOnly="true"/>
+                    </h:commandLink>
+
+                    <h:commandLink>
+                        <p:graphicImage
+                                value="/#{short_system_name}/resources/img/csv.png"/>
+                        <p:dataExporter type="csv" target="tableLstAlic2" fileName="alics"
+                                        pageOnly="true"/>
+                    </h:commandLink>
+
+                    <h:commandLink>
+                        <p:graphicImage
+                                value="/#{short_system_name}/resources/img/xml.png"/>
+                        <p:dataExporter type="xml" target="tableLstAlic2" fileName="alics"
+                                        pageOnly="true"/>
+                    </h:commandLink>
+                </p:panel>
+            </h:panelGrid>
+
+        </h:form>
+
+        <h:form id="formEditAlic" rendered="#{busqMuestraMbean.mode == 1}">
+            <p:panel id="panelRegisterAlic"
+                     header="#{busqMuestraMbean.titlePanel}">
+                <script language="javascript">
+                    window.onload = aplyStyleToPanel('formEditAlic:panelRegisterAlic');
+                </script>
+                <h:panelGrid id="grid" columns="2">
+                    <h:outputText styleClass="labelForm"
+                                  value="#{msg.sample}#{msg.required_character}"/>
+                    <p:inputText style="width:200px" readonly="true"
+                                 value="#{busqMuestraMbean.alicToEdit.id.codAlic}"></p:inputText>
+                    <h:outputText styleClass="labelForm"
+                                  value="#{msg.code_freezer_rack}#{msg.required_character}"/>
+                    <p:inputText style="width:200px"
+                                 value="#{busqMuestraMbean.alicToEdit.codFreezer}"></p:inputText>
+                    <h:outputText styleClass="labelForm"
+                                  value="#{msg.rack_code}#{msg.required_character}"/>
+                    <p:inputText style="width:200px"
+                                 value="#{busqMuestraMbean.alicToEdit.codRack}"></p:inputText>
+                    <h:outputText styleClass="labelForm"
+                                  value="#{msg.code_caja}#{msg.required_character}"/>
+                    <p:inputText style="width:200px"
+                                 value="#{busqMuestraMbean.alicToEdit.codBox}"></p:inputText>
+                    <h:outputText styleClass="labelForm"
+                                  value="#{msg.position}#{msg.required_character}"/>
+                    <p:inputText style="width:200px" readonly="true"
+                                 value="#{busqMuestraMbean.alicToEdit.id.posBox}"></p:inputText>
+                    <h:outputText styleClass="labelForm"
+                                  value="#{msg.peso_alic}#{msg.required_character}"/>
+                    <p:inputText style="width:200px"
+                                 value="#{busqMuestraMbean.alicToEdit.pesoAlic}"></p:inputText>
+                    <h:outputText styleClass="labelForm"
+                                  value="#{msg.vol_alic}#{msg.required_character}"/>
+                    <p:inputText style="width:200px"
+                                 value="#{busqMuestraMbean.alicToEdit.volAlic}"></p:inputText>
+                </h:panelGrid>
+                <p:separator/>
+                <p:commandButton style="width:90px;margin-left: 26%;" ajax="false"
+                                 value="#{msg.button_accept}" icon="ui-icon-check"
+                                 actionListener="#{busqMuestraMbean.actionRegisterAlicuota}"/>
+                <p:commandButton style="width:100px; " ajax="false"
+                                 actionListener="#{busqMuestraMbean.actionCancel}"
+                                 value="#{msg.button_cancel}" icon="ui-icon-close"/>
+            </p:panel>
+        </h:form>
+
+        <h:form id="formCloseVigency" rendered="#{busqMuestraMbean.mode == 2}">
+            <p:panel id="panelCloseVigency"
+                     header="#{busqMuestraMbean.titlePanel}">
+                <script language="javascript">
+                    window.onload = aplyStyleToPanel('formCloseVigency:panelCloseVigency');
+                </script>
+                <label> <h:outputText value="#{msg.mot_close_vigency}*"/>
+                </label>
+                <br/>
+                <h:inputTextarea rows="2"
+                                 style="margin-top: 10px;margin-left: 30px;" cols="50"
+                                 value="#{busqMuestraMbean.motCloseVigency}"/>
+                <p:separator/>
+                <p:commandButton style="width:90px;margin-left: 26%;" ajax="false"
+                                 value="#{msg.button_accept}" icon="ui-icon-check"
+                                 actionListener="#{busqMuestraMbean.actionDeleteAlicuota}"/>
+                <p:commandButton style="width:100px; " ajax="false"
+                                 actionListener="#{busqMuestraMbean.actionCancel}"
+                                 value="#{msg.button_cancel}" icon="ui-icon-close"/>
+            </p:panel>
 
 
-		</h:form>
+        </h:form>
 
-	</ui:define>
+        <script type="text/javascript">
+            function updateGrid() {
+
+
+                var myval;
+                if (document.forms['formListAlic']['formListAlic:searchType'][0].checked === true) {
+                    myval = "1";
+                } else if (document.forms['formListAlic']['formListAlic:searchType'][1].checked === true) {
+                    myval = "2";
+                }
+
+                if (myval == "1") {
+                    window.onload = hidePanel('formListAlic:panelListAlic3');
+                    window.onload = showPanel('formListAlic:panelListAlic2');
+                    window.onload = showPanel('formListAlic:pExport');
+                    window.onload = hidePanel('formListAlic:pExport2');
+
+                } else {
+                    window.onload = hidePanel('formListAlic:panelListAlic2');
+                    window.onload = showPanel('formListAlic:panelListAlic3');
+                    window.onload = showPanel('formListAlic:pExport2');
+                    window.onload = hidePanel('formListAlic:pExport');
+
+                }
+            }
+        </script>
+
+    </ui:define>
 </ui:composition>

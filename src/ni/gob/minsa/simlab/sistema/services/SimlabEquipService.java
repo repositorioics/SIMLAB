@@ -818,7 +818,7 @@ public class SimlabEquipService {
 		Collection<RegAlic> listAlicReg = new ArrayList<RegAlic>();
 		//Obtenemos la lista de Alicuotas registradas por Freezer, Rack y Caja
 		listAlicReg = simlabAlicuotaService.getListAlicReg(freezer,rack, caja);
-		//Validamos si la capacidad de almacenamiento de la caja es mayor al tamaño de la lista obtenida
+		//Validamos si la capacidad de almacenamiento de la caja es mayor al tamaï¿½o de la lista obtenida
 		if(objectBox.getCapAlm()==listAlicReg.size())
 			isFull =true;
 		return isFull;
@@ -1092,7 +1092,8 @@ public class SimlabEquipService {
 		}
 		return lst;
 	}
-	
+
+
 	/***
 	 * Obtiene una lista de alicuota
 	 * @return lista de alicuota
@@ -1176,7 +1177,27 @@ public class SimlabEquipService {
 		}
 		return lst;
 	}
-	
+
+	/***
+	 * Obtiene una lista de alicuota por criterio
+	 * @return lista de alicuota
+	 * @throws SimlabAppException
+	 */
+	@SuppressWarnings("unchecked")
+	public static Collection<RegAlic> getListAlicCrit2(String criterio) throws SimlabAppException{
+		Collection<RegAlic> lst = new ArrayList<RegAlic>();
+		try {
+			Session session = HibernateUtil.openSesion();
+			Query query = session.createQuery("From RegAlic ra where ra.id.codAlic = :codBuscar");
+			query.setParameter("codBuscar", criterio);
+			lst = query.list();
+			session.close();
+		} catch (Throwable e){
+			SimlabAppException.generateExceptionBySelect(SimlabEquipService.class, e);
+		}
+		return lst;
+	}
+
 	/**Crea la coleccion cuando se escribe el codigo de la muestra */
 	@SuppressWarnings("rawtypes")
 	private static Collection<AlicuotaModel> createCollection(List lst){

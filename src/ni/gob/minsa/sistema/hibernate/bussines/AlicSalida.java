@@ -15,6 +15,8 @@ public class AlicSalida implements java.io.Serializable
 	private String propUso;
 	private String volSalida;
 
+
+
 	public AlicSalida() {
 	}
 
