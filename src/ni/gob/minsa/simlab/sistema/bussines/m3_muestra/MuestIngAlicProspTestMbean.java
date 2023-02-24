@@ -517,77 +517,6 @@ public class MuestIngAlicProspTestMbean extends GenericMbean implements Serializ
 			if (this.getStudy().matches("Muestreo Anual 2017") && this.getTypeAlicFromCodeAlic().matches("14[t|T|p|P]{1}")){
 				this.suggestLocationMA2017();
 			}
-
-			else if (this.getStudy().matches("Muestreo Anual 2022")) {
-				Object[] ubicacion = simlabAlicuotaService.getUbicacionMA2022(this.getCodeAlic());
-				if (ubicacion!=null) {
-					this.setCodeRack(ubicacion[3].toString());
-					this.setCodeBox(Integer.parseInt(ubicacion[4].toString()));
-					this.setCodeBoxInUse(Integer.parseInt(ubicacion[4].toString()));
-					this.setCodeFreezer(Integer.parseInt(ubicacion[2].toString()));
-					this.setPositionInBox(Integer.parseInt(ubicacion[1].toString()));
-					//this.setVolAlic(Float.valueOf(ubicacion[6].toString()));
-					//Seteamos los Equipos a Sugerir para los Detalles de la Vista.
-					Freezer freezer = SimlabEquipService.getFreezerbyID(ubicacion[2].toString());
-					Rack rack = SimlabEquipService.getRack(ubicacion[3].toString());
-					Caja caja = SimlabEquipService.getCajaByCode(ubicacion[4].toString());
-					this.setFreezerToSuggest(freezer);
-					this.setRackToSuggest(rack);
-					this.setBoxTosuggest(caja);
-					this.setAlicBoxInUse(this.getTypeAlicFromCodeAlic());
-				}
-				else if(this.getTypeAlicFromCodeAlic().matches("19[n|N]{1}")) {
-					this.sugerirUbicacion();
-				}
-				else if(this.getTypeAlicFromCodeAlic().matches("19[h|H]{1}")) {
-					this.sugerirUbicacion();
-				}
-				else if(this.getTypeAlicFromCodeAlic().matches("19[i|I]{1}")) {
-					this.sugerirUbicacion();
-				}
-				else if(this.getTypeAlicFromCodeAlic().matches("19[b|B]{1}")) {
-					this.sugerirUbicacion();
-				}
-				else if(this.getTypeAlicFromCodeAlic().matches("19[e|E]{1}")) {
-					this.sugerirUbicacion();
-				}
-				else if(this.getTypeAlicFromCodeAlic().matches("19[t|T]{1}")) {
-					this.sugerirUbicacion();
-				}
-				else if(this.getTypeAlicFromCodeAlic().matches("19[s|S]{1}")) {
-					this.sugerirUbicacion();
-				}
-				else if(this.getTypeAlicFromCodeAlic().matches("19[z|Z]{1}")) {
-					this.sugerirUbicacion();
-				}
-				else if(this.getTypeAlicFromCodeAlic().matches("19[px|PX]{2}")) {
-					this.sugerirUbicacion();
-				}
-				else if(this.getTypeAlicFromCodeAlic().matches("19[px1|PX1]{3}")) {
-					this.sugerirUbicacion();
-				}
-				else if(this.getTypeAlicFromCodeAlic().matches("19[px2|PX2]{3}")) {
-					this.sugerirUbicacion();
-				}
-
-				else if(this.getTypeAlicFromCodeAlic().matches("19[u|U]{1}")) {
-					this.sugerirUbicacion();
-				}
-
-				else if(this.getTypeAlicFromCodeAlic().matches("19[c|C]{1}")) {
-					this.sugerirUbicacion();
-				}
-				else if(this.getTypeAlicFromCodeAlic().matches("19[d|D]{1}")) {
-					this.sugerirUbicacion();
-				}
-				else if(this.getTypeAlicFromCodeAlic().matches("19[v|V]{1}")) {
-					this.sugerirUbicacion();
-				}
-				else if (this.getEstudioParticipante()!=null) {
-					this.sugerirUbicacionMA2018(this.getEstudioParticipante());
-				}
-
-			}
 			else if (this.getStudy().matches("Muestreo Anual 2018")) {
 				Object[] ubicacion = simlabAlicuotaService.getUbicacionMA2018(this.getCodeAlic());
 				if (ubicacion!=null) {
@@ -918,9 +847,148 @@ public class MuestIngAlicProspTestMbean extends GenericMbean implements Serializ
 					this.setBoxTosuggest(caja);
 					this.setAlicBoxInUse(this.getTypeAlicFromCodeAlic());
 				}
-
 			}
 
+				else if (this.getStudy().matches("Muestreo Anual 2022")) {
+					Object[] ubicacion = simlabAlicuotaService.getUbicacionMA2022(this.getCodeAlic());
+					if (ubicacion!=null) {
+						this.setCodeRack(ubicacion[3].toString());
+						this.setCodeBox(Integer.parseInt(ubicacion[4].toString()));
+						this.setCodeBoxInUse(Integer.parseInt(ubicacion[4].toString()));
+						this.setCodeFreezer(Integer.parseInt(ubicacion[2].toString()));
+						this.setPositionInBox(Integer.parseInt(ubicacion[1].toString()));
+						//this.setVolAlic(Float.valueOf(ubicacion[6].toString()));
+						//Seteamos los Equipos a Sugerir para los Detalles de la Vista.
+						Freezer freezer = SimlabEquipService.getFreezerbyID(ubicacion[2].toString());
+						Rack rack = SimlabEquipService.getRack(ubicacion[3].toString());
+						Caja caja = SimlabEquipService.getCajaByCode(ubicacion[4].toString());
+						this.setFreezerToSuggest(freezer);
+						this.setRackToSuggest(rack);
+						this.setBoxTosuggest(caja);
+						this.setAlicBoxInUse(this.getTypeAlicFromCodeAlic());
+					}
+					else if(this.getTypeAlicFromCodeAlic().matches("19[n|N]{1}")) {
+						this.sugerirUbicacion();
+					}
+					else if(this.getTypeAlicFromCodeAlic().matches("19[h|H]{1}")) {
+						this.sugerirUbicacion();
+					}
+					else if(this.getTypeAlicFromCodeAlic().matches("19[i|I]{1}")) {
+						this.sugerirUbicacion();
+					}
+					else if(this.getTypeAlicFromCodeAlic().matches("19[b|B]{1}")) {
+						this.sugerirUbicacion();
+					}
+					else if(this.getTypeAlicFromCodeAlic().matches("19[e|E]{1}")) {
+						this.sugerirUbicacion();
+					}
+					else if(this.getTypeAlicFromCodeAlic().matches("19[t|T]{1}")) {
+						this.sugerirUbicacion();
+					}
+					else if(this.getTypeAlicFromCodeAlic().matches("19[s|S]{1}")) {
+						this.sugerirUbicacion();
+					}
+					else if(this.getTypeAlicFromCodeAlic().matches("19[z|Z]{1}")) {
+						this.sugerirUbicacion();
+					}
+					else if(this.getTypeAlicFromCodeAlic().matches("19[px|PX]{2}")) {
+						this.sugerirUbicacion();
+					}
+					else if(this.getTypeAlicFromCodeAlic().matches("19[px1|PX1]{3}")) {
+						this.sugerirUbicacion();
+					}
+					else if(this.getTypeAlicFromCodeAlic().matches("19[px2|PX2]{3}")) {
+						this.sugerirUbicacion();
+					}
+
+					else if(this.getTypeAlicFromCodeAlic().matches("19[u|U]{1}")) {
+						this.sugerirUbicacion();
+					}
+
+					else if(this.getTypeAlicFromCodeAlic().matches("19[c|C]{1}")) {
+						this.sugerirUbicacion();
+					}
+					else if(this.getTypeAlicFromCodeAlic().matches("19[d|D]{1}")) {
+						this.sugerirUbicacion();
+					}
+					else if(this.getTypeAlicFromCodeAlic().matches("19[v|V]{1}")) {
+						this.sugerirUbicacion();
+					}
+					else if (this.getEstudioParticipante()!=null) {
+						this.sugerirUbicacionMA2018(this.getEstudioParticipante());
+					}
+
+
+
+			} else if (this.getStudy().matches("Muestreo Anual 2023")) {
+				Object[] ubicacion = simlabAlicuotaService.getUbicacionMA2023(this.getCodeAlic());
+				if (ubicacion!=null) {
+					this.setCodeRack(ubicacion[3].toString());
+					this.setCodeBox(Integer.parseInt(ubicacion[4].toString()));
+					this.setCodeBoxInUse(Integer.parseInt(ubicacion[4].toString()));
+					this.setCodeFreezer(Integer.parseInt(ubicacion[2].toString()));
+					this.setPositionInBox(Integer.parseInt(ubicacion[1].toString()));
+					//this.setVolAlic(Float.valueOf(ubicacion[6].toString()));
+					//Seteamos los Equipos a Sugerir para los Detalles de la Vista.
+					Freezer freezer = SimlabEquipService.getFreezerbyID(ubicacion[2].toString());
+					Rack rack = SimlabEquipService.getRack(ubicacion[3].toString());
+					Caja caja = SimlabEquipService.getCajaByCode(ubicacion[4].toString());
+					this.setFreezerToSuggest(freezer);
+					this.setRackToSuggest(rack);
+					this.setBoxTosuggest(caja);
+					this.setAlicBoxInUse(this.getTypeAlicFromCodeAlic());
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("20[n|N]{1}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("20[h|H]{1}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("20[i|I]{1}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("20[b|B]{1}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("20[e|E]{1}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("20[t|T]{1}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("20[s|S]{1}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("20[z|Z]{1}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("20[px|PX]{2}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("20[px1|PX1]{3}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("20[px2|PX2]{3}")) {
+					this.sugerirUbicacion();
+				}
+
+				else if(this.getTypeAlicFromCodeAlic().matches("20[u|U]{1}")) {
+					this.sugerirUbicacion();
+				}
+
+				else if(this.getTypeAlicFromCodeAlic().matches("20[c|C]{1}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("20[d|D]{1}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("20[v|V]{1}")) {
+					this.sugerirUbicacion();
+				}
+				else if (this.getEstudioParticipante()!=null) {
+					this.sugerirUbicacionMA2018(this.getEstudioParticipante());
+				}
+			}
 
 			else{
 				this.sugerirUbicacion();
@@ -1058,11 +1126,6 @@ public void suggestLocationMA2017() throws SimlabAppException{
 				//Obtenemos solamente parte del Sufijo
 				//getCharAli = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().indexOf(".")+2, this.getCodeAlic().length());
 			}
-
-			else if(this.getStudy().matches("Muestreo Anual 2022")){
-				//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
-				getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().indexOf(".")+1, this.getCodeAlic().length());
-			}
 			else if(this.getStudy().matches("Estudio Cohorte")){
 				//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
 				getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().lastIndexOf(".")+1, this.getCodeAlic().length());
@@ -1106,7 +1169,6 @@ public void suggestLocationMA2017() throws SimlabAppException{
 
 				} else {
 					getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().lastIndexOf(".") + 1, this.getCodeAlic().length());
-
 				}
 
 			}
@@ -1190,6 +1252,16 @@ public void suggestLocationMA2017() throws SimlabAppException{
 				getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().lastIndexOf(".") -1, this.getCodeAlic().length());
 			}
 
+			else if(this.getStudy().matches("Muestreo Anual 2022")){
+				//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
+				getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().indexOf(".")+1, this.getCodeAlic().length());
+			}
+
+			else if(this.getStudy().matches("Muestreo Anual 2023")){
+				//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
+				getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().indexOf(".")+1, this.getCodeAlic().length());
+			}
+
 
 
 			//Validamos si el Arreglo contiene elementos
@@ -1226,58 +1298,60 @@ public void suggestLocationMA2017() throws SimlabAppException{
 		int indiceCodigo =  this.getCodeAlic().indexOf('.');
 		boolean patternAlicIsRight = false;
 		try {
-			if (this.getStudy().matches("Muestreo Anual 2022")){
-				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 47));
-			}else if (this.getStudy().matches("Estudio Hospitalario")){
+			if (this.getStudy().matches("Estudio Hospitalario")) {
 				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 1));
-			} else if (this.getStudy().matches("Estudio Longitudinal")){
+			} else if (this.getStudy().matches("Estudio Longitudinal")) {
 				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 5));
-			} else if (this.getStudy().matches("Estudio Cohorte")){
+			} else if (this.getStudy().matches("Estudio Cohorte")) {
 				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 6));
-			} else if (this.getStudy().matches("Estudio Cohorte Muestras C")){
+			} else if (this.getStudy().matches("Estudio Cohorte Muestras C")) {
 				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 7));
-			} else if (this.getStudy().matches("Estudio Transmision Chikungunya")){
+			} else if (this.getStudy().matches("Estudio Transmision Chikungunya")) {
 				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 8));
-			} else if (this.getStudy().matches("Muestreo Anual")){
+			} else if (this.getStudy().matches("Muestreo Anual")) {
 				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 9));
-			} else if (this.getStudy().matches("Cluster Zika")){
+			} else if (this.getStudy().matches("Cluster Zika")) {
 				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 10));
-			} else if (this.getStudy().matches("Estudio Zika ZIP")){
+			} else if (this.getStudy().matches("Estudio Zika ZIP")) {
 				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 11));
-			} else if (this.getStudy().matches("Estudio Zika Positivas")){
+			} else if (this.getStudy().matches("Estudio Zika Positivas")) {
 				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 12));
-			} else if (this.getStudy().matches("Estudio Cohorte Flu")){
+			} else if (this.getStudy().matches("Estudio Cohorte Flu")) {
 				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 13));
-			} else if (this.getStudy().matches("Muestreo Anual 2017")){
+			} else if (this.getStudy().matches("Muestreo Anual 2017")) {
 				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 14));
-			} else if (this.getStudy().matches("Cohorte Familia MA2017")){
+			} else if (this.getStudy().matches("Cohorte Familia MA2017")) {
 				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 15));
-			} else if (this.getStudy().matches("Cohorte Familia Transmision")){
+			} else if (this.getStudy().matches("Cohorte Familia Transmision")) {
 				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 16));
-			} else if (this.getStudy().matches("Estudio ZPO")){
+			} else if (this.getStudy().matches("Estudio ZPO")) {
 				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 17));
-			} else if (this.getStudy().matches("Muestreo Anual 2016")){
+			} else if (this.getStudy().matches("Muestreo Anual 2016")) {
 				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 18));
-			} else if (this.getStudy().matches("Muestreo Anual 2018")){
+			} else if (this.getStudy().matches("Muestreo Anual 2018")) {
 				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 19));
-			} else if (this.getStudy().matches("Muestreo Anual 2019")){
+			} else if (this.getStudy().matches("Muestreo Anual 2019")) {
 				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 20));
-			} else if (this.getStudy().matches("Estudio Muestras Superficie")){
+			} else if (this.getStudy().matches("Estudio Muestras Superficie")) {
 				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 21));
-			} else if (this.getStudy().matches("Estudio Influenza U01")){
+			} else if (this.getStudy().matches("Estudio Influenza U01")) {
 				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 22));
-			} else if (this.getStudy().matches("Estudio CNS")){
-                patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 23));
-            } else if (this.getStudy().matches("Muestreo Anual 2020")){
+			} else if (this.getStudy().matches("Estudio CNS")) {
+				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 23));
+			} else if (this.getStudy().matches("Muestreo Anual 2020")) {
 				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 24));
-			} else if (this.getStudy().matches("Muestreo Covid 2020")){
+			} else if (this.getStudy().matches("Muestreo Covid 2020")) {
 				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 25));
-			} else if (this.getStudy().matches("Muestreo Anual 2021")){
+			} else if (this.getStudy().matches("Muestreo Anual 2021")) {
 				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 26));
-			} else if (this.getStudy().matches("Muestreo Covid 2021")){
+			} else if (this.getStudy().matches("Muestreo Covid 2021")) {
 				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 44));
-			} else if (this.getStudy().matches("Estudio MINSA")){
+			} else if (this.getStudy().matches("Estudio MINSA")) {
 				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 46));
+			} else if (this.getStudy().matches("Muestreo Anual 2022")) {
+				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 47));
+			} else if (this.getStudy().matches("Muestreo Anual 2023")) {
+				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 48));
 			}
 
 			} catch (SimlabAppException e) {
@@ -1306,22 +1380,7 @@ public void suggestLocationMA2017() throws SimlabAppException{
 						}
 					}
 			}
-			else if(this.getStudy().matches("Muestreo Anual 2022")) {
-				int indiceCodigo2 = this.getCodeAlic().lastIndexOf(".");
-				//Obtenemos el Codigo del participante
-				Integer codigo = Integer.parseInt(simlabStringUtils.cutToLength(this.getCodeAlic(), indiceCodigo2));
-				if(codigo>0) {
-					Object[] participante = simlabAlicuotaService.getEstadoParticipante(codigo);
-					if (participante != null){
-						this.setCodigoParticipante(codigo);
-						this.setEstudioParticipante(participante[3].toString());
-					}
-
-				}
-				String paramNR = SimlabParameterService.getItemParam(CatalogParam.POS_NEG, 3).getDescItem();
-				this.setIndPosNeg(paramNR);
-
-			}else if(this.getStudy().matches("Estudio Cohorte")) {
+			else if(this.getStudy().matches("Estudio Cohorte")) {
 							
 				int indiceCodigo2 = this.getCodeAlic().lastIndexOf(".");
 									
@@ -1433,6 +1492,40 @@ public void suggestLocationMA2017() throws SimlabAppException{
 			}
 
 			else if(this.getStudy().matches("Muestreo Covid 2021")) {
+				int indiceCodigo2 = this.getCodeAlic().lastIndexOf(".");
+				//Obtenemos el Codigo del participante
+				Integer codigo = Integer.parseInt(simlabStringUtils.cutToLength(this.getCodeAlic(), indiceCodigo2));
+				if(codigo>0) {
+					Object[] participante = simlabAlicuotaService.getEstadoParticipante(codigo);
+					if (participante != null){
+						this.setCodigoParticipante(codigo);
+						this.setEstudioParticipante(participante[3].toString());
+					}
+
+				}
+				String paramNR = SimlabParameterService.getItemParam(CatalogParam.POS_NEG, 3).getDescItem();
+				this.setIndPosNeg(paramNR);
+
+			}
+
+			else if(this.getStudy().matches("Muestreo Anual 2022")) {
+				int indiceCodigo2 = this.getCodeAlic().lastIndexOf(".");
+				//Obtenemos el Codigo del participante
+				Integer codigo = Integer.parseInt(simlabStringUtils.cutToLength(this.getCodeAlic(), indiceCodigo2));
+				if(codigo>0) {
+					Object[] participante = simlabAlicuotaService.getEstadoParticipante(codigo);
+					if (participante != null){
+						this.setCodigoParticipante(codigo);
+						this.setEstudioParticipante(participante[3].toString());
+					}
+
+				}
+				String paramNR = SimlabParameterService.getItemParam(CatalogParam.POS_NEG, 3).getDescItem();
+				this.setIndPosNeg(paramNR);
+
+			}
+
+			else if(this.getStudy().matches("Muestreo Anual 2023")) {
 				int indiceCodigo2 = this.getCodeAlic().lastIndexOf(".");
 				//Obtenemos el Codigo del participante
 				Integer codigo = Integer.parseInt(simlabStringUtils.cutToLength(this.getCodeAlic(), indiceCodigo2));
@@ -1703,12 +1796,6 @@ public void suggestLocationMA2017() throws SimlabAppException{
 			throw new SimlabAppException(10038);
 		//Validamos que el codigo de Alicuota Ingresado corresponda a algun tipo de alicuota registrado en la BD.
 		}
-		else if (this.getStudy().matches("Muestreo Anual 2022")){
-			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 47)))
-				throw new SimlabAppException(10038);
-			//Validamos que el codigo de Alicuota Ingresado corresponda a algun tipo de alicuota registrado en la BD.
-		}
-
 		else if (this.getStudy().matches("Estudio Longitudinal")){
 			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 5)))
 				throw new SimlabAppException(10038);
@@ -1830,6 +1917,17 @@ public void suggestLocationMA2017() throws SimlabAppException{
 				throw new SimlabAppException(10038);
 			//Validamos que el codigo de Alicuota Ingresado corresponda a algun tipo de alicuota registrado en la BD.
 		}
+		else if (this.getStudy().matches("Muestreo Anual 2022")){
+			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 47)))
+				throw new SimlabAppException(10038);
+			//Validamos que el codigo de Alicuota Ingresado corresponda a algun tipo de alicuota registrado en la BD.
+		}
+
+		else if (this.getStudy().matches("Muestreo Anual 2023")){
+			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 48)))
+				throw new SimlabAppException(10038);
+			//Validamos que el codigo de Alicuota Ingresado corresponda a algun tipo de alicuota registrado en la BD.
+		}
 
 		String[] itemTypeAlicSelected = this.getTypeAlicSelected().split(",");
 		boolean exito = false;
@@ -1880,7 +1978,7 @@ public void suggestLocationMA2017() throws SimlabAppException{
 		//Se retorna una Variable de Tipo Temporal
 		boolean isTemporal = false;
 		//if(simlabStringUtils.isNullOrEmpty(this.getVolAlic()))throw new SimlabAppException(10035);
-		if(this.getStudy().matches("Muestreo Anual")||this.getStudy().matches("Muestreo Anual 2016")||this.getStudy().matches("Muestreo Anual 2017")||this.getStudy().matches("Muestreo Anual 2018")||this.getStudy().matches("Muestreo Anual 2019") ||this.getStudy().matches("Muestreo Anual 2020") ||this.getStudy().matches("Muestreo Anual 2021") ||this.getStudy().matches("Muestreo Anual 2022")) {
+		if(this.getStudy().matches("Muestreo Anual")||this.getStudy().matches("Muestreo Anual 2016")||this.getStudy().matches("Muestreo Anual 2017")||this.getStudy().matches("Muestreo Anual 2018")||this.getStudy().matches("Muestreo Anual 2019") ||this.getStudy().matches("Muestreo Anual 2020") ||this.getStudy().matches("Muestreo Anual 2021") ||this.getStudy().matches("Muestreo Anual 2022") ||this.getStudy().matches("Muestreo Anual 2023")) {
 			this.tipo="muestreoanual";
 		}
 		else if(this.getStudy().matches("Cohorte Familia MA2017")) {
