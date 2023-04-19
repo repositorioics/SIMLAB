@@ -545,6 +545,22 @@ public class simlabAlicuotaService {
 		}
 		return objetosResultado;
 	}
+
+	public static Object[] getUbicacionMA2CARES2023(String codigo) {
+		Object[] objetosResultado = null;
+		Session session = null;
+		Query query = null;
+		try {
+			session = HibernateUtil.openSesion();
+			query = session.createSQLQuery("SELECT * from pos_ma2cares_2023 where cod_alic =:codigo");
+			query.setParameter("codigo", codigo);
+			objetosResultado = (Object[]) query.uniqueResult();
+			session.close();
+		} catch (Throwable exception) {
+			SimlabAppException.generateExceptionBySelect(simlabAlicuotaService.class, exception);
+		}
+		return objetosResultado;
+	}
 	
 	public static Object[] getEstadoParticipante(Integer codigo) {
 		Object[] objetoResultado = null;
@@ -559,6 +575,22 @@ public class simlabAlicuotaService {
 			} catch (Throwable exception) {
 				SimlabAppException.generateExceptionBySelect(simlabAlicuotaService.class, exception);
 			}
+		return objetoResultado;
+	}
+
+	public static Object[] getEstadoParticipanteA2CARES(String codigo) {
+		Object[] objetoResultado = null;
+		Session session = null;
+		Query query = null;
+		try {
+			session = HibernateUtil.openSesion();
+			query = session.createSQLQuery("SELECT * from estado_cohorte_a2cares where codigo =:codigo");
+			query.setParameter("codigo", codigo);
+			objetoResultado = (Object[]) query.uniqueResult();
+			session.close();
+		} catch (Throwable exception) {
+			SimlabAppException.generateExceptionBySelect(simlabAlicuotaService.class, exception);
+		}
 		return objetoResultado;
 	}
 	

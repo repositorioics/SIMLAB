@@ -147,6 +147,8 @@ public class MuestIngAlicProspTestMbean extends GenericMbean implements Serializ
 	
 	private Integer codigoParticipante;
 	private String estudioParticipante;
+
+	private String codigoParticipanteA2;
 	
 	public String getTitlePanel() {
 		return titlePanel;
@@ -280,6 +282,14 @@ public class MuestIngAlicProspTestMbean extends GenericMbean implements Serializ
 
 	public void setEstudioParticipante(String estudioParticipante) {
 		this.estudioParticipante = estudioParticipante;
+	}
+
+	public String getCodigoParticipanteA2() {
+		return codigoParticipanteA2;
+	}
+
+	public void setCodigoParticipanteA2(String codigoParticipanteA2) {
+		this.codigoParticipanteA2 = codigoParticipanteA2;
 	}
 
 	public Collection<RegAlic> getListAlicByCode(){
@@ -988,6 +998,37 @@ public class MuestIngAlicProspTestMbean extends GenericMbean implements Serializ
 				else if (this.getEstudioParticipante()!=null) {
 					this.sugerirUbicacionMA2018(this.getEstudioParticipante());
 				}
+			}else if (this.getStudy().matches("Muestreo A2CARES 2023")) {
+				Object[] ubicacion = simlabAlicuotaService.getUbicacionMA2CARES2023(this.getCodeAlic());
+				if (ubicacion!=null) {
+					this.setCodeRack(ubicacion[3].toString());
+					this.setCodeBox(Integer.parseInt(ubicacion[4].toString()));
+					this.setCodeBoxInUse(Integer.parseInt(ubicacion[4].toString()));
+					this.setCodeFreezer(Integer.parseInt(ubicacion[2].toString()));
+					this.setPositionInBox(Integer.parseInt(ubicacion[1].toString()));
+					//this.setVolAlic(Float.valueOf(ubicacion[6].toString()));
+					//Seteamos los Equipos a Sugerir para los Detalles de la Vista.
+					Freezer freezer = SimlabEquipService.getFreezerbyID(ubicacion[2].toString());
+					Rack rack = SimlabEquipService.getRack(ubicacion[3].toString());
+					Caja caja = SimlabEquipService.getCajaByCode(ubicacion[4].toString());
+					this.setFreezerToSuggest(freezer);
+					this.setRackToSuggest(rack);
+					this.setBoxTosuggest(caja);
+					this.setAlicBoxInUse(this.getTypeAlicFromCodeAlic());
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("R23[A]{1}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("R23[B]{1}")) {
+					this.sugerirUbicacion();
+				}
+
+				else if(this.getTypeAlicFromCodeAlic().matches("R23[T1|T2]{2}")) {
+					this.sugerirUbicacion();
+				}
+				else if (this.getEstudioParticipante()!=null) {
+					this.sugerirUbicacionMA2018(this.getEstudioParticipante());
+				}
 			}
 
 			else{
@@ -1262,6 +1303,10 @@ public void suggestLocationMA2017() throws SimlabAppException{
 				getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().indexOf(".")+1, this.getCodeAlic().length());
 			}
 
+			else if(this.getStudy().matches("Muestreo A2CARES 2023")){
+				//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
+				getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().lastIndexOf(".") + 1, this.getCodeAlic().length());
+			}
 
 
 			//Validamos si el Arreglo contiene elementos
@@ -1352,6 +1397,8 @@ public void suggestLocationMA2017() throws SimlabAppException{
 				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 47));
 			} else if (this.getStudy().matches("Muestreo Anual 2023")) {
 				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 48));
+			}else if (this.getStudy().matches("Muestreo A2CARES 2023")) {
+				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 49));
 			}
 
 			} catch (SimlabAppException e) {
@@ -1534,6 +1581,24 @@ public void suggestLocationMA2017() throws SimlabAppException{
 					if (participante != null){
 						this.setCodigoParticipante(codigo);
 						this.setEstudioParticipante(participante[3].toString());
+					}
+
+				}
+				String paramNR = SimlabParameterService.getItemParam(CatalogParam.POS_NEG, 3).getDescItem();
+				this.setIndPosNeg(paramNR);
+
+			}
+
+			else if(this.getStudy().matches("Muestreo A2CARES 2023")) {
+				int indiceCodigo2 = this.getCodeAlic().lastIndexOf(".");
+				//Obtenemos el Codigo del participante
+				String codigo =simlabStringUtils.cutToLenght(this.getCodeAlic(), 3,7);
+			//	Integer codigo = Integer.parseInt(simlabStringUtils.cutToLength(this.getCodeAlic(), indiceCodigo2));
+				if(!codigo.isEmpty()) {
+					Object[] participante = simlabAlicuotaService.getEstadoParticipanteA2CARES(codigo);
+					if (participante != null){
+						this.setCodigoParticipanteA2(codigo);
+						this.setEstudioParticipante(participante[2].toString());
 					}
 
 				}
@@ -1925,6 +1990,12 @@ public void suggestLocationMA2017() throws SimlabAppException{
 
 		else if (this.getStudy().matches("Muestreo Anual 2023")){
 			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 48)))
+				throw new SimlabAppException(10038);
+			//Validamos que el codigo de Alicuota Ingresado corresponda a algun tipo de alicuota registrado en la BD.
+		}
+
+		else if (this.getStudy().matches("Muestreo A2CARES 2023")){
+			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 49)))
 				throw new SimlabAppException(10038);
 			//Validamos que el codigo de Alicuota Ingresado corresponda a algun tipo de alicuota registrado en la BD.
 		}
