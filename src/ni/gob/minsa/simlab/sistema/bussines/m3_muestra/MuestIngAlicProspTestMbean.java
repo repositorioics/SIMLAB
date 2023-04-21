@@ -2049,7 +2049,7 @@ public void suggestLocationMA2017() throws SimlabAppException{
 		//Se retorna una Variable de Tipo Temporal
 		boolean isTemporal = false;
 		//if(simlabStringUtils.isNullOrEmpty(this.getVolAlic()))throw new SimlabAppException(10035);
-		if(this.getStudy().matches("Muestreo Anual")||this.getStudy().matches("Muestreo Anual 2016")||this.getStudy().matches("Muestreo Anual 2017")||this.getStudy().matches("Muestreo Anual 2018")||this.getStudy().matches("Muestreo Anual 2019") ||this.getStudy().matches("Muestreo Anual 2020") ||this.getStudy().matches("Muestreo Anual 2021") ||this.getStudy().matches("Muestreo Anual 2022") ||this.getStudy().matches("Muestreo Anual 2023")) {
+		if(this.getStudy().matches("Muestreo Anual")||this.getStudy().matches("Muestreo Anual 2016")||this.getStudy().matches("Muestreo Anual 2017")||this.getStudy().matches("Muestreo Anual 2018")||this.getStudy().matches("Muestreo Anual 2019") ||this.getStudy().matches("Muestreo Anual 2020") ||this.getStudy().matches("Muestreo Anual 2021") ||this.getStudy().matches("Muestreo Anual 2022") || this.getStudy().matches("Muestreo Anual 2023") || this.getStudy().matches("Muestreo A2CARES 2023")) {
 			this.tipo="muestreoanual";
 		}
 		else if(this.getStudy().matches("Cohorte Familia MA2017")) {

@@ -242,7 +242,7 @@ public class MuestraIngAlicNuevo extends GenericMbean implements Serializable {
 					listAlic.add(alicuota.getAlicPerm());
 				}
 				this.setTypeAlicByStudy(listAlic);
-				if(this.getStudy().matches("Muestreo Anual")||this.getStudy().matches("Muestreo Anual 2016")||this.getStudy().matches("Muestreo Anual 2017")||this.getStudy().matches("Muestreo Anual 2018")||this.getStudy().matches("Muestreo Anual 2019") ||this.getStudy().matches("Muestreo Anual 2020") ||this.getStudy().matches("Muestreo Anual 2021") ||this.getStudy().matches("Muestreo Anual 2022") ||this.getStudy().matches("Muestreo Anual 2023")) {
+				if(this.getStudy().matches("Muestreo Anual")||this.getStudy().matches("Muestreo Anual 2016")||this.getStudy().matches("Muestreo Anual 2017")||this.getStudy().matches("Muestreo Anual 2018")||this.getStudy().matches("Muestreo Anual 2019") ||this.getStudy().matches("Muestreo Anual 2020") ||this.getStudy().matches("Muestreo Anual 2021") ||this.getStudy().matches("Muestreo Anual 2022") ||this.getStudy().matches("Muestreo Anual 2023") ||this.getStudy().matches("Muestreo A2CARES 2023")) {
 					this.tipo="muestreoanual";
 				}
 				else if(this.getStudy().matches("Cohorte Familia MA2017")) {

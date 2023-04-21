@@ -58,7 +58,7 @@
 				<script language="javascript">
 					$(document).ready(function() {
 						$("form").keypress(function(e) {
-							if (e.which == 13) {
+							if (e.which === 13) {
 								return false;
 							}
 						})
@@ -73,7 +73,7 @@
 				<p:inputText id="regex" style="width:100px;"
 					value="#{muestIngAlicProspTestMbean.codeAlic}"
 					validatorMessage="Alicuota con formato invalido."
-					onkeydown="if (event.keyCode == 13) document.getElementById('formMuestIng:botonSugerir').click()">
+					onkeydown="if (event.keyCode === 13) document.getElementById('formMuestIng:botonSugerir').click()">
 				</p:inputText>
 
 
