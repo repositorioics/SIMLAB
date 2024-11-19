@@ -1029,7 +1029,108 @@ public class MuestIngAlicProspTestMbean extends GenericMbean implements Serializ
 				else if (this.getEstudioParticipante()!=null) {
 					this.sugerirUbicacionMA2018(this.getEstudioParticipante());
 				}
+			} else if (this.getStudy().matches("Muestreo Anual 2024")) {
+				Object[] ubicacion = simlabAlicuotaService.getUbicacionMA2024(this.getCodeAlic());
+				if (ubicacion!=null) {
+					this.setCodeRack(ubicacion[3].toString());
+					this.setCodeBox(Integer.parseInt(ubicacion[4].toString()));
+					this.setCodeBoxInUse(Integer.parseInt(ubicacion[4].toString()));
+					this.setCodeFreezer(Integer.parseInt(ubicacion[2].toString()));
+					this.setPositionInBox(Integer.parseInt(ubicacion[1].toString()));
+					//this.setVolAlic(Float.valueOf(ubicacion[6].toString()));
+					//Seteamos los Equipos a Sugerir para los Detalles de la Vista.
+					Freezer freezer = SimlabEquipService.getFreezerbyID(ubicacion[2].toString());
+					Rack rack = SimlabEquipService.getRack(ubicacion[3].toString());
+					Caja caja = SimlabEquipService.getCajaByCode(ubicacion[4].toString());
+					this.setFreezerToSuggest(freezer);
+					this.setRackToSuggest(rack);
+					this.setBoxTosuggest(caja);
+					this.setAlicBoxInUse(this.getTypeAlicFromCodeAlic());
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("21[n|N]{1}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("21[h|H]{1}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("21[i|I]{1}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("21[b|B]{1}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("21[e|E]{1}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("21[t|T]{1}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("21[s|S]{1}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("21[z|Z]{1}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("21[px|PX]{2}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("21[px1|PX1]{3}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("21[px2|PX2]{3}")) {
+					this.sugerirUbicacion();
+				}
+
+				else if(this.getTypeAlicFromCodeAlic().matches("21[u|U]{1}")) {
+					this.sugerirUbicacion();
+				}
+
+				else if(this.getTypeAlicFromCodeAlic().matches("21[c|C]{1}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("21[d|D]{1}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("21[v|V]{1}")) {
+					this.sugerirUbicacion();
+				}
+				else if (this.getEstudioParticipante()!=null) {
+					this.sugerirUbicacionMA2018(this.getEstudioParticipante());
+				}
+			}else if (this.getStudy().matches("Muestreo A2CARES 2024")) {
+				Object[] ubicacion = simlabAlicuotaService.getUbicacionMA2CARES2024(this.getCodeAlic());
+				if (ubicacion!=null) {
+					this.setCodeRack(ubicacion[3].toString());
+					this.setCodeBox(Integer.parseInt(ubicacion[4].toString()));
+					this.setCodeBoxInUse(Integer.parseInt(ubicacion[4].toString()));
+					this.setCodeFreezer(Integer.parseInt(ubicacion[2].toString()));
+					this.setPositionInBox(Integer.parseInt(ubicacion[1].toString()));
+					//this.setVolAlic(Float.valueOf(ubicacion[6].toString()));
+					//Seteamos los Equipos a Sugerir para los Detalles de la Vista.
+					Freezer freezer = SimlabEquipService.getFreezerbyID(ubicacion[2].toString());
+					Rack rack = SimlabEquipService.getRack(ubicacion[3].toString());
+					Caja caja = SimlabEquipService.getCajaByCode(ubicacion[4].toString());
+					this.setFreezerToSuggest(freezer);
+					this.setRackToSuggest(rack);
+					this.setBoxTosuggest(caja);
+					this.setAlicBoxInUse(this.getTypeAlicFromCodeAlic());
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("R24[A]{1}")) {
+					this.sugerirUbicacion();
+				}
+				else if(this.getTypeAlicFromCodeAlic().matches("R24[B]{1}")) {
+					this.sugerirUbicacion();
+				}
+
+				else if(this.getTypeAlicFromCodeAlic().matches("R24[T1|T2]{2}")) {
+					this.sugerirUbicacion();
+				}
+				else if (this.getEstudioParticipante()!=null) {
+					this.sugerirUbicacionMA2018(this.getEstudioParticipante());
+				}
 			}
+
+
 
 			else{
 				this.sugerirUbicacion();
@@ -1308,10 +1409,21 @@ public void suggestLocationMA2017() throws SimlabAppException{
 				getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().lastIndexOf(".") + 1, this.getCodeAlic().length());
 			}
 
+			else if(this.getStudy().matches("Muestreo Anual 2024")){
+				//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
+				getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().indexOf(".")+1, this.getCodeAlic().length());
+			}
+
+			else if(this.getStudy().matches("Muestreo A2CARES 2024")){
+				//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
+				getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().lastIndexOf(".") + 1, this.getCodeAlic().length());
+			}
+
 
 			//Validamos si el Arreglo contiene elementos
 			if(itemTypeAlicSelected.length>0){
 				this.setNotWrong(false);
+
 				for (String itemAlic : itemTypeAlicSelected) {
 					//Verificamos si el Tipo Seleccionado contiene numeros para identificar el tipo de ALicuota
 					//if(SimlabNumberUtil.isNumber(simlabStringUtils.cutToLenght(itemAlic.trim(), 0, 0+1))){
@@ -1399,6 +1511,10 @@ public void suggestLocationMA2017() throws SimlabAppException{
 				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 48));
 			}else if (this.getStudy().matches("Muestreo A2CARES 2023")) {
 				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 49));
+			}else if (this.getStudy().matches("Muestreo Anual 2024")) {
+				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 50));
+			}else if (this.getStudy().matches("Muestreo A2CARES 2024")) {
+				patternAlicIsRight = SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 51));
 			}
 
 			} catch (SimlabAppException e) {
@@ -1594,6 +1710,40 @@ public void suggestLocationMA2017() throws SimlabAppException{
 				//Obtenemos el Codigo del participante
 				String codigo =simlabStringUtils.cutToLenght(this.getCodeAlic(), 3,7);
 			//	Integer codigo = Integer.parseInt(simlabStringUtils.cutToLength(this.getCodeAlic(), indiceCodigo2));
+				if(!codigo.isEmpty()) {
+					Object[] participante = simlabAlicuotaService.getEstadoParticipanteA2CARES(codigo);
+					if (participante != null){
+						this.setCodigoParticipanteA2(codigo);
+						this.setEstudioParticipante(participante[2].toString());
+					}
+
+				}
+				String paramNR = SimlabParameterService.getItemParam(CatalogParam.POS_NEG, 3).getDescItem();
+				this.setIndPosNeg(paramNR);
+
+			}
+			else if(this.getStudy().matches("Muestreo Anual 2024")) {
+				int indiceCodigo2 = this.getCodeAlic().lastIndexOf(".");
+				//Obtenemos el Codigo del participante
+				Integer codigo = Integer.parseInt(simlabStringUtils.cutToLength(this.getCodeAlic(), indiceCodigo2));
+				if(codigo>0) {
+					Object[] participante = simlabAlicuotaService.getEstadoParticipante(codigo);
+					if (participante != null){
+						this.setCodigoParticipante(codigo);
+						this.setEstudioParticipante(participante[3].toString());
+					}
+
+				}
+				String paramNR = SimlabParameterService.getItemParam(CatalogParam.POS_NEG, 3).getDescItem();
+				this.setIndPosNeg(paramNR);
+
+			}
+
+			else if(this.getStudy().matches("Muestreo A2CARES 2024")) {
+				int indiceCodigo2 = this.getCodeAlic().lastIndexOf(".");
+				//Obtenemos el Codigo del participante
+				String codigo =simlabStringUtils.cutToLenght(this.getCodeAlic(), 3,7);
+				//	Integer codigo = Integer.parseInt(simlabStringUtils.cutToLength(this.getCodeAlic(), indiceCodigo2));
 				if(!codigo.isEmpty()) {
 					Object[] participante = simlabAlicuotaService.getEstadoParticipanteA2CARES(codigo);
 					if (participante != null){
@@ -2000,6 +2150,20 @@ public void suggestLocationMA2017() throws SimlabAppException{
 			//Validamos que el codigo de Alicuota Ingresado corresponda a algun tipo de alicuota registrado en la BD.
 		}
 
+		else if (this.getStudy().matches("Muestreo Anual 2024")){
+			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 50)))
+				throw new SimlabAppException(10038);
+			//Validamos que el codigo de Alicuota Ingresado corresponda a algun tipo de alicuota registrado en la BD.
+		}
+
+		else if (this.getStudy().matches("Muestreo A2CARES 2024")){
+			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 51)))
+				throw new SimlabAppException(10038);
+			//Validamos que el codigo de Alicuota Ingresado corresponda a algun tipo de alicuota registrado en la BD.
+		}
+
+
+
 		String[] itemTypeAlicSelected = this.getTypeAlicSelected().split(",");
 		boolean exito = false;
 		if(itemTypeAlicSelected.length>0){
@@ -2049,7 +2213,7 @@ public void suggestLocationMA2017() throws SimlabAppException{
 		//Se retorna una Variable de Tipo Temporal
 		boolean isTemporal = false;
 		//if(simlabStringUtils.isNullOrEmpty(this.getVolAlic()))throw new SimlabAppException(10035);
-		if(this.getStudy().matches("Muestreo Anual")||this.getStudy().matches("Muestreo Anual 2016")||this.getStudy().matches("Muestreo Anual 2017")||this.getStudy().matches("Muestreo Anual 2018")||this.getStudy().matches("Muestreo Anual 2019") ||this.getStudy().matches("Muestreo Anual 2020") ||this.getStudy().matches("Muestreo Anual 2021") ||this.getStudy().matches("Muestreo Anual 2022") || this.getStudy().matches("Muestreo Anual 2023") || this.getStudy().matches("Muestreo A2CARES 2023")) {
+		if(this.getStudy().matches("Muestreo Anual") || this.getStudy().matches("Muestreo Anual 2016") || this.getStudy().matches("Muestreo Anual 2017") || this.getStudy().matches("Muestreo Anual 2018") || this.getStudy().matches("Muestreo Anual 2019") || this.getStudy().matches("Muestreo Anual 2020") || this.getStudy().matches("Muestreo Anual 2021") || this.getStudy().matches("Muestreo Anual 2022") || this.getStudy().matches("Muestreo Anual 2023") || this.getStudy().matches("Muestreo A2CARES 2023") || this.getStudy().matches("Muestreo Anual 2024") || this.getStudy().matches("Muestreo A2CARES 2024")) {
 			this.tipo="muestreoanual";
 		}
 		else if(this.getStudy().matches("Cohorte Familia MA2017")) {

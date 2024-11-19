@@ -242,7 +242,7 @@ public class MuestraIngAlicNuevo extends GenericMbean implements Serializable {
 					listAlic.add(alicuota.getAlicPerm());
 				}
 				this.setTypeAlicByStudy(listAlic);
-				if(this.getStudy().matches("Muestreo Anual")||this.getStudy().matches("Muestreo Anual 2016")||this.getStudy().matches("Muestreo Anual 2017")||this.getStudy().matches("Muestreo Anual 2018")||this.getStudy().matches("Muestreo Anual 2019") ||this.getStudy().matches("Muestreo Anual 2020") ||this.getStudy().matches("Muestreo Anual 2021") ||this.getStudy().matches("Muestreo Anual 2022") ||this.getStudy().matches("Muestreo Anual 2023") ||this.getStudy().matches("Muestreo A2CARES 2023")) {
+				if(this.getStudy().matches("Muestreo Anual")|| this.getStudy().matches("Muestreo Anual 2016")|| this.getStudy().matches("Muestreo Anual 2017") || this.getStudy().matches("Muestreo Anual 2018") || this.getStudy().matches("Muestreo Anual 2019") || this.getStudy().matches("Muestreo Anual 2020") || this.getStudy().matches("Muestreo Anual 2021") || this.getStudy().matches("Muestreo Anual 2022") || this.getStudy().matches("Muestreo Anual 2023") || this.getStudy().matches("Muestreo A2CARES 2023") || this.getStudy().matches("Muestreo Anual 2024") || this.getStudy().matches("Muestreo A2CARES 2024")) {
 					this.tipo="muestreoanual";
 				}
 				else if(this.getStudy().matches("Cohorte Familia MA2017")) {
@@ -346,6 +346,17 @@ public class MuestraIngAlicNuevo extends GenericMbean implements Serializable {
             context.addMessage(null, message);
 		}
 		else {
+			//Validamos que la alicuota no se encuentre registrada.
+			RegAlic itemRegAlic = simlabAlicuotaService.getObjectRegAlic(this.getCodeAlic(), tipo);
+
+			//Si la alicuota existe entonces, Verificamos si la caja donde se encuentra contenida es Temporal.
+			if (itemRegAlic != null) {
+				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Error al guardar en base de datos, Ya existe un registro con el mismo código de Alicuota.");
+				FacesContext context = FacesContext.getCurrentInstance();
+				context.addMessage(null, message);
+				throw new SimlabAppException(10037);
+			}
+
 			try {
 				RegAlicId regAlicId = new RegAlicId();
 				regAlicId.setCodAlic(this.codeAlic);
@@ -763,6 +774,20 @@ public class MuestraIngAlicNuevo extends GenericMbean implements Serializable {
 		else if(this.getStudy().matches("Muestreo A2CARES 2023")){
 			//Validamos el patron
 			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 49))) return false;
+			//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
+			getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().lastIndexOf(".") + 1, this.getCodeAlic().length());
+		}
+
+		else if(this.getStudy().matches("Muestreo Anual 2024")){
+			//Validamos el patron
+			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 50))) return false;
+			//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
+			getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().indexOf(".")+1, this.getCodeAlic().length());
+		}
+
+		else if(this.getStudy().matches("Muestreo A2CARES 2024")){
+			//Validamos el patron
+			if(!SimlabPatternService.isRightPattern(this.getCodeAlic(), SimlabParameterService.getParameterCode(CatalogParam.LIST_PATRON, 51))) return false;
 			//Obtenemos todo el Sufijo de la alicuota ingresada por el Usuario
 			getSufixAlic = simlabStringUtils.cutToLenght(this.getCodeAlic(), this.getCodeAlic().lastIndexOf(".") + 1, this.getCodeAlic().length());
 		}

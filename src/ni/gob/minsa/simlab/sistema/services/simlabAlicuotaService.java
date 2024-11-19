@@ -236,7 +236,7 @@ public class simlabAlicuotaService {
 		Session session = null;
 			try {
 				session  =  HibernateUtil.openSesion();
-						objectRegAlic = (RegAlic) session.createSQLQuery("SELECT * FROM reg_alic where cod_alic  = ? and tipo = ?")
+						objectRegAlic = (RegAlic) session.createSQLQuery("SELECT * FROM reg_alic where cod_alic  = BINARY ? and tipo = ?")
 								.addEntity(RegAlic.class).setString(0, codeAlic).setString(1, tipo).uniqueResult();
 						session.close();
 			} catch (Throwable exception) {
@@ -561,6 +561,39 @@ public class simlabAlicuotaService {
 		}
 		return objetosResultado;
 	}
+
+	public static Object[] getUbicacionMA2CARES2024(String codigo) {
+		Object[] objetosResultado = null;
+		Session session = null;
+		Query query = null;
+		try {
+			session = HibernateUtil.openSesion();
+			query = session.createSQLQuery("SELECT * from pos_ma2cares_2024 where cod_alic =:codigo");
+			query.setParameter("codigo", codigo);
+			objetosResultado = (Object[]) query.uniqueResult();
+			session.close();
+		} catch (Throwable exception) {
+			SimlabAppException.generateExceptionBySelect(simlabAlicuotaService.class, exception);
+		}
+		return objetosResultado;
+	}
+
+
+	public static Object[] getUbicacionMA2024(String codigo) {
+		Object[] objetosResultado = null;
+		Session session = null;
+		Query query = null;
+		try {
+			session = HibernateUtil.openSesion();
+			query = session.createSQLQuery("SELECT * from posiciones_ma_2024 where cod_alic =:codigo");
+			query.setParameter("codigo", codigo);
+			objetosResultado = (Object[]) query.uniqueResult();
+			session.close();
+		} catch (Throwable exception) {
+			SimlabAppException.generateExceptionBySelect(simlabAlicuotaService.class, exception);
+		}
+		return objetosResultado;
+	}
 	
 	public static Object[] getEstadoParticipante(Integer codigo) {
 		Object[] objetoResultado = null;
@@ -621,7 +654,7 @@ public class simlabAlicuotaService {
 		Query query = null;
 			try {
 				session = HibernateUtil.openSesion();
-				String sqlQueryTipoAlic = "((caja.TIP_MUES)='"+tipoAlic+"'))";
+				String sqlQueryTipoAlic = "((caja.TIP_MUES)=BINARY'"+tipoAlic+"'))";
 				query = session.createSQLQuery("SELECT caja.COD_CAJA, rack.RCOD_FREEZER, rack.POS_FREEZER, caja.CCOD_RACK, caja.POS_RACK, caja.TEMP_ALM, "
 						+ "caja.USO_ALIC, caja.TIP_MUES, caja.POS_NEG, 81 - count(reg_alic.cod_alic) AS libres "
 						+ "FROM (caja LEFT JOIN reg_alic ON caja.COD_CAJA = reg_alic.cod_box) INNER JOIN rack ON caja.CCOD_RACK = rack.COD_RACK "
